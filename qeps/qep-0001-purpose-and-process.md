@@ -2,7 +2,7 @@
 qep: 1
 title: QEP Purpose and Process
 author: "@mmcky"
-status: Draft
+status: Accepted
 type: Process
 created: 2026-06-16
 discussion: https://github.com/QuantEcon/meta/issues/325
@@ -15,7 +15,7 @@ discussion: https://github.com/QuantEcon/meta/issues/325
 | **QEP**      | 1                                                      |
 | **Title**    | QEP Purpose and Process                                |
 | **Author**   | @mmcky                                                 |
-| **Status**   | Draft                                                  |
+| **Status**   | Accepted                                               |
 | **Type**     | Process                                                |
 | **Created**  | 2026-06-16                                             |
 | **Discussion** | [QuantEcon/meta#325](https://github.com/QuantEcon/meta/issues/325) |

@@ -14,7 +14,7 @@ need a QEP.
 
 | QEP | Title | Status |
 |-----|-------|--------|
-| [QEP-1](qeps/qep-0001-purpose-and-process.md) | QEP Purpose and Process | Draft |
+| [QEP-1](qeps/qep-0001-purpose-and-process.md) | QEP Purpose and Process | Accepted |
 
 ## Proposing a QEP
 
