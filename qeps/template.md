@@ -1,5 +1,5 @@
 ---
-qep: XXXX
+qep: N
 title: <Title in Title Case>
 author: "@your-handle"
 status: Draft
@@ -8,11 +8,13 @@ created: YYYY-MM-DD
 discussion: <link to the QEP discussion issue or thread>
 ---
 
-# QEP-XXXX: <Title>
+<!-- Number unpadded, e.g. 7 — the filename zero-pads it to four digits: qeps/qep-0007-short-slug.md -->
+
+# QEP-N: <Title>
 
 |              |                                      |
 | ------------ | ------------------------------------ |
-| **QEP**      | XXXX                                 |
+| **QEP**      | N                                    |
 | **Title**    | \<Title>                             |
 | **Author**   | @your-handle                         |
 | **Status**   | Draft                                |
