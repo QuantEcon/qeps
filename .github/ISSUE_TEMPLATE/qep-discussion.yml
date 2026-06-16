@@ -1,0 +1,45 @@
+name: QEP discussion
+description: Float an idea for a QuantEcon Enhancement Proposal before drafting it.
+title: "QEP idea: <short title>"
+labels: ["qep", "discuss"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this to socialise a cross-repo or governance idea **before** writing a QEP.
+        If it's agreed the idea needs a QEP, it graduates into a PR adding a
+        `qeps/qep-XXXX-*.md` file. Single-repo work does not need a QEP — open a normal
+        issue on that repository instead.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: In a few sentences, what are you proposing?
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: What problem does this solve, and why now?
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Why does this need a QEP?
+      description: A QEP is for decisions that cross repositories or change how the team works.
+      options:
+        - Affects more than one repository
+        - Changes how the whole team works (workflow, policy, conventions)
+        - Both
+        - Not sure — let's discuss
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change (optional)
+      description: If you already have a concrete proposal in mind, sketch it here.
+    validations:
+      required: false

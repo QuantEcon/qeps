@@ -1,0 +1,16 @@
+# MyST configuration — see https://mystmd.org/guide/frontmatter
+# Built and deployed to GitHub Pages by .github/workflows/deploy.yml
+version: 1
+project:
+  title: QuantEcon Enhancement Proposals
+  description: Durable records of cross-repo and governance decisions for QuantEcon.
+  github: https://github.com/QuantEcon/qeps
+  toc:
+    - file: README.md
+    - title: Proposals
+      children:
+        - pattern: qeps/qep-*.md
+site:
+  template: book-theme
+  options:
+    logo_text: QuantEcon QEPs
