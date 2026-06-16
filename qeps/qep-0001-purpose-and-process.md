@@ -48,7 +48,7 @@ A lightweight enhancement-proposal process gives us:
 This mirrors the role [PEPs](https://peps.python.org/pep-0001/) play for Python and
 [MEPs](https://mep.mystmd.org) for MyST, but is scoped more broadly: QEPs cover
 **governance and editorial decisions as well as software**, and the process is kept far
-lighter than PEP's (no sponsors, delegates, or editor role).
+lighter than PEPs (no sponsors, delegates, or editor role).
 
 ## Proposal
 
