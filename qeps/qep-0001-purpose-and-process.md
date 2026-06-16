@@ -68,7 +68,7 @@ something needs a QEP, it does not.** The default for normal work is unchanged.
 ### Where QEPs live
 
 QEPs live in the **`QuantEcon/qeps`** repository, one Markdown file per proposal under
-`qeps/`, named `qep-NNNN-short-slug.md` with a zero-padded four-digit number. The
+`qeps/`, named `qep-XXXX-short-slug.md` with a zero-padded four-digit number. The
 repository renders to a browsable index via GitHub Pages. Discussion of an individual
 proposal happens on its PR (and optionally a preceding discussion issue in this repo),
 keeping proposal traffic out of the general issue trackers.
@@ -93,21 +93,22 @@ only abandoned or spam drafts are closed without merging. There is no separate
 
 1. **(Optional) Float the idea.** Open a *QEP discussion* issue to socialise it and
    confirm it warrants a QEP.
-2. **Draft.** Open a PR adding `qeps/qep-NNNN-slug.md` from the template, with
-   **Status: Draft** and a discussion link.
+2. **Draft.** Open a PR adding `qeps/qep-XXXX-slug.md` from the template (with
+   **Status: Draft** and a discussion link) and a matching row in the README index.
 3. **Set a deadline.** The author announces the PR and sets a comment window —
    normally **one to two weeks**.
 4. **Decide.** At the deadline, the **Core Maintainers** decide by **lazy consensus**:
    no sustained objection means the QEP is Accepted. If there is no consensus, the
    lead (@jstac) decides or defers.
-5. **Record.** On acceptance, set **Status: Accepted**, confirm the number, add the row
-   to the README index, and merge.
+5. **Record.** On acceptance, set **Status: Accepted** — in the frontmatter, the header
+   table, and the README index row — confirm the number, and merge.
 
 ### Numbering
 
 Numbers are assigned sequentially. An author may propose the next free number when
-opening the PR; it is confirmed (and adjusted if two proposals collide) at merge. This
-QEP is QEP-1.
+opening the PR; it is confirmed (and adjusted if two proposals collide) at merge.
+Numbers are written **unpadded** in text (QEP-1, QEP-2, …); only the filename zero-pads
+them to four digits (`qep-0001-…`). This QEP is QEP-1.
 
 ### Roles
 
