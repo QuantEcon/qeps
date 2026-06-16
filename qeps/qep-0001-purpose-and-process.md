@@ -96,10 +96,11 @@ only abandoned or spam drafts are closed without merging. There is no separate
 2. **Draft.** Open a PR adding `qeps/qep-XXXX-slug.md` from the template (with
    **Status: Draft** and a discussion link) and a matching row in the README index.
 3. **Set a deadline.** The author announces the PR and sets a comment window —
-   normally **one to two weeks**.
+   normally **one to two weeks** — recording the **decision deadline** in the PR
+   description.
 4. **Decide.** At the deadline, the **Core Maintainers** decide by **lazy consensus**:
-   no sustained objection means the QEP is Accepted. If there is no consensus, the
-   lead (@jstac) decides or defers.
+   objections are raised as PR comments, and no sustained objection means the QEP is
+   Accepted. If there is no consensus, the lead (@jstac) decides or defers.
 5. **Record.** On acceptance, set **Status: Accepted** — in the frontmatter, the header
    table, and the README index row — confirm the number, and merge.
 
