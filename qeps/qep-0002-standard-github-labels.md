@@ -181,11 +181,14 @@ labels (`reading-group-*`) → **Milestones** · per-tool diagnostic labels
   default** for new repositories.
 - **Not touched:** `meta` (keeps its own `project` / `education` labels),
   translation forks (`translate:*`), and `*.notebooks` build repos.
-- **The sync is additive.** It *guarantees* the standard set on a repo and
-  renames known variants in place, but it does **not** blanket-prune bespoke
-  local labels that some repos legitimately rely on (`jax-conversion`, `colab`,
-  `site-refresh`, `reading-group-*`). Renaming in place (e.g.
-  `linkchecker` → `broken-links`) preserves every existing issue and PR tag.
+- **Applying the set is additive; pruning is separate and deliberate.**
+  `qe gh labels sync` *guarantees* the standard set on a repo and renames known
+  variants in place (e.g. `linkchecker` → `broken-links`, preserving every
+  existing issue and PR tag), but it **never blanket-prunes** bespoke local
+  labels that some repos legitimately rely on (`jax-conversion`, `colab`,
+  `site-refresh`, `reading-group-*`). Removing non-standard labels is a
+  **separate** `qe gh labels prune` step that reviews each one **one by one**,
+  keeping the ones that still make sense locally.
 
 ## Alternatives considered
 
@@ -196,8 +199,8 @@ labels (`reading-group-*`) → **Milestones** · per-tool diagnostic labels
   build-system change, new automation), whereas `maintenance` is routine,
   invisible churn (style, env bumps). The activity reports already surface them
   differently — folding them together sinks "we re-architected CI across the
-  lecture repos" into the same bucket as "bumped a pin." *(This is the one item
-  still open at draft — see the PR description.)*
+  lecture repos" into the same bucket as "bumped a pin." The split was
+  **approved** in [#324](https://github.com/QuantEcon/meta/issues/324).
 - **Add a `blocked` label.** Rejected in favour of native GitHub **issue
   dependencies** (generally available since Aug 2025), which record *what
   blocks what* rather than just *that* something is blocked, and avoid a second
@@ -229,12 +232,16 @@ labels (`reading-group-*`) → **Milestones** · per-tool diagnostic labels
    (`src/qe_cli/data/labels.yml`), with the per-label rationale and the
    labelling policy mirrored in the labels guide.
 3. **Apply it with `qe gh labels sync`** — additively, renaming known variants
-   in place so issue and PR history is preserved.
-4. **First-wave repos.** Confirmed: `lecture-python-intro`,
-   `lecture-python-programming`, `lecture-python.myst`,
-   `lecture-python-advanced.myst`, `lecture-dp`, `lecture-jax`. Candidates
-   added in the same wave: `lecture-julia.myst`, `lecture-datascience.myst`,
-   `lecture-stats`, `continuous_time_mcs`, `lecture-wasm`.
+   in place so issue and PR history is preserved. Removing any non-standard
+   labels is a separate, deliberate `qe gh labels prune` pass, reviewed one by
+   one.
+4. **Pilot on one repo first, then widen.** The first rollout target is
+   **`lecture-python-programming`**; once it's validated, roll out more widely
+   to the rest of the confirmed lecture repos (`lecture-python-intro`,
+   `lecture-python.myst`, `lecture-python-advanced.myst`, `lecture-dp`,
+   `lecture-jax`) and the candidates (`lecture-julia.myst`,
+   `lecture-datascience.myst`, `lecture-stats`, `continuous_time_mcs`,
+   `lecture-wasm`), then the software / tooling repos.
 5. **Set the org-level default labels** for new repositories to the core 18
    (a manual settings change — there is no public API for org defaults).
 6. **Point contributors at the guide** so triage follows the policy above, and
