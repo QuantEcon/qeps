@@ -15,6 +15,7 @@ need a QEP.
 | QEP | Title | Status |
 |-----|-------|--------|
 | [QEP-1](qeps/qep-0001-purpose-and-process.md) | QEP Purpose and Process | Accepted |
+| [QEP-2](qeps/qep-0002-standard-github-labels.md) | Standard GitHub Label Set and Labelling Policy | Draft |
 
 ## Proposing a QEP
 
