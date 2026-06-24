@@ -17,9 +17,11 @@ on every push to `main`.
 
 ## The README index is a complete registry
 
-The [README](README.md) index lists **every** QEP with its current status — not only
-accepted ones. A row is added when the PR opens (status `Draft`) and its status is
-updated in place as the QEP moves: Draft → Accepted / Rejected / Withdrawn / Superseded.
+The [README](README.md) index lists **every** QEP with its `Type`, current `Status`, and
+`Version` — not only accepted ones. A row is added when the PR opens (status `Draft`,
+version `–`) and its status is updated in place as the QEP moves: Draft → Accepted /
+Rejected / Withdrawn / Superseded. The `Type`, `Status`, and `Version` columns must match
+the QEP's frontmatter — CI checks this parity on every PR (see *What CI does*).
 
 ## Accepting a QEP
 
@@ -43,4 +45,48 @@ and that the filename is zero-padded to four digits.
 
 Copy [`qeps/template.md`](qeps/template.md) to `qeps/qep-XXXX-slug.md`, fill it in with
 **Status: Draft** and a discussion link, add the QEP's row to the README index with
-status `Draft`, and open a PR. See QEP-1 for the full process.
+status `Draft` and version `–`, and open a PR. A new QEP is unversioned (implicitly v0):
+omit the `version` field. See QEP-1 for the full process.
+
+## Amending an accepted QEP
+
+An accepted QEP is a living document (QEP-1). A substantive evolution of the *same*
+standard is a normal PR against the QEP under lazy-consensus that **bumps its
+`version`**; a *different* decision that replaces it wholesale is a **new** QEP that
+marks the old one `Superseded`. Don't supersede for routine maintenance.
+
+**Does `version` move?** — the author/reviewer call, not CI's:
+
+- **Substantive** (any change to normative content — a rule, a value, a table row, a
+  machine-readable appendix): increment `version` by one in **both** the frontmatter and
+  the header table. The first amendment introduces `version: 1` and adds a **Version**
+  row to the header table; the README `Version` column moves from `–` to `v{N}`.
+- **Editorial** (no change to normative content — typo, wording, formatting, link):
+  leave `version` unchanged.
+
+Leave the `# <hash>` comment **off** when you set or bump `version` — CI stamps it with
+the merge hash; never hand-write it (a commit cannot contain its own hash).
+
+**Commit subjects** carry the same distinction:
+
+- Substantive → `QEP-N vM: <summary>` (e.g. `QEP-2 v1: add release-blocker label`).
+- Editorial → `QEP-N: <summary>`.
+
+## Squash-merge only
+
+Every QEP PR is **squash-merged** so one amendment is one commit and a QEP's history
+reads as one line per change. This is a repository setting; when merging through the
+GitHub UI choose **Squash and merge**.
+
+## What CI does (don't do these by hand)
+
+- **Post-merge** — [`stamp-version.yml`](.github/workflows/stamp-version.yml) stamps the
+  merged short hash into `version: N  # <hash>` and syncs the README `Type`/`Version`
+  columns from each QEP's frontmatter.
+- **On every PR** — [`qep-checks.yml`](.github/workflows/qep-checks.yml) checks that
+  `version`, if present, either stays the same (editorial) or increases by exactly one
+  (substantive), and that the README `Type`/`Status`/`Version` columns match each QEP's
+  frontmatter.
+
+You still set `version`, `type`, and the README row in the PR; CI stamps the hash and
+enforces parity. The checks live in [`.github/scripts/`](.github/scripts/).

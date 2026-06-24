@@ -1,0 +1,29 @@
+name: QEP checks
+on:
+  pull_request:
+    paths:
+      - "qeps/**"
+      - "README.md"
+      - ".github/scripts/**"
+      - ".github/workflows/qep-checks.yml"
+
+# Read-only: this job only validates the PR.
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Fetch base branch
+        run: git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+      - name: Run QEP checks
+        run: node .github/scripts/check.mjs
+        env:
+          BASE_REF: ${{ github.base_ref }}
