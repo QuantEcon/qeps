@@ -64,8 +64,8 @@ marks the old one `Superseded`. Don't supersede for routine maintenance.
 - **Editorial** (no change to normative content — typo, wording, formatting, link):
   leave `version` unchanged.
 
-Leave the `# <hash>` comment **off** when you set or bump `version` — CI stamps it with
-the merge hash; never hand-write it (a commit cannot contain its own hash).
+Leave `version-hash` **off** when you set or bump `version` — CI adds it with the merge
+hash; never hand-write it (a commit cannot contain its own hash).
 
 **Commit subjects** carry the same distinction:
 
@@ -81,7 +81,7 @@ GitHub UI choose **Squash and merge**.
 ## What CI does (don't do these by hand)
 
 - **Post-merge** — [`stamp-version.yml`](.github/workflows/stamp-version.yml) stamps the
-  merged short hash into `version: N  # <hash>` and syncs the README `Type`/`Version`
+  merged short hash into the `version-hash` field and syncs the README `Type`/`Version`
   columns from each QEP's frontmatter.
 - **On every PR** — [`qep-checks.yml`](.github/workflows/qep-checks.yml) checks that
   `version`, if present, either stays the same (editorial) or increases by exactly one

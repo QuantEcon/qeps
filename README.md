@@ -19,7 +19,7 @@ need a QEP.
 QEPs that set an ongoing rule are **maintained in place**: a substantive amendment bumps
 the QEP's `version` (shown above) under the same review process, rather than superseding
 the whole document — see **QEP-1**. The `Type`/`Version` columns are kept in sync by CI,
-and each QEP's `version` hash is stamped into its frontmatter at merge; `Version` reads
+and each QEP's `version-hash` is stamped into its frontmatter at merge; `Version` reads
 `–` until a QEP is first amended.
 
 ## Proposing a QEP

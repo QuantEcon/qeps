@@ -153,18 +153,22 @@ A QEP gains a `version` the first time it is **substantively** changed after acc
 | *absent*    | Implicitly **v0** — as originally accepted, never substantively changed. Many QEPs (a one-off decision) stay here forever. |
 | `1`, `2`, … | The current substantive revision. The first substantive amendment introduces `version: 1`; each later substantive change climbs to `2`, `3`, … |
 
-From `v1` onward the field carries a short commit hash as a YAML comment, anchoring the
-revision to git history:
+From `v1` onward a sibling `version-hash` field carries the short commit hash that
+anchors the revision to git history:
 
 ```yaml
-version: 1  # a1b2c3d
+version: 1
+version-hash: a1b2c3d  # stamped by CI; do not edit
 ```
 
-The hash is stamped **automatically at merge** — a commit cannot contain its own hash,
-so a post-merge step (see *Automation*) writes it; never hand-write it. Tooling that
-pins a standard (for example a labels-sync command) reads `version` and verifies against
-the hash. A per-QEP `version` is the right anchor because a git *tag* tags the whole
-repository, not one QEP's revision.
+`version` stays a plain number — so the rendered version pill and any tooling that reads
+it are untouched — and the hash lives in its own **field rather than a YAML comment**, so
+a standard YAML parser keeps it (a comment would be discarded). The hash is stamped
+**automatically at merge** — a commit cannot contain its own hash, so a post-merge step
+(see *Automation*) writes it; never hand-write it. Tooling that pins a standard (for
+example a labels-sync command) reads `version` and verifies against `version-hash`. A
+per-QEP `version` is the right anchor because a git *tag* tags the whole repository, not
+one QEP's revision.
 
 **Substantive vs editorial** decides whether the number moves:
 
@@ -203,8 +207,8 @@ Type and version are made visible on publication:
 Two mechanical steps are enforced by CI rather than left to memory:
 
 - a **post-merge action** (`.github/workflows/stamp-version.yml`) reads the merged short
-  hash, stamps it into the `version: N  # <hash>` comment, and keeps the README
-  `Type`/`Version` columns in sync with each QEP's frontmatter;
+  hash, writes it into the `version-hash` field, and keeps the README `Type`/`Version`
+  columns in sync with each QEP's frontmatter;
 - a **pull-request check** (`.github/workflows/qep-checks.yml`) confirms that `version`,
   when present, either stays the same (editorial) or increases by exactly one
   (substantive), and that the README `Type`/`Status`/`Version` columns match each QEP's
@@ -234,8 +238,8 @@ light as the decisions it records.
 ### Format
 
 Each QEP is a Markdown file with YAML frontmatter (`qep`, `title`, `author`, `status`,
-`type`, `created`, `discussion` — plus `version`, which sits just after `type` once the
-QEP is first amended) followed by the sections in
+`type`, `created`, `discussion` — plus `version` and its CI-stamped `version-hash`, which
+sit just after `type` once the QEP is first amended) followed by the sections in
 [`qeps/template.md`](../qeps/template.md): **Summary, Motivation, Proposal, Alternatives
 considered, Rollout**. The `type` field describes the **kind of content** the QEP
 carries:

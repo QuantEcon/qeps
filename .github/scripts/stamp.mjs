@@ -1,10 +1,11 @@
-// Post-merge: stamp the merged short hash into each changed QEP's
-// `version: N  # <hash>` comment, and sync the README Type/Version columns from
-// each QEP's frontmatter. Run by .github/workflows/stamp-version.yml on push to
-// main. Idempotent: writes nothing when everything is already current.
+// Post-merge: stamp the merged short hash into each changed QEP's `version-hash`
+// field, and sync the README Type/Version columns from each QEP's frontmatter.
+// Run by .github/workflows/stamp-version.yml on push to main. Idempotent: writes
+// nothing when everything is already current.
 import { execSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import {
+  FRONTMATTER,
   README,
   formatRow,
   parseQep,
@@ -26,14 +27,22 @@ const changed = new Set(
 
 let dirty = false;
 
-// 1. Stamp the hash into any changed v1+ QEP whose comment isn't already this SHA.
+// 1. Stamp the hash into any changed v1+ QEP whose `version-hash` isn't this SHA.
+const SIGNPOST = '# stamped by CI; do not edit';
 for (const path of qepFiles()) {
   if (!changed.has(path)) continue;
   const { version, hash } = parseQep(path);
-  if (version === undefined) continue; // v0 — no version line to stamp
+  if (version === undefined) continue; // v0 — no version to stamp
   if (hash === sha) continue; // already current
   const text = readFileSync(path, 'utf8');
-  const stamped = text.replace(/^(version:[ \t]*\d+)[ \t]*(#.*)?$/m, `$1  # ${sha}`);
+  const line = `version-hash: ${sha}  ${SIGNPOST}`;
+  // Edit only the frontmatter block (anchored at the file start) — the body may
+  // carry a literal version:/version-hash: YAML example that must not be touched.
+  const head = text.match(FRONTMATTER)[0];
+  const newHead = /^version-hash:.*$/m.test(head)
+    ? head.replace(/^version-hash:.*$/m, line) // re-stamp: replace existing
+    : head.replace(/^(version:[ \t]*\d+)[ \t]*$/m, `$1\n${line}`); // first stamp: insert
+  const stamped = newHead + text.slice(head.length);
   if (stamped !== text) {
     writeFileSync(path, stamped);
     dirty = true;

@@ -13,7 +13,10 @@ export function qepFiles() {
     .map((f) => `${QEP_DIR}/${f}`);
 }
 
-const FRONTMATTER = /^---\r?\n([\s\S]*?)\r?\n---/;
+// The leading YAML frontmatter block. Exported so the stamp/check scripts can
+// scope their version parsing to it — a QEP *body* may contain literal
+// `version:`/`version-hash:` lines inside a YAML example, which must be ignored.
+export const FRONTMATTER = /^---\r?\n([\s\S]*?)\r?\n---/;
 
 function field(block, name) {
   const m = block.match(new RegExp(`^${name}:[ \\t]*(.*?)[ \\t]*$`, 'm'));
@@ -25,21 +28,29 @@ function stripQuotes(s) {
 }
 
 // Parse the fields we care about from a QEP file's YAML frontmatter.
-// `version` is a number (undefined = implicitly v0); `hash` is the stamped short
-// SHA from the `version: N  # <hash>` comment (undefined when not yet stamped).
+// `version` is a plain number (undefined = implicitly v0); `hash` is the stamped
+// short SHA from the sibling `version-hash` field (undefined when not yet stamped).
 export function parseQep(path) {
   const text = readFileSync(path, 'utf8');
   const fm = text.match(FRONTMATTER);
   if (!fm) throw new Error(`${path}: missing YAML frontmatter`);
   const block = fm[1];
 
-  const raw = field(block, 'version');
-  let version, hash;
-  if (raw !== undefined && raw !== '') {
-    const v = raw.match(/^(\d+)(?:[ \t]*#[ \t]*([0-9a-fA-F]+))?$/);
-    if (!v) throw new Error(`${path}: malformed "version: ${raw}"`);
+  const rawVersion = field(block, 'version');
+  let version;
+  if (rawVersion !== undefined && rawVersion !== '') {
+    const v = rawVersion.match(/^(\d+)$/);
+    if (!v) throw new Error(`${path}: malformed "version: ${rawVersion}"`);
     version = Number(v[1]);
-    hash = v[2];
+  }
+
+  // `version-hash` may carry a trailing "# stamped by CI" signpost comment.
+  const rawHash = field(block, 'version-hash');
+  let hash;
+  if (rawHash !== undefined && rawHash !== '') {
+    const h = rawHash.match(/^([0-9a-fA-F]+)(?:[ \t]*#.*)?$/);
+    if (!h) throw new Error(`${path}: malformed "version-hash: ${rawHash}"`);
+    hash = h[1];
   }
 
   const qep = field(block, 'qep');

@@ -22,7 +22,7 @@ jobs:
     # That same no-retrigger behaviour means this push does not redeploy the
     # site — which is fine: everything visible (the type/version pills and the
     # README columns) is already correct from the merge commit, and only the
-    # invisible `# <hash>` comment waits for the next push to main to republish.
+    # invisible `version-hash` field waits for the next push to main to republish.
     if: ${{ !contains(github.event.head_commit.message, '[skip-stamp]') }}
     runs-on: ubuntu-latest
     steps:

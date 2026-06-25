@@ -4,7 +4,7 @@
 //   2. The README Type/Status/Version columns match each QEP's frontmatter.
 // Run by .github/workflows/qep-checks.yml. Exits non-zero on any failure.
 import { execSync } from 'node:child_process';
-import { parseQep, qepFiles, readIndex, versionCell } from './qeps.mjs';
+import { FRONTMATTER, parseQep, qepFiles, readIndex, versionCell } from './qeps.mjs';
 
 const base = process.env.BASE_REF || 'main';
 const errors = [];
@@ -19,7 +19,10 @@ function baseVersion(path) {
   } catch {
     return undefined; // file did not exist on the base branch
   }
-  const m = text.match(/^version:[ \t]*(\d+)/m);
+  // Read `version` from the frontmatter only — ignore any body YAML example.
+  const fm = text.match(FRONTMATTER);
+  const block = fm ? fm[1] : text;
+  const m = block.match(/^version:[ \t]*(\d+)/m);
   return m ? Number(m[1]) : undefined;
 }
 
