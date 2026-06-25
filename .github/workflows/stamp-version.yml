@@ -47,4 +47,4 @@ jobs:
           # Rebase onto anything that landed on main while we were stamping,
           # then push, so a near-simultaneous merge can't drop this stamp.
           git pull --rebase origin main
-          git push
+          git push origin HEAD:main

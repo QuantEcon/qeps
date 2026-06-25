@@ -16,9 +16,24 @@ import {
 
 const sha = execSync('git rev-parse --short HEAD').toString().trim();
 
-// Files touched by the tip commit (QEP PRs are squash-merged => one commit).
+// Files changed by the push tip. QEP PRs should be squash-merged (one parent),
+// but `git diff-tree -r HEAD` prints nothing for a merge commit — so if a PR is
+// merged as a merge commit, stamping would silently no-op. Diffing against the
+// first parent works for both squash and merge commits.
+const parents = execSync('git rev-list --parents -n 1 HEAD')
+  .toString()
+  .trim()
+  .split(/\s+/)
+  .slice(1);
+if (parents.length > 1) {
+  console.log(`note: HEAD has ${parents.length} parents (merge commit); diffing against the first parent`);
+}
 const changed = new Set(
-  execSync('git diff-tree --no-commit-id --name-only -r HEAD')
+  execSync(
+    parents.length
+      ? 'git diff --name-only HEAD^1 HEAD'
+      : 'git diff-tree --no-commit-id --name-only -r HEAD', // root commit has no parent
+  )
     .toString()
     .split('\n')
     .map((s) => s.trim())

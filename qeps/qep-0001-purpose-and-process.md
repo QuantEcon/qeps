@@ -184,19 +184,20 @@ with author and reviewer; CI does not classify it.
 The change record is **git itself**, surfaced rather than duplicated into a
 hand-maintained changelog (which would drift and clutter the document):
 
-- **On the rendered site** the QuantEcon theme's git-history control shows
-  *Last changed: ⟨date⟩* and expands a dropdown of recent commits for the page, each
+- **On the rendered site**, once the QuantEcon theme is adopted, its git-history control
+  shows *Last changed: ⟨date⟩* and expands a dropdown of recent commits for the page, each
   linked to GitHub ([quantecon-theme.mystmd#83](https://github.com/QuantEcon/quantecon-theme.mystmd/pull/83)).
   The squash-commit subjects are the changelog entries.
 - **On GitHub** the file's full commit history and blame cover anything beyond the
   recent window.
 
-Type and version are made visible on publication:
+Type and version are surfaced two ways:
 
-- a coloured **`type` pill** always, and a **`version` pill** once a QEP reaches `v1` —
-  e.g. `standard` · `v2`; a v0 QEP shows only the type pill;
 - the **README index** carries `Type` and `Version` columns, with `Version` showing `–`
-  at v0 and `v{N}` thereafter.
+  at v0 and `v{N}` thereafter — repo-controlled, so it renders on any theme;
+- under the **QuantEcon theme** (once adopted), a coloured **`type` pill** always and a
+  **`version` pill** once a QEP reaches `v1` — e.g. `standard` · `v2`; a v0 QEP shows only
+  the type pill.
 
 ### Automation
 
@@ -205,10 +206,11 @@ Two mechanical steps are enforced by CI rather than left to memory:
 - a **post-merge action** (`.github/workflows/stamp-version.yml`) reads the merged short
   hash, writes it into the `version-hash` field, and keeps the README `Type`/`Version`
   columns in sync with each QEP's frontmatter;
-- a **pull-request check** (`.github/workflows/qep-checks.yml`) confirms that `version`,
-  when present, either stays the same (editorial) or increases by exactly one
-  (substantive), and that the README `Type`/`Status`/`Version` columns match each QEP's
-  frontmatter.
+- a **pull-request check** (`.github/workflows/qep-checks.yml`) confirms that `version`
+  moves legally — a new QEP starts unversioned, a versioned QEP stays versioned, and the
+  number stays the same (editorial) or increases by exactly one (substantive) — that
+  `type` and `status` are known values, and that the README `Type`/`Status`/`Version`
+  columns match each QEP's frontmatter.
 
 The author-side judgement — substantive vs editorial, bumping `version`, the commit
 subject — is documented in `AGENTS.md`; CI enforces the mechanical steps that a

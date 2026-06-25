@@ -84,8 +84,9 @@ GitHub UI choose **Squash and merge**.
   merged short hash into the `version-hash` field and syncs the README `Type`/`Version`
   columns from each QEP's frontmatter.
 - **On every PR** — [`qep-checks.yml`](.github/workflows/qep-checks.yml) checks that
-  `version`, if present, either stays the same (editorial) or increases by exactly one
-  (substantive), and that the README `Type`/`Status`/`Version` columns match each QEP's
+  `version` moves legally (a new QEP starts unversioned; a versioned QEP stays versioned;
+  the number stays the same or increases by exactly one), that `type` and `status` are
+  known values, and that the README `Type`/`Status`/`Version` columns match each QEP's
   frontmatter.
 
 You still set `version`, `type`, and the README row in the PR; CI stamps the hash and
