@@ -64,6 +64,7 @@ for (const path of qepFiles()) {
 // 2/3. type/status enums, and README Type/Status/Version parity with frontmatter.
 const idx = readIndex();
 if (idx.cols.type === -1) errors.push(`${'README.md'}: index table is missing a Type column`);
+if (idx.cols.status === -1) errors.push(`${'README.md'}: index table is missing a Status column`);
 if (idx.cols.version === -1) errors.push(`${'README.md'}: index table is missing a Version column`);
 const rows = new Map(idx.rows.map((r) => [r.qep, r]));
 for (const path of qepFiles()) {
