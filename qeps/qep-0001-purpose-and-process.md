@@ -30,8 +30,8 @@ team works**. This QEP defines what a QEP is, when one is needed, where QEPs liv
 proposal moves from draft to decision, and how an accepted QEP is **maintained over
 time**. It is deliberately lightweight: the aim is a ten-minute read, a clear deadline,
 and a clean close — not governance for its own sake. As the first proposal, this
-document is also a worked example of the template it describes and — now at v1 — of the
-in-place versioning it introduces.
+document is also a worked example of the template and the in-place versioning it
+describes.
 
 ## Motivation
 
@@ -96,13 +96,10 @@ A QEP carries one status:
 
 Accepted, Rejected, and Withdrawn QEPs are all **merged**, so the record is durable;
 only abandoned or spam drafts are closed without merging. There is no separate
-`Final` state — `Accepted` *is* final.
-
-`status` answers only *was this agreed?* — it is universal and unaffected by the
-versioning below. In particular, `Superseded` is reserved for a **wholesale
-replacement** (a different decision that retires this one), not for the everyday
-evolution of a living standard, which is handled by amending the QEP in place and
-bumping its `version`.
+`Final` state — `Accepted` *is* final. `status` records only *whether a QEP was
+agreed* and is independent of a QEP's `version`; `Superseded` marks a wholesale
+replacement by a later QEP (below), not the routine in-place evolution of a living
+standard.
 
 ### How a QEP is decided
 
@@ -161,9 +158,8 @@ version: 1
 version-hash: a1b2c3d  # stamped by CI; do not edit
 ```
 
-`version` stays a plain number — so the rendered version pill and any tooling that reads
-it are untouched — and the hash lives in its own **field rather than a YAML comment**, so
-a standard YAML parser keeps it (a comment would be discarded). The hash is stamped
+`version` is a plain number; the commit hash lives in the separate `version-hash` field —
+a real key, so any YAML parser keeps it. The hash is stamped
 **automatically at merge** — a commit cannot contain its own hash, so a post-merge step
 (see *Automation*) writes it; never hand-write it. Tooling that pins a standard (for
 example a labels-sync command) reads `version` and verifies against `version-hash`. A
@@ -270,12 +266,12 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
   `Draft → Accepted → Final` split) was rejected as disproportionate for a team of a
   handful of maintainers. The Django DEP and MEP processes — small-team enhancement
   processes on a comparable scale — informed the lightweight shape adopted here.
-- **A `Living` or `Active` status vs versioning** (added at v1). PEP marks
+- **A `Living` or `Active` status vs versioning.** PEP marks
   continuously-maintained documents `Active`; we instead carry living-ness on a
   `version` and leave `status` to mean only *was this agreed?* This keeps the status set
   small and sidesteps the collision with MyST's MEPs, where `Active` means *frozen for
   voting* — the opposite sense.
-- **A hand-maintained changelog vs git** (added at v1). A changelog section inside each
+- **A hand-maintained changelog vs git.** A changelog section inside each
   QEP would duplicate git, drift from it, and clutter the document; we point at git
   instead, surfaced on the site by the theme's history feature and on GitHub by
   history/blame.
@@ -288,8 +284,8 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
    `standard`-type QEP; add a short "How we make cross-repo decisions" entry to the team
    manual pointing at `QuantEcon/qeps`, and have Core Maintainers watch the repository so
    proposal deadlines are seen.
-2. **(v1) Adopt in-place versioning.** Add the `version` field and its git-hash anchor,
-   the substantive/editorial rule, the amend-in-place + squash-merge + commit-subject
+2. **(v1) Adopt in-place versioning.** Add the `version` field and its `version-hash`
+   anchor, the substantive/editorial rule, the amend-in-place + squash-merge + commit-subject
    conventions, the `standard`/`process`/`informational` `type` taxonomy, and git
    (surfaced on the site) as the change record. Supporting changes: update
    `qeps/template.md`; add `Type`/`Version` columns to the README index; add the
