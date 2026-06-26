@@ -3,12 +3,16 @@ qep: N
 title: <Title in Title Case>
 author: "@your-handle"
 status: Draft
-type: Process | Standard | Informational
+type: standard | process | informational
 created: YYYY-MM-DD
 discussion: <link to the QEP discussion issue or thread>
 ---
 
 <!-- Number unpadded, e.g. 7 — the filename zero-pads it to four digits: qeps/qep-0007-short-slug.md -->
+<!-- A new QEP is unversioned (implicitly v0): omit `version`. It gains
+     `version: 1` — with a sibling `version-hash` field that CI stamps at merge —
+     and a Version row in the table below the first time it is substantively
+     amended after acceptance. See QEP-1 (Versioning). -->
 
 # QEP-N: <Title>
 
@@ -18,7 +22,7 @@ discussion: <link to the QEP discussion issue or thread>
 | **Title**    | \<Title>                             |
 | **Author**   | @your-handle                         |
 | **Status**   | Draft                                |
-| **Type**     | Process / Standard / Informational   |
+| **Type**     | standard / process / informational   |
 | **Created**  | YYYY-MM-DD                           |
 | **Discussion** | \<issue link>                      |
 
