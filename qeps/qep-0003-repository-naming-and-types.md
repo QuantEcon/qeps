@@ -109,7 +109,7 @@ repo family), `workflow-*` **automates** (machines acting on a schedule), `statu
 
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
-| `project-{name}` | planning and decision home for an initiative or program: roadmap, decision register, research, reports; no production code | private | goal-scoped — lives and dies with its goal (initiatives end; programs run long) |
+| `project-{name}` | planning and decision home for an initiative or program: roadmap, decision register, research, reports; no production code (may carry a minimal command bench — see boundary rules) | private | goal-scoped — lives and dies with its goal (initiatives end; programs run long) |
 | `workspace-{collection}` | cross-repo operating bench for a repo family: manifest + runner; never vendors content | private | fleet-scoped — persists as long as the family |
 | `status-{domain}` | machine-updated dashboard of facts about a domain: collector + versioned data + Pages site | public (typically) | domain-scoped — outlives any project |
 | `workflow-{name}` | scheduled automation that acts for the org (e.g. backups) | either | ongoing |
@@ -122,8 +122,11 @@ Two boundary rules worth recording at the standard level:
   collected automatically on a cadence it graduates to a `status-*` repo named for the
   *domain it measures*, not the project that created it.
 - **A `project-*` repo is organized around a goal; a `workspace-*` repo is organized
-  around a fleet.** A project may carry a minimal command bench for the repos it is
-  changing; a bench shared across initiatives belongs in a `workspace-*`.
+  around a fleet.** A project may carry a minimal command bench (manifest + runner)
+  for the repos it is changing; for a long-running program this arrangement can be
+  durable, not merely transitional — locality of decisions, bench and clones under
+  one root is a feature. The bench graduates to a `workspace-*` when it is shared
+  across initiatives, or grows beyond minimal to serve routine fleet operations.
 
 **Teaching events** (new)
 
