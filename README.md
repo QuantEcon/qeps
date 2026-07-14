@@ -15,6 +15,7 @@ need a QEP.
 | QEP | Title | Type | Status | Version |
 |-----|-------|------|--------|---------|
 | [QEP-1](qeps/qep-0001-purpose-and-process.md) | QEP Purpose and Process | process | Accepted | v1 |
+| [QEP-3](qeps/qep-0003-repository-naming-and-types.md) | Repository Naming and Types | standard | Draft | – |
 
 QEPs that set an ongoing rule are **maintained in place**: a substantive amendment bumps
 the QEP's `version` (shown above) under the same review process, rather than superseding
