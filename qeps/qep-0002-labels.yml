@@ -1,0 +1,140 @@
+# Machine-readable appendix to QEP-2 — the normative label schema.
+#
+# This file is the single source of truth for tooling (`qe gh labels sync`).
+# Every field is normative and versioned with the QEP: changing this file is a
+# substantive amendment under QEP-1 and bumps QEP-2's `version`. CI checks that
+# it stays in lockstep with the tables in qep-0002-standard-github-labels.md.
+#
+# Operational mappings (rename variants, retired-label handling, pruning) are
+# deliberately NOT recorded here — they belong to the CLI implementing the QEP.
+#
+# Fields: name · color (hex, no '#') · description (shown on GitHub) ·
+#         group (type | priority | cross-cutting | community | workflow |
+#         automation | meta | lecture) · scope (core | lecture) ·
+#         applied-by: bot (automation labels only; default is human)
+
+labels:
+  # Type — what kind of work is this? (one per issue, set at triage)
+  - name: bug
+    color: d73a4a
+    description: Something is wrong or broken in a lecture or build
+    group: type
+    scope: core
+  - name: enhancement
+    color: a2eeef
+    description: Improvement to existing material
+    group: type
+    scope: core
+  - name: documentation
+    color: b08968
+    description: Repo docs and contributor meta (not lecture content)
+    group: type
+    scope: core
+  - name: infrastructure
+    color: 1d3c78
+    description: Substantial CI / build / deploy / tooling / automation work
+    group: type
+    scope: core
+  - name: maintenance
+    color: fbca04
+    description: "Routine housekeeping: style, formatting, env & dependency upkeep"
+    group: type
+    scope: core
+  - name: question
+    color: d876e3
+    description: Someone needs an answer or clarification
+    group: type
+    scope: core
+  - name: discuss
+    color: f904a0
+    description: Open-ended team deliberation or a decision to be made
+    group: type
+    scope: core
+
+  # Priority — a heat scale (unlabelled = normal priority)
+  - name: high-priority
+    color: d93f0b
+    description: Address soon
+    group: priority
+    scope: core
+  - name: low-priority
+    color: c2e0c6
+    description: Nice to have, no time pressure
+    group: priority
+    scope: core
+
+  # Cross-cutting — combine with any Type (like priority)
+  - name: security
+    color: ee0701
+    description: Security implications — needs a security-aware review bar
+    group: cross-cutting
+    scope: core
+
+  # Community (GitHub-canonical names — spaces are deliberate)
+  - name: good first issue
+    color: 7057ff
+    description: Self-contained and friendly to newcomers
+    group: community
+    scope: core
+  - name: help wanted
+    color: "008672"
+    description: Maintainers would welcome outside help
+    group: community
+    scope: core
+
+  # Workflow
+  - name: do-not-merge
+    color: b60205
+    description: Approved-looking but must not be merged yet
+    group: workflow
+    scope: core
+
+  # Automation — applied by bots, not humans
+  - name: automated
+    color: ededed
+    description: Opened by a bot or scheduled workflow
+    group: automation
+    scope: core
+    applied-by: bot
+  - name: broken-links
+    color: dddddd
+    description: Link checker found dead links
+    group: automation
+    scope: core
+    applied-by: bot
+  - name: build-failure
+    color: cccccc
+    description: Notebook execution, build, or warnings failure
+    group: automation
+    scope: core
+    applied-by: bot
+  - name: dependencies
+    color: bdbdbd
+    description: Dependency or environment update (pip, conda, actions)
+    group: automation
+    scope: core
+    applied-by: bot
+
+  # Meta — closing outcomes
+  - name: duplicate
+    color: cfd3d7
+    description: Already tracked elsewhere
+    group: meta
+    scope: core
+  - name: wontfix
+    color: ffffff
+    description: Decided not to act
+    group: meta
+    scope: core
+
+  # Lecture extension — lecture repos only
+  - name: new-lecture
+    color: 0537e9
+    description: A new lecture (the marquee outcome)
+    group: lecture
+    scope: lecture
+  - name: editor
+    color: 0e8a16
+    description: Requires editor review — final sign-off stage
+    group: lecture
+    scope: lecture

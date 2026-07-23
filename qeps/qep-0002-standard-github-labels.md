@@ -73,8 +73,8 @@ lecture repos.
 | `bug` | 🟥 `#d73a4a` | Something is wrong or broken in a lecture or build | The content is *incorrect*: wrong maths, erroring code, broken rendering |
 | `enhancement` | 🟦 `#a2eeef` | Improvement to existing material | Better exposition, a new exercise, improved figures |
 | `documentation` | 🟫 `#b08968` | Repo docs and contributor meta (not lecture content) | READMEs, CONTRIBUTING — *about the repo*; lecture content is never `documentation` |
-| `infrastructure` | 🟦 `#006b75` | Substantial CI / build / deploy / tooling / automation work | Engineering a teammate should know shipped. Use *instead of* `maintenance` |
-| `maintenance` | 🟨 `#fbca04` | Routine housekeeping: style, formatting, env & dependency upkeep | Invisible churn a reader never sees; "rendered lectures look identical after" |
+| `infrastructure` | 🟦 `#1d3c78` | Substantial CI / build / deploy / tooling / automation work | Engineering a teammate should know shipped — it would appear in a release note. Use *instead of* `maintenance` |
+| `maintenance` | 🟨 `#fbca04` | Routine housekeeping: style, formatting, env & dependency upkeep | Invisible churn that would never appear in a release note ("rendered lectures look identical after") |
 | `question` | 🟪 `#d876e3` | Someone needs an answer or clarification | Terminal state: *answered*. Swap for a work type once it becomes agreed work |
 | `discuss` | 💗 `#f904a0` | Open-ended team deliberation or a decision to be made | No single right answer. Reuses meta's existing `discuss` colour |
 
@@ -87,6 +87,12 @@ lecture repos.
 
 There is deliberately **no `medium-priority`** — the unlabelled default *is* the
 middle of the scale.
+
+**Cross-cutting — combine with any Type (like priority)**
+
+| Label | Colour | Description | When to use |
+|---|---|---|---|
+| `security` | 🟥 `#ee0701` | Security implications — needs a security-aware review bar | Credentials / tokens, supply-chain surface, workflow permissions. Applied *alongside* the Type label (e.g. `bug` + `security`); makes `org:QuantEcon label:security` a standing query |
 
 **Community (GitHub-canonical names — spaces are deliberate, see Alternatives)**
 
@@ -124,8 +130,8 @@ middle of the scale.
 | `new-lecture` | 🟦 `#0537E9` | A new lecture (the marquee outcome) | Brand-new lecture — proposed, in progress, or shipped. Use *instead of* `enhancement` |
 | `editor` | 🟩 `#0e8a16` | Requires editor review — final sign-off stage | Apply at handoff *after* team review; editor's queue = `org:QuantEcon label:editor`. Remove on sign-off |
 
-This is **18 core labels + 2 lecture labels = 20**. The org-level default set
-for new repositories is the **core 18**.
+This is **19 core labels + 2 lecture labels = 21**. The org-level default set
+for new repositories is the **core 19**.
 
 ### Labelling policy
 
@@ -139,6 +145,12 @@ deliberately few:
 - **Exactly one Type label per issue,** chosen at triage. The Type labels are
   mutually exclusive on purpose so the boundary stays clean — `new-lecture`
   *instead of* `enhancement`, `infrastructure` *instead of* `maintenance`.
+  Cross-cutting labels (priority, `security`) sit *alongside* the Type label
+  and do not count against this rule.
+- **`security` is a cross-cutting modifier, not a Type.** Add it alongside the
+  Type label when an issue has security implications (e.g. `bug` + `security` +
+  `high-priority`) — it signals a different review bar and makes
+  `org:QuantEcon label:security` work as a standing query.
 - **Priority labels mark only the outliers.** Most work sits at the unlabelled
   default; reach for `high-priority` / `low-priority` only when an item is
   genuinely off-centre.
@@ -172,23 +184,46 @@ PR that *looks* mergeable (even approved) but must be held.
 
 `medium-priority` → no label (unlabelled is the middle) · project / grouping
 labels (`reading-group-*`) → **Milestones** · per-tool diagnostic labels
-(`colab`, …) → `build-failure` · PR lifecycle → native GitHub, as above.
+(`colab`, …) → `build-failure` · `testing` → `infrastructure` or `maintenance`
+(test work is not its own Type) · PR lifecycle → native GitHub, as above.
 
 ### Scope
 
-- **Lecture repos get all 20** (core 18 + the lecture extension).
-- **Software / tooling repos get the core 18,** which is also the **org-level
+- **Lecture repos get all 21** (core 19 + the lecture extension).
+- **Software / tooling repos get the core 19,** which is also the **org-level
   default** for new repositories.
 - **Not touched:** `meta` (keeps its own `project` / `education` labels),
   translation forks (`translate:*`), and `*.notebooks` build repos.
 - **Applying the set is additive; pruning is separate and deliberate.**
   `qe gh labels sync` *guarantees* the standard set on a repo and renames known
-  variants in place (e.g. `linkchecker` → `broken-links`, preserving every
-  existing issue and PR tag), but it **never blanket-prunes** bespoke local
+  variants in place (e.g. `linkchecker` → `broken-links`, `high priority` →
+  `high-priority`, preserving every existing issue and PR tag), but it **never
+  blanket-prunes** bespoke local
   labels that some repos legitimately rely on (`jax-conversion`, `colab`,
   `site-refresh`, `reading-group-*`). Removing non-standard labels is a
   **separate** `qe gh labels prune` step that reviews each one **one by one**,
   keeping the ones that still make sense locally.
+
+### Machine-readable appendix
+
+The normative schema ships with this QEP as a companion file,
+[`qep-0002-labels.yml`](qep-0002-labels.yml), co-located so that the standard
+and the file tooling consumes are versioned together: under
+[QEP-1's versioning rule](qep-0001-purpose-and-process.md), a change to a
+machine-readable appendix is a **substantive amendment** that bumps this QEP's
+`version`, and `version-hash` (a commit hash) pins both files at once.
+
+- **The yml is canonical for the machine-consumed fields** — name, colour,
+  description, group, scope, and who applies it. The tables above are the human
+  spec: rationale, colour semantics, and when-to-use guidance.
+- **CI keeps the two in lockstep.** The `qep-checks` workflow fails any pull
+  request where the tables and the yml disagree, so drift is a red ✗, not a
+  judgement call.
+- **The yml carries only the standard itself.** Rename maps for historical
+  variants, retired-label handling, and pruning knowledge are operational
+  concerns of the tool implementing this QEP (`qe gh labels sync` / `prune` in
+  [`QuantEcon/cli`](https://github.com/QuantEcon/cli)), which reads the yml
+  from this repository rather than carrying its own copy.
 
 ## Alternatives considered
 
@@ -201,6 +236,14 @@ labels (`reading-group-*`) → **Milestones** · per-tool diagnostic labels
   differently — folding them together sinks "we re-architected CI across the
   lecture repos" into the same bucket as "bumped a pin." The split was
   **approved** in [#324](https://github.com/QuantEcon/meta/issues/324).
+- **Make `security` a Type label, or leave it repo-local.** Field-tested on
+  `QuantEcon/actions`: security findings are orthogonal to Type — a
+  pwn-request pattern recommended in a README reads as `documentation`/`bug`,
+  root execution of external notebook code as `infrastructure` — so a
+  Type-level `security` would either break the one-Type rule or force a wrong
+  Type choice. Keeping it repo-local forfeits the org-wide standing query that
+  is most of its value. It joins the priority labels as a **cross-cutting
+  modifier** instead: exactly one Type label, plus optionally `security`.
 - **Add a `blocked` label.** Rejected in favour of native GitHub **issue
   dependencies** (generally available since Aug 2025), which record *what
   blocks what* rather than just *that* something is blocked, and avoid a second
@@ -227,9 +270,10 @@ labels (`reading-group-*`) → **Milestones** · per-tool diagnostic labels
 
 1. **Accept this QEP** to fix the names, colours, descriptions, and policy as
    the QuantEcon standard.
-2. **Record the schema** as the single source of truth in
-   [`QuantEcon/cli`](https://github.com/QuantEcon/cli)
-   (`src/qe_cli/data/labels.yml`), with the per-label rationale and the
+2. **Point tooling at the appendix.** The schema's single source of truth is
+   the co-located [`qep-0002-labels.yml`](qep-0002-labels.yml) (see
+   *Machine-readable appendix*); [`QuantEcon/cli`](https://github.com/QuantEcon/cli)
+   reads it from this repository rather than carrying its own copy, with the
    labelling policy mirrored in the labels guide.
 3. **Apply it with `qe gh labels sync`** — additively, renaming known variants
    in place so issue and PR history is preserved. Removing any non-standard
