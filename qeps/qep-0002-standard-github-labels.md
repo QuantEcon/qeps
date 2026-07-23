@@ -71,7 +71,7 @@ lecture repos.
 | `infrastructure` | 🟦 `#1d3c78` | Substantial CI / build / deploy / tooling / automation work | Engineering a teammate should know shipped — it would appear in a release note. Use *instead of* `maintenance` |
 | `maintenance` | 🟨 `#fbca04` | Routine housekeeping: style, formatting, env & dependency upkeep | Invisible churn that would never appear in a release note ("rendered lectures look identical after") |
 | `question` | 🟪 `#d876e3` | Someone needs an answer or clarification | Terminal state: *answered*. Swap for a work type once it becomes agreed work |
-| `discuss` | 💗 `#f904a0` | Open-ended team deliberation or a decision to be made | No single right answer. Reuses meta's existing `discuss` colour |
+| `discuss` | 🟪 `#f904a0` | Open-ended team deliberation or a decision to be made | No single right answer. Reuses meta's existing `discuss` colour |
 
 **Priority — a heat scale (unlabelled = normal priority)**
 
