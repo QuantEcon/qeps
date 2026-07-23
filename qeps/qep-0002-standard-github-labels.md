@@ -298,11 +298,12 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
 ## Rollout
 
 Acceptance fixes the names, colours, descriptions, and policy above as the
-QuantEcon standard. Implementation is `qe gh labels sync` in
-[`QuantEcon/cli`](https://github.com/QuantEcon/cli), reading the co-located
+QuantEcon standard. Applying the set to a repo is
+done with tooling that reads the co-located
 [`qep-0002-labels.yml`](qep-0002-labels.yml) from this repository (see
-*Machine-readable appendix*) and applying it **additively** — known variants
-are renamed in place so issue and PR history is preserved. Removing
+*Machine-readable appendix*) — `qe gh labels sync` in
+[`QuantEcon/cli`](https://github.com/QuantEcon/cli) — and is **additive**:
+known variants are renamed in place so issue and PR history is preserved. Removing
 non-standard labels is the separate, deliberate `qe gh labels prune` pass,
 reviewed one label at a time. Rollout is **pilot-first**: validate on a single
 lecture repo before widening to the remaining lecture repos and then the
@@ -312,6 +313,6 @@ defaults).
 
 The sequenced execution checklist — the CLI integration, the pilot target,
 widening order, org defaults, closing the earlier unification attempts
-(meta#178, meta#290) — lives in a **tracking issue opened at acceptance** (a
-sub-issue parent, per the labelling policy above), not in this document, so
-completing a step never requires amending the standard.
+(meta#178, meta#290) — belongs in a **tracking issue** (a sub-issue parent, per the
+labelling policy above), not in this document — so completing, reordering, or
+dropping a step never requires amending the standard.
