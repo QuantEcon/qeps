@@ -6,6 +6,7 @@ status: Draft
 type: standard
 created: 2026-06-17
 discussion: https://github.com/QuantEcon/meta/issues/324
+related: [4]
 ---
 
 # QEP-2: Standard GitHub Label Set and Labelling Policy
@@ -19,6 +20,7 @@ discussion: https://github.com/QuantEcon/meta/issues/324
 | **Type**     | standard                                                           |
 | **Created**  | 2026-06-17                                                         |
 | **Discussion** | [QuantEcon/meta#324](https://github.com/QuantEcon/meta/issues/324) |
+| **Related**  | [QEP-4](qep-0004-automation-registry-and-label-coordination.md) — the automation registry and coordination policy this standard defers to |
 
 ## Summary
 

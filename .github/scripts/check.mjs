@@ -6,6 +6,7 @@
 //   3. The README Type/Status/Version columns match each QEP's frontmatter.
 // Run by .github/workflows/qep-checks.yml. Exits non-zero on any failure.
 import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { FRONTMATTER, parseQep, qepFiles, readIndex, versionCell } from './qeps.mjs';
 
 const base = process.env.BASE_REF || 'main';
@@ -99,6 +100,42 @@ for (const path of qepFiles()) {
     const v0ok = q.version === undefined && (got === '-' || got === '');
     if (got !== want && !v0ok) {
       errors.push(`QEP-${q.qep}: README Version "${got}" != frontmatter "${want}"`);
+    }
+  }
+}
+
+// 4. `related` frontmatter stays in lockstep with the header table's
+//    **Related** row (the primary human record). Both absent is fine; one
+//    without the other, a self-reference, or differing QEP sets is an error.
+//    A related QEP whose file is not on this branch only warns — in-flight
+//    drafts may reference each other across branches; once both merge the
+//    warning disappears.
+for (const path of qepFiles()) {
+  const q = parseQep(path);
+  const row = readFileSync(path, 'utf8').match(/^\|\s*\*\*Related\*\*\s*\|(.*)\|\s*$/m);
+  const inTable = row ? [...row[1].matchAll(/qep-(\d{4})/g)].map((m) => Number(m[1])) : [];
+  const inFm = q.related ?? [];
+  if (!row && inFm.length === 0) continue;
+  if (!row) {
+    errors.push(`${path}: has related: [...] frontmatter but no **Related** row in the header table`);
+    continue;
+  }
+  if (inFm.length === 0) {
+    errors.push(`${path}: has a **Related** header-table row but no related: [...] frontmatter`);
+    continue;
+  }
+  const fmSet = [...new Set(inFm)].sort((a, b) => a - b);
+  const tableSet = [...new Set(inTable)].sort((a, b) => a - b);
+  if (JSON.stringify(fmSet) !== JSON.stringify(tableSet)) {
+    errors.push(
+      `${path}: related frontmatter [${fmSet.join(', ')}] != header-table Related row [${tableSet.join(', ')}]`,
+    );
+  }
+  for (const n of fmSet) {
+    if (n === q.qep) {
+      errors.push(`${path}: related lists itself (QEP-${n})`);
+    } else if (!qepFiles().some((p) => p.includes(`/qep-${String(n).padStart(4, '0')}-`))) {
+      console.warn(`WARN ${path}: related QEP-${n} not on this branch (in-flight draft?)`);
     }
   }
 }
