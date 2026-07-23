@@ -44,7 +44,8 @@ that becomes binding once the QEP is Accepted.
 The main options you weighed and why they were not chosen. This section is where
 much of a QEP's long-term value lives.
 
-## Rollout
+## Adoption
 
-How the decision gets implemented: migration steps, tooling, who does what, and any
-timeline. Omit if not applicable.
+What adopting the decision requires: the mechanism, tooling, and the guarantees any
+implementation must honour — written as obligations, not a plan. Sequenced execution
+(who does what, when) belongs in a tracking issue, not the QEP. Omit if not applicable.

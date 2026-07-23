@@ -295,7 +295,7 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   `documentation` is a tier-2, about-the-repo concern, so it moves to tan
   `#b08968` to read as distinct at a glance.
 
-## Rollout
+## Adoption
 
 Acceptance fixes the names, colours, descriptions, and policy above as the
 QuantEcon standard. Applying the set to a repo is
@@ -305,7 +305,7 @@ done with tooling that reads the co-located
 [`QuantEcon/cli`](https://github.com/QuantEcon/cli) — and is **additive**:
 known variants are renamed in place so issue and PR history is preserved. Removing
 non-standard labels is the separate, deliberate `qe gh labels prune` pass,
-reviewed one label at a time. Rollout is **pilot-first**: validate on a single
+reviewed one label at a time. Adoption is **pilot-first**: validate on a single
 lecture repo before widening to the remaining lecture repos and then the
 software / tooling repos. The org-level default label set for new repositories
 is the core 19 (a manual settings change — there is no public API for org
