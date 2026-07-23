@@ -6,6 +6,7 @@ status: Draft
 type: standard
 created: 2026-07-23
 discussion: https://github.com/QuantEcon/qeps/pull/2#issuecomment-5053414782
+related: [2]
 ---
 
 # QEP-4: Automation Registry and Label Coordination
@@ -19,6 +20,7 @@ discussion: https://github.com/QuantEcon/qeps/pull/2#issuecomment-5053414782
 | **Type**     | standard                                                           |
 | **Created**  | 2026-07-23                                                         |
 | **Discussion** | [QuantEcon/qeps#2 (field report)](https://github.com/QuantEcon/qeps/pull/2#issuecomment-5053414782) |
+| **Related**  | [QEP-2](qep-0002-standard-github-labels.md) — the core label standard this registry extends |
 
 ## Summary
 
