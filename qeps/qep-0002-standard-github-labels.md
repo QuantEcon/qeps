@@ -122,7 +122,8 @@ middle of the scale.
 Automation labels take a grey in the band `#ededed`–`#bdbdbd`; a new origin
 label or task-label family registered in
 [QEP-4](qep-0004-automation-registry-and-label-coordination.md) takes the next
-unused value in the band.
+value in the band not already used by *any* label — the meta grey `duplicate`
+`#cfd3d7` also sits inside it.
 
 **Meta — closing outcomes**
 
@@ -315,7 +316,7 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
    `lecture-jax`) and the candidates (`lecture-julia.myst`,
    `lecture-datascience.myst`, `lecture-stats`, `continuous_time_mcs`,
    `lecture-wasm`), then the software / tooling repos.
-5. **Set the org-level default labels** for new repositories to the core 18
+5. **Set the org-level default labels** for new repositories to the core 19
    (a manual settings change — there is no public API for org defaults).
 6. **Point contributors at the guide** so triage follows the policy above, and
    close the earlier unification attempts (#178, #290) against this outcome.
