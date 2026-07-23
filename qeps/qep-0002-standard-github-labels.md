@@ -26,9 +26,9 @@ This QEP defines a single standard set of GitHub labels for QuantEcon
 repositories, the meaning of each label, and the policy for how labels are
 applied. It standardises label **names, colours, and descriptions** so they
 mean the same thing everywhere, and it commits to **one behavioural change**:
-the pull-request lifecycle (`in-work` / `ready` / `review`) moves off labels
-and onto native GitHub features (Draft PRs, "Ready for review", review
-requests). The set is defined as a universal **core** plus a small **lecture
+the status labels (`in-work` / `ready` / `review` / `blocked`) are retired in
+favour of native GitHub features (Draft PRs, "Ready for review", review
+requests, issue dependencies). The set is defined as a universal **core** plus a small **lecture
 extension**, applied additively so existing issue and PR history is preserved.
 
 ## Motivation
