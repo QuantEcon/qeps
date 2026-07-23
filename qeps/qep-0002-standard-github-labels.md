@@ -250,19 +250,15 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   build-system change, new automation), whereas `maintenance` is routine,
   invisible churn (style, env bumps). The activity reports already surface them
   differently — folding them together sinks "we re-architected CI across the
-  lecture repos" into the same bucket as "bumped a pin." The split was
-  **approved** in [#324](https://github.com/QuantEcon/meta/issues/324).
-- **A closed bot vocabulary (`automated` + exactly one diagnostic).** The first
-  draft's rule. Field use broke it twice: routine scheduled output (the weekly
-  status reports) diagnoses nothing, so "exactly one" would force a false
-  `build-failure` and poison it as a standing query; and automations that
-  coordinate through labels (`action-translation`, `status-report`) were
-  non-conformant by construction. The quantifier is now **at most one**, and
-  coordination labels (automation origin labels and task `/`-namespaces) are
-  spun out to a dedicated automation-registry QEP rather than enumerated here;
-  when that QEP is accepted, its PR amends this one with the registry hooks.
-- **Make `security` a Type label, or leave it repo-local.** Field-tested on
-  `QuantEcon/actions`: security findings are orthogonal to Type — a
+  lecture repos" into the same bucket as "bumped a pin."
+- **A closed bot vocabulary (`automated` + exactly one diagnostic).** Rejected:
+  routine scheduled output diagnoses nothing, so a mandatory diagnostic forces
+  a false `build-failure` and poisons it as a standing query — the quantifier
+  is **at most one**. Labels automations use to *coordinate* (origin labels,
+  task namespaces) evolve with their tooling and belong to a dedicated
+  automation-registry QEP, not to enumeration here.
+- **Make `security` a Type label, or leave it repo-local.** Rejected: security
+  findings are orthogonal to Type — a
   pwn-request pattern recommended in a README reads as `documentation`/`bug`,
   root execution of external notebook code as `infrastructure` — so a
   Type-level `security` would either break the one-Type rule or force a wrong
