@@ -34,26 +34,20 @@ extension**, applied additively so existing issue and PR history is preserved.
 ## Motivation
 
 QuantEcon's repositories have drifted into inconsistent, overlapping label
-vocabularies. The same idea appears under different names (`improve` /
-`content` / `teaching` vs `enhancement`; `linkchecker` vs a link-checker
-label), priority is expressed three different ways, and bot-generated noise is
-hard to tell from human triage. This is the fourth attempt to unify them, and
-the cost of *not* settling it has grown beyond tidiness:
+vocabularies: the same idea appears under different names (`improve` /
+`content` / `teaching` vs `enhancement`), priority is expressed several
+different ways, and bot-generated output is hard to tell from human triage.
+One standard set, defined once for the whole organisation, fixes three
+things:
 
-- **Triage is ambiguous.** A contributor cannot tell from the label list what
-  "kind" of work an issue is, or whether it has been triaged at all.
-- **Automation reads labels and the names don't match.** The org activity
-  reports and the quantecon.org/news drafts key off labels to rank and surface
-  work; while wiring these up we found they were boosting on names that **do
-  not exist anywhere** (`priority: high`, `feature`, `chore`, `docs`) while the
-  real labels (`high-priority`, `enhancement`, `documentation`) went unread. A
-  standard set gives the reporting a stable contract.
-- **Cross-repo work has no shared shape.** Editorial sign-off, newcomer
-  discovery, and "do not merge yet" all need to mean the same thing across
-  every lecture repo.
-
-A standard set is a cross-repository, team-wide decision, which is exactly what
-a [QEP](qep-0001-purpose-and-process.md) is for.
+- **Triage.** A contributor can tell from the label list what kind of work an
+  issue is and whether it has been triaged — and the answer reads the same in
+  every repository.
+- **Automation.** The org activity reports and the quantecon.org/news drafts
+  rank and surface work by label; a standard set gives them a stable contract
+  of names to read.
+- **Cross-repo workflow.** Editorial sign-off, newcomer discovery, and "do not
+  merge yet" mean the same thing across every repository.
 
 ## Proposal
 
