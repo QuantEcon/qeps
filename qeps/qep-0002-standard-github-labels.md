@@ -60,9 +60,10 @@ a [QEP](qep-0001-purpose-and-process.md) is for.
 ### The label set
 
 Labels are grouped by purpose. **Colour carries meaning where it helps:**
-priority is a heat scale (hot red → cool green), the automation/CI family
-shares a quiet grey ("a machine made this"), and type/community keep
-conventional GitHub colours. A label with no profile is **core** — meaningful
+priority is a heat scale (hot red → cool green), grey marks **low-salience
+state** — machine output or a closing outcome, rather than triage signal —
+with the automation and meta families distinguished by text, not hue, and
+type/community keep conventional GitHub colours. A label with no profile is **core** — meaningful
 on any repository. Two labels form a **lecture extension** applied only to
 lecture repos.
 
@@ -111,10 +112,15 @@ middle of the scale.
 
 | Label | Colour | Description | When to use |
 |---|---|---|---|
-| `automated` | ⬜ `#ededed` | Opened by a bot or scheduled workflow | Every bot issue carries this **plus exactly one** diagnostic below |
+| `automated` | ⬜ `#ededed` | Opened by a bot or scheduled workflow | Every bot issue or PR carries this, **plus at most one** diagnostic below |
 | `broken-links` | ⬜ `#dddddd` | Link checker found dead links | Applied by the link-checker action |
 | `build-failure` | ⬜ `#cccccc` | Notebook execution, build, or warnings failure | Applied by build / warnings checks |
 | `dependencies` | ⬜ `#bdbdbd` | Dependency or environment update (pip, conda, actions) | The single Dependabot label (replaces `github_actions` / `conda`) |
+
+Automation labels take a grey in the band `#ededed`–`#bdbdbd`; a new origin
+label or task-label family registered in
+[QEP-4](qep-0004-automation-registry-and-label-coordination.md) takes the next
+unused value in the band.
 
 **Meta — closing outcomes**
 
@@ -159,9 +165,17 @@ deliberately few:
   **A `discuss` thread should not drift open indefinitely** — once it reaches a
   conclusion, summarise the decision and close, spawn a concrete follow-up
   issue, or escalate to a QEP if it crosses repos or changes team workflow.
-- **Automation labels are bot-applied.** A bot-opened issue carries `automated`
-  plus exactly one diagnostic (`broken-links`, `build-failure`, or
-  `dependencies`); humans do not hand-apply these.
+- **Automation labels are machine vocabulary.** Every bot-opened issue or PR
+  carries `automated`, plus **at most one** diagnostic (`broken-links`,
+  `build-failure`, `dependencies`) describing what the automation found —
+  routine scheduled output diagnoses nothing and carries no diagnostic. An
+  artifact created by a *registered* automation also carries that automation's
+  durable **origin label** (e.g. `action-translation`), and may carry transient
+  **task labels** under its registered `/`-namespace (e.g. `translate/review`).
+  Origin labels, task namespaces, and the coordination policy behind them are
+  defined in [QEP-4](qep-0004-automation-registry-and-label-coordination.md);
+  humans never hand-apply diagnostics or origin labels, and touch task labels
+  only as the owning automation's contract allows.
 - **`do-not-merge` is a voluntary hold,** distinct from being *blocked*: see the
   status-label change below.
 
@@ -202,7 +216,11 @@ labels (`reading-group-*`) → **Milestones** · per-tool diagnostic labels
   labels that some repos legitimately rely on (`jax-conversion`, `colab`,
   `site-refresh`, `reading-group-*`). Removing non-standard labels is a
   **separate** `qe gh labels prune` step that reviews each one **one by one**,
-  keeping the ones that still make sense locally.
+  keeping the ones that still make sense locally. Origin labels and task
+  namespaces registered in
+  [QEP-4](qep-0004-automation-registry-and-label-coordination.md) are **skipped
+  by rule** — they are load-bearing routing keys with documented consumers, not
+  bespoke leftovers — and `sync` never touches a registered namespace.
 
 ### Machine-readable appendix
 
@@ -236,6 +254,15 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   differently — folding them together sinks "we re-architected CI across the
   lecture repos" into the same bucket as "bumped a pin." The split was
   **approved** in [#324](https://github.com/QuantEcon/meta/issues/324).
+- **A closed bot vocabulary (`automated` + exactly one diagnostic).** The first
+  draft's rule. Field use broke it twice: routine scheduled output (the weekly
+  status reports) diagnoses nothing, so "exactly one" would force a false
+  `build-failure` and poison it as a standing query; and automations that
+  coordinate through labels (`action-translation`, `status-report`) were
+  non-conformant by construction. The quantifier is now **at most one**, and
+  coordination labels are legislated in
+  [QEP-4](qep-0004-automation-registry-and-label-coordination.md) rather than
+  enumerated here.
 - **Make `security` a Type label, or leave it repo-local.** Field-tested on
   `QuantEcon/actions`: security findings are orthogonal to Type — a
   pwn-request pattern recommended in a README reads as `documentation`/`bug`,
