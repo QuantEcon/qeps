@@ -6,7 +6,6 @@ status: Draft
 type: standard
 created: 2026-06-17
 discussion: https://github.com/QuantEcon/meta/issues/324
-related: [4]
 ---
 
 # QEP-2: Standard GitHub Label Set and Labelling Policy
@@ -20,7 +19,6 @@ related: [4]
 | **Type**     | standard                                                           |
 | **Created**  | 2026-06-17                                                         |
 | **Discussion** | [QuantEcon/meta#324](https://github.com/QuantEcon/meta/issues/324) |
-| **Related**  | [QEP-4](qep-0004-automation-registry-and-label-coordination.md) — the automation registry and coordination policy this standard defers to |
 
 ## Summary
 
@@ -119,11 +117,9 @@ middle of the scale.
 | `build-failure` | ⬜ `#cccccc` | Execution, build, or warnings failure | Applied by scheduled build / warnings checks to the issues they open. A failing check on a PR needs no label — the red ✗ is the signal |
 | `dependencies` | ⬜ `#bdbdbd` | Dependency or environment update (pip, conda, actions) | The single Dependabot label (replaces `github_actions` / `conda`) |
 
-Automation labels take a grey in the band `#ededed`–`#bdbdbd`; a new origin
-label or task-label family registered in
-[QEP-4](qep-0004-automation-registry-and-label-coordination.md) takes the next
-value in the band not already used by *any* label — the meta grey `duplicate`
-`#cfd3d7` also sits inside it.
+Automation labels take a grey in the band `#ededed`–`#bdbdbd`; a new automation
+label takes the next value in the band not already used by *any* label — the
+meta grey `duplicate` `#cfd3d7` also sits inside it.
 
 **Meta — closing outcomes**
 
@@ -171,14 +167,8 @@ deliberately few:
 - **Automation labels are machine vocabulary.** Every bot-opened issue or PR
   carries `automated`, plus **at most one** diagnostic (`broken-links`,
   `build-failure`, `dependencies`) describing what the automation found —
-  routine scheduled output diagnoses nothing and carries no diagnostic. An
-  artifact created by a *registered* automation also carries that automation's
-  durable **origin label** (e.g. `action-translation`), and may carry transient
-  **task labels** under its registered `/`-namespace (e.g. `translate/review`).
-  Origin labels, task namespaces, and the coordination policy behind them are
-  defined in [QEP-4](qep-0004-automation-registry-and-label-coordination.md);
-  humans never hand-apply diagnostics or origin labels, and touch task labels
-  only as the owning automation's contract allows.
+  routine scheduled output diagnoses nothing and carries no diagnostic. Humans
+  never hand-apply automation labels.
 - **`do-not-merge` is a voluntary hold,** distinct from being *blocked*: see the
   status-label change below.
 
@@ -219,11 +209,7 @@ labels (`reading-group-*`) → **Milestones** · per-tool diagnostic labels
   labels that some repos legitimately rely on (`jax-conversion`, `colab`,
   `site-refresh`, `reading-group-*`). Removing non-standard labels is a
   **separate** `qe gh labels prune` step that reviews each one **one by one**,
-  keeping the ones that still make sense locally. Origin labels and task
-  namespaces registered in
-  [QEP-4](qep-0004-automation-registry-and-label-coordination.md) are **skipped
-  by rule** — they are load-bearing routing keys with documented consumers, not
-  bespoke leftovers — and `sync` never touches a registered namespace.
+  keeping the ones that still make sense locally.
 
 ### Machine-readable appendix
 
@@ -263,9 +249,9 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   `build-failure` and poison it as a standing query; and automations that
   coordinate through labels (`action-translation`, `status-report`) were
   non-conformant by construction. The quantifier is now **at most one**, and
-  coordination labels are legislated in
-  [QEP-4](qep-0004-automation-registry-and-label-coordination.md) rather than
-  enumerated here.
+  coordination labels (automation origin labels and task `/`-namespaces) are
+  spun out to a dedicated automation-registry QEP rather than enumerated here;
+  when that QEP is accepted, its PR amends this one with the registry hooks.
 - **Make `security` a Type label, or leave it repo-local.** Field-tested on
   `QuantEcon/actions`: security findings are orthogonal to Type — a
   pwn-request pattern recommended in a README reads as `documentation`/`bug`,
