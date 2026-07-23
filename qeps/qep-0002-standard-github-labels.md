@@ -28,8 +28,8 @@ applied. It standardises label **names, colours, and descriptions** so they
 mean the same thing everywhere, and it commits to **one behavioural change**:
 the status labels (`in-work` / `ready` / `review` / `blocked`) are retired in
 favour of native GitHub features (Draft PRs, "Ready for review", review
-requests, issue dependencies). The set is defined as a universal **core** plus a small **lecture
-extension**, applied additively so existing issue and PR history is preserved.
+requests, issue dependencies). The set is defined as a universal **core** plus
+a small **lecture extension** for lecture repos.
 
 ## Motivation
 
@@ -57,9 +57,9 @@ Labels are grouped by purpose. **Colour carries meaning where it helps:**
 priority is a heat scale (hot red → cool green), grey marks **low-salience
 state** — machine output or a closing outcome, rather than triage signal —
 with the automation and meta families distinguished by text, not hue, and
-type/community keep conventional GitHub colours. A label with no profile is **core** — meaningful
-on any repository. Two labels form a **lecture extension** applied only to
-lecture repos.
+type and community labels keep conventional GitHub colours. Every label is
+**core** — meaningful on any repository — except the two that form the
+**lecture extension**, applied only to lecture repos.
 
 **Type — what kind of work is this? (one per issue, set at triage)**
 
@@ -197,8 +197,8 @@ PR that *looks* mergeable (even approved) but must be held.
 `medium-priority` → no label (unlabelled is the middle) · project / grouping
 labels (`reading-group-*`) → **Milestones** · umbrella / tracking issues →
 native **sub-issues** (the parent carries no Type, see the policy above) ·
-per-tool diagnostic labels
-(`colab`, …) → `build-failure` · `testing` → `infrastructure` or `maintenance`
+per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
+`infrastructure` or `maintenance`
 (test work is not its own Type) · PR lifecycle → native GitHub, as above.
 
 ### Scope
@@ -214,8 +214,7 @@ per-tool diagnostic labels
   `qe gh labels sync` *guarantees* the standard set on a repo and renames known
   variants in place (e.g. `linkchecker` → `broken-links`, `high priority` →
   `high-priority`, preserving every existing issue and PR tag), but it **never
-  blanket-prunes** bespoke local
-  labels that some repos legitimately rely on (`jax-conversion`, `colab`,
+  blanket-prunes** bespoke local labels that some repos legitimately rely on (`jax-conversion`, `colab`,
   `site-refresh`, `reading-group-*`). Removing non-standard labels is a
   **separate** `qe gh labels prune` step that reviews each one **one by one**,
   keeping the ones that still make sense locally.
@@ -258,8 +257,8 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   task namespaces) evolve with their tooling and belong to a dedicated
   automation-registry QEP, not to enumeration here.
 - **Make `security` a Type label, or leave it repo-local.** Rejected: security
-  findings are orthogonal to Type — a
-  pwn-request pattern recommended in a README reads as `documentation`/`bug`,
+  findings are orthogonal to Type — a pwn-request pattern recommended in a
+  README reads as `documentation`/`bug`,
   root execution of external notebook code as `infrastructure` — so a
   Type-level `security` would either break the one-Type rule or force a wrong
   Type choice. Keeping it repo-local forfeits the org-wide standing query that
@@ -290,13 +289,12 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
 ## Adoption
 
 Acceptance fixes the names, colours, descriptions, and policy above as the
-QuantEcon standard. Applying the set to a repo is
-done with tooling that reads the co-located
-[`qep-0002-labels.yml`](qep-0002-labels.yml) from this repository (see
-*Machine-readable appendix*) — `qe gh labels sync` in
+QuantEcon standard. Applying the set to a repo is done with tooling that reads
+the co-located [`qep-0002-labels.yml`](qep-0002-labels.yml) from this
+repository (see *Machine-readable appendix*) — `qe gh labels sync` in
 [`QuantEcon/cli`](https://github.com/QuantEcon/cli) — and is **additive**:
-known variants are renamed in place so issue and PR history is preserved. Removing
-non-standard labels is the separate, deliberate `qe gh labels prune` pass,
+known variants are renamed in place so issue and PR history is preserved.
+Removing non-standard labels is the separate, deliberate `qe gh labels prune` pass,
 reviewed one label at a time. Adoption is **pilot-first**: validate on a single
 lecture repo before widening to the remaining lecture repos and then the
 software / tooling repos. The org-level default label set for new repositories
@@ -305,6 +303,6 @@ defaults).
 
 The sequenced execution checklist — the CLI integration, the pilot target,
 widening order, org defaults, closing the earlier unification attempts
-(meta#178, meta#290) — belongs in a **tracking issue** (a sub-issue parent, per the
-labelling policy above), not in this document — so completing, reordering, or
-dropping a step never requires amending the standard.
+(meta#178, meta#290) — belongs in a **tracking issue** (a sub-issue parent,
+per the labelling policy above), not in this document, so completing,
+reordering, or dropping a step never requires amending the standard.
