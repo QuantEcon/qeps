@@ -297,25 +297,21 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
 
 ## Rollout
 
-1. **Accept this QEP** to fix the names, colours, descriptions, and policy as
-   the QuantEcon standard.
-2. **Point tooling at the appendix.** The schema's single source of truth is
-   the co-located [`qep-0002-labels.yml`](qep-0002-labels.yml) (see
-   *Machine-readable appendix*); [`QuantEcon/cli`](https://github.com/QuantEcon/cli)
-   reads it from this repository rather than carrying its own copy, with the
-   labelling policy mirrored in the labels guide.
-3. **Apply it with `qe gh labels sync`** — additively, renaming known variants
-   in place so issue and PR history is preserved. Removing any non-standard
-   labels is a separate, deliberate `qe gh labels prune` pass, reviewed one by
-   one.
-4. **Pilot on one repo first, then widen.** The first rollout target is
-   **`lecture-python-programming`**; once it's validated, roll out more widely
-   to the rest of the confirmed lecture repos (`lecture-python-intro`,
-   `lecture-python.myst`, `lecture-python-advanced.myst`, `lecture-dp`,
-   `lecture-jax`) and the candidates (`lecture-julia.myst`,
-   `lecture-datascience.myst`, `lecture-stats`, `continuous_time_mcs`,
-   `lecture-wasm`), then the software / tooling repos.
-5. **Set the org-level default labels** for new repositories to the core 19
-   (a manual settings change — there is no public API for org defaults).
-6. **Point contributors at the guide** so triage follows the policy above, and
-   close the earlier unification attempts (#178, #290) against this outcome.
+Acceptance fixes the names, colours, descriptions, and policy above as the
+QuantEcon standard. Implementation is `qe gh labels sync` in
+[`QuantEcon/cli`](https://github.com/QuantEcon/cli), reading the co-located
+[`qep-0002-labels.yml`](qep-0002-labels.yml) from this repository (see
+*Machine-readable appendix*) and applying it **additively** — known variants
+are renamed in place so issue and PR history is preserved. Removing
+non-standard labels is the separate, deliberate `qe gh labels prune` pass,
+reviewed one label at a time. Rollout is **pilot-first**: validate on a single
+lecture repo before widening to the remaining lecture repos and then the
+software / tooling repos. The org-level default label set for new repositories
+is the core 19 (a manual settings change — there is no public API for org
+defaults).
+
+The sequenced execution checklist — the CLI integration, the pilot target,
+widening order, org defaults, closing the earlier unification attempts
+(meta#178, meta#290) — lives in a **tracking issue opened at acceptance** (a
+sub-issue parent, per the labelling policy above), not in this document, so
+completing a step never requires amending the standard.
