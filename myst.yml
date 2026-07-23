@@ -14,3 +14,7 @@ site:
   template: book-theme
   options:
     logo_text: QuantEcon QEPs
+    # Vendored locally so the static build never fetches the default favicon
+    # from mystmd.org — that remote fetch fails on the CI runner's Node and
+    # breaks the deploy. See .github/workflows/deploy.yml.
+    favicon: favicon.png

@@ -1,3 +1,6 @@
 _build/
 node_modules/
 .DS_Store
+
+# Local review working notes (not part of the QEP record)
+pr-*-review.md
