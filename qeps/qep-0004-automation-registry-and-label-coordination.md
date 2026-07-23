@@ -179,6 +179,57 @@ labels prune` **skips registered zones by rule** (a mechanical prefix match
 against this registry) instead of relying on a human recognising a routing key
 during one-by-one review.
 
+### Amendments to QEP-2
+
+[QEP-2](qep-0002-standard-github-labels.md) deliberately carries **no forward
+references** to this QEP while it is in review: the QEP that creates a
+dependency ships the amendments to the standards it touches, in its own
+acceptance PR, so a cross-reference and its target land on `main` atomically
+and the standard never links to a file that does not exist. (Process
+discussion in [#2](https://github.com/QuantEcon/qeps/pull/2); the QEP-1
+amendment recording this convention is tracked in
+[#9](https://github.com/QuantEcon/qeps/issues/9).)
+
+The hooks below were drafted *inside* QEP-2 while the two documents were
+co-developed and are preserved here verbatim (removed from QEP-2 in commit
+`091eeea`). When this QEP is accepted, its landing PR re-applies them —
+updated to whatever this QEP's review settles — as a substantive amendment to
+QEP-2 under [QEP-1](qep-0001-purpose-and-process.md), bumping QEP-2's
+`version` if it is Accepted by then.
+
+1. **Pairing.** Add `related: [4]` to QEP-2's frontmatter and a **Related**
+   header-table row reading: "[QEP-4](qep-0004-automation-registry-and-label-coordination.md)
+   — the automation registry and coordination policy this standard defers to".
+
+2. **Labelling policy — the automation bullet.** Replace its closing sentence
+   ("Humans never hand-apply automation labels.") with:
+
+   > An artifact created by a *registered* automation also carries that
+   > automation's durable **origin label** (e.g. `action-translation`), and may
+   > carry transient **task labels** under its registered `/`-namespace (e.g.
+   > `translate/review`). Origin labels, task namespaces, and the coordination
+   > policy behind them are defined in
+   > [QEP-4](qep-0004-automation-registry-and-label-coordination.md); humans
+   > never hand-apply diagnostics or origin labels, and touch task labels only
+   > as the owning automation's contract allows.
+
+3. **Scope — the prune bullet.** Append:
+
+   > Origin labels and task namespaces registered in
+   > [QEP-4](qep-0004-automation-registry-and-label-coordination.md) are
+   > **skipped by rule** — they are load-bearing routing keys with documented
+   > consumers, not bespoke leftovers — and `sync` never touches a registered
+   > namespace.
+
+4. **Grey-band allocation.** In the paragraph after the automation table,
+   extend "a new automation label" to name registered families: "a new origin
+   label or task-label family registered in
+   [QEP-4](qep-0004-automation-registry-and-label-coordination.md) takes the
+   next value in the band not already used by *any* label".
+
+5. **Editorial.** Link the Alternatives note ("spun out to a dedicated
+   automation-registry QEP") to this file.
+
 ## Alternatives considered
 
 - **Register every coordination label individually.** The original proposal
@@ -216,14 +267,17 @@ during one-by-one review.
 
 1. **Accept this QEP** to fix the registry, the namespace policy, and the
    coordination semantics as the QuantEcon standard.
-2. **Provision the founding registrations**: recolour `action-translation` and
+2. **Amend QEP-2 in the acceptance PR** — re-apply the hooks in *Amendments
+   to QEP-2* above, in their review-settled form, bumping QEP-2's `version`
+   if it is Accepted by then.
+3. **Provision the founding registrations**: recolour `action-translation` and
    `status-report` to their family greys on their service areas; owners adopt
    the description convention as task labels are introduced.
-3. **Ship the registry as a machine-readable appendix**
+4. **Ship the registry as a machine-readable appendix**
    (`qep-0004-automations.yml`, following QEP-2's companion-file pattern) and
    extend the appendix CI check to the registry schema (including the `repo`
    service-area scope). Until then, the table above is normative.
-4. **Wire the tooling**: `qe gh labels prune` and `sync` read the registry and
+5. **Wire the tooling**: `qe gh labels prune` and `sync` read the registry and
    skip registered zones mechanically.
-5. **Register future automations by amendment** to this QEP — one entry per
+6. **Register future automations by amendment** to this QEP — one entry per
    automation, justified by a documented consumer.
