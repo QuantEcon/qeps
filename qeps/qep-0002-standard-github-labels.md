@@ -73,9 +73,9 @@ lecture repos.
 
 | Label | Colour | Description | When to use |
 |---|---|---|---|
-| `bug` | 🟥 `#d73a4a` | Something is wrong or broken in a lecture or build | The content is *incorrect*: wrong maths, erroring code, broken rendering |
-| `enhancement` | 🟦 `#a2eeef` | Improvement to existing material | Better exposition, a new exercise, improved figures |
-| `documentation` | 🟫 `#b08968` | Repo docs and contributor meta (not lecture content) | READMEs, CONTRIBUTING — *about the repo*; lecture content is never `documentation` |
+| `bug` | 🟥 `#d73a4a` | Something is wrong or broken | The content is *incorrect*: wrong maths, erroring code, broken rendering — in a lecture or a build |
+| `enhancement` | 🟦 `#a2eeef` | Improvement to existing content or functionality | Better exposition, a new exercise, improved figures |
+| `documentation` | 🟫 `#b08968` | Repo docs and contributor meta | READMEs, CONTRIBUTING — *about the repo*; lecture content is never `documentation` |
 | `infrastructure` | 🟦 `#1d3c78` | Substantial CI / build / deploy / tooling / automation work | Engineering a teammate should know shipped — it would appear in a release note. Use *instead of* `maintenance` |
 | `maintenance` | 🟨 `#fbca04` | Routine housekeeping: style, formatting, env & dependency upkeep | Invisible churn that would never appear in a release note ("rendered lectures look identical after") |
 | `question` | 🟪 `#d876e3` | Someone needs an answer or clarification | Terminal state: *answered*. Swap for a work type once it becomes agreed work |
@@ -116,7 +116,7 @@ middle of the scale.
 |---|---|---|---|
 | `automated` | ⬜ `#ededed` | Opened by a bot or scheduled workflow | Every bot issue or PR carries this, **plus at most one** diagnostic below |
 | `broken-links` | ⬜ `#dddddd` | Link checker found dead links | Applied by the link-checker action |
-| `build-failure` | ⬜ `#cccccc` | Notebook execution, build, or warnings failure | Applied by build / warnings checks |
+| `build-failure` | ⬜ `#cccccc` | Execution, build, or warnings failure | Applied by scheduled build / warnings checks to the issues they open. A failing check on a PR needs no label — the red ✗ is the signal |
 | `dependencies` | ⬜ `#bdbdbd` | Dependency or environment update (pip, conda, actions) | The single Dependabot label (replaces `github_actions` / `conda`) |
 
 Automation labels take a grey in the band `#ededed`–`#bdbdbd`; a new origin

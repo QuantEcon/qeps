@@ -17,17 +17,17 @@ labels:
   # Type — what kind of work is this? (one per issue, set at triage)
   - name: bug
     color: d73a4a
-    description: Something is wrong or broken in a lecture or build
+    description: Something is wrong or broken
     group: type
     scope: core
   - name: enhancement
     color: a2eeef
-    description: Improvement to existing material
+    description: Improvement to existing content or functionality
     group: type
     scope: core
   - name: documentation
     color: b08968
-    description: Repo docs and contributor meta (not lecture content)
+    description: Repo docs and contributor meta
     group: type
     scope: core
   - name: infrastructure
@@ -104,7 +104,7 @@ labels:
     applied-by: bot
   - name: build-failure
     color: cccccc
-    description: Notebook execution, build, or warnings failure
+    description: Execution, build, or warnings failure
     group: automation
     scope: core
     applied-by: bot
