@@ -205,9 +205,11 @@ per-tool diagnostic labels
 
 - **Lecture repos get all 21** (core 19 + the lecture extension).
 - **Software / tooling repos get the core 19,** which is also the **org-level
-  default** for new repositories.
-- **Not touched:** `meta` (keeps its own `project` / `education` labels),
-  translation forks (`translate:*`), and `*.notebooks` build repos.
+  default** for new repositories. This includes `meta`, which may keep unique
+  local labels (`project`, `education`) to triage its own kinds of work
+  alongside the standard set.
+- **Not touched:** translation forks (`translate:*`) and `*.notebooks` build
+  repos.
 - **Applying the set is additive; pruning is separate and deliberate.**
   `qe gh labels sync` *guarantees* the standard set on a repo and renames known
   variants in place (e.g. `linkchecker` → `broken-links`, `high priority` →
