@@ -40,14 +40,14 @@ different ways, and bot-generated output is hard to tell from human triage.
 One standard set, defined once for the whole organisation, fixes three
 things:
 
+- **Common meaning.** A label carries the same name, colour, and meaning in
+  every repository — editorial sign-off, newcomer discovery, and "do not
+  merge yet" read identically wherever they appear.
 - **Triage.** A contributor can tell from the label list what kind of work an
-  issue is and whether it has been triaged — and the answer reads the same in
-  every repository.
+  issue is and whether it has been triaged.
 - **Automation.** The org activity reports and the quantecon.org/news drafts
   rank and surface work by label; a standard set gives them a stable contract
   of names to read.
-- **Cross-repo workflow.** Editorial sign-off, newcomer discovery, and "do not
-  merge yet" mean the same thing across every repository.
 
 ## Proposal
 
