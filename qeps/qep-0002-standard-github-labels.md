@@ -174,7 +174,8 @@ deliberately few:
   `org:QuantEcon label:security` work as a standing query.
 - **Priority labels mark only the outliers.** Most work sits at the unlabelled
   default; reach for `high-priority` / `low-priority` only when an item is
-  genuinely off-centre.
+  genuinely off-centre *for the repo* — a milestone doesn't re-centre the
+  scale.
 - **`question` vs `discuss`.** `question` seeks a single answer and is done when
   answered; `discuss` is open-ended deliberation with no single right answer.
   **A `discuss` thread should not drift open indefinitely** — once it reaches a
