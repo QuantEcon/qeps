@@ -207,7 +207,8 @@ PR that *looks* mergeable (even approved) but must be held.
 ### What we deliberately don't label
 
 `medium-priority` → no label (unlabelled is the middle) · project / grouping
-labels (`reading-group-*`) → **Milestones** · umbrella / tracking issues →
+labels (a recurring program like `reading-group-*`, a one-shot campaign like a
+tech-debt audit) → **Milestones** · umbrella / tracking issues →
 native **sub-issues** (the parent carries no Type, see the policy above) ·
 per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
 `infrastructure` or `maintenance`
