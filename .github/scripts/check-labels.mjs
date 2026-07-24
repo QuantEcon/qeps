@@ -1,7 +1,7 @@
 // Machine-readable appendix checks (see QEP-2 § Machine-readable appendix):
 //   1. Every qeps/qep-NNNN-*.yml companion stays in lockstep with the label
 //      tables in its owning QEP: same label names, and per label the same
-//      colour, description, and scope (core vs lecture extension).
+//      colour, description, and scope (core vs the lecture / software extensions).
 //   2. Once the owning QEP is Accepted, a change to its companion yml is a
 //      substantive amendment and must bump the QEP's `version` in the same PR.
 // Run by .github/workflows/qep-checks.yml. Exits non-zero on any failure.
@@ -45,7 +45,11 @@ function parseLabelTables(path) {
   for (const line of readFileSync(path, 'utf8').split('\n')) {
     const heading = line.match(/^\*\*(.+?)\*\*$/);
     if (heading) {
-      scope = /^Lecture extension/i.test(heading[1]) ? 'lecture' : 'core';
+      scope = /^Lecture extension/i.test(heading[1])
+        ? 'lecture'
+        : /^Software extension/i.test(heading[1])
+          ? 'software'
+          : 'core';
       continue;
     }
     const m = line.match(/^\|\s*`([^`]+)`\s*\|[^|`]*`#([0-9a-fA-F]{6})`\s*\|([^|]*)\|/);

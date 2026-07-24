@@ -28,8 +28,9 @@ applied. It standardises label **names, colours, and descriptions** so they
 mean the same thing everywhere, and it commits to **one behavioural change**:
 the status labels (`in-work` / `ready` / `review` / `blocked`) are retired in
 favour of native GitHub features (Draft PRs, "Ready for review", review
-requests, issue dependencies). The set is defined as a universal **core** plus
-a small **lecture extension** for lecture repos.
+requests, issue dependencies). The set is defined as a universal **core** plus two
+small domain extensions: a **lecture extension** for lecture repos and a
+one-label **software extension** for software / tooling repos.
 
 ## Motivation
 
@@ -59,7 +60,8 @@ state** — machine output or a closing outcome, rather than triage signal —
 with the automation and meta families distinguished by text, not hue, and
 type and community labels keep conventional GitHub colours. Every label is
 **core** — meaningful on any repository — except the two that form the
-**lecture extension**, applied only to lecture repos.
+**lecture extension**, applied only to lecture repos, and the one that forms
+the **software extension**, applied only to software / tooling repos.
 
 **Type — what kind of work is this? (one per issue, set at triage)**
 
@@ -68,7 +70,7 @@ type and community labels keep conventional GitHub colours. Every label is
 | `bug` | 🟥 `#d73a4a` | Something is wrong or broken | The content is *incorrect*: wrong maths, erroring code, broken rendering — in a lecture or a build |
 | `enhancement` | 🟦 `#a2eeef` | Improvement to existing content or functionality | Better exposition, a new exercise, improved figures |
 | `documentation` | 🟫 `#b08968` | Repo docs and contributor meta | READMEs, CONTRIBUTING — *about the repo*. Product content is never `documentation`, even where the product *is* docs (lectures, the manual): wrong content is `bug`, routine sweeps are `maintenance`, gaps and improvements are `enhancement` |
-| `infrastructure` | 🟦 `#1d3c78` | Substantial CI / build / deploy / tooling / automation work | Engineering a teammate should know shipped — it would appear in a release note. Use *instead of* `maintenance` |
+| `infrastructure` | 🟦 `#1d3c78` | Substantial CI / build / deploy / tooling / automation work, or behaviour-preserving restructuring | Engineering a teammate should know shipped — it would appear in a release note; includes restructuring that changes no behaviour (software repos sharpen this to `refactor`). Use *instead of* `maintenance` |
 | `maintenance` | 🟨 `#fbca04` | Routine housekeeping: style, formatting, env & dependency upkeep | Invisible churn that would never appear in a release note ("rendered lectures look identical after") |
 | `question` | 🟪 `#d876e3` | Someone needs an answer or clarification | Terminal state: *answered*. Swap for a work type once it becomes agreed work |
 | `discuss` | 🟪 `#f904a0` | Open-ended team deliberation or a decision to be made | No single right answer. Reuses meta's existing `discuss` colour |
@@ -129,8 +131,14 @@ meta grey `duplicate` `#cfd3d7` also sits inside it.
 | `new-lecture` | 🟦 `#0537E9` | A new lecture (the marquee outcome) | Brand-new lecture — proposed, in progress, or shipped. Use *instead of* `enhancement` |
 | `editor` | 🟩 `#0e8a16` | Requires editor review — final sign-off stage | Apply at handoff *after* team review; editor's queue = `org:QuantEcon label:editor`. Remove on sign-off |
 
-This is **19 core labels + 2 lecture labels = 21**. The org-level default set
-for new repositories is the **core 19**.
+**Software extension — software / tooling repos only**
+
+| Label | Colour | Description | When to use |
+|---|---|---|---|
+| `refactor` | 🟦 `#2c5aa0` | Behaviour-preserving restructuring of product source | Extract a seam, consolidate duplication, introduce a choke point — code moves, behaviour doesn't. Use *instead of* `infrastructure`; the repo's own CI / build / tooling stays `infrastructure` |
+
+This is **19 core labels + 2 lecture labels + 1 software label = 22**. The
+org-level default set for new repositories is the **core 19**.
 
 ### Labelling policy
 
@@ -143,13 +151,16 @@ deliberately few:
   normal priority, whereas a completely unlabelled issue still needs triage.
 - **Exactly one Type label per issue,** chosen at triage. The Type labels are
   mutually exclusive on purpose so the boundary stays clean — `new-lecture`
-  *instead of* `enhancement`, `infrastructure` *instead of* `maintenance`.
+  *instead of* `enhancement`, `infrastructure` *instead of* `maintenance`,
+  `refactor` *instead of* `infrastructure`.
   Cross-cutting labels (priority, `security`) sit *alongside* the Type label
   and do not count against this rule.
 - **The `infrastructure` / `maintenance` boundary is effort, not subject.**
   Routine upkeep of CI is `maintenance` (an action version bump); substantial
   CI work is `infrastructure` (rewriting a deploy job) — the release-note test
-  decides, not which files were touched.
+  decides, not which files were touched. Substantial restructuring that changes
+  no behaviour passes the same test: `infrastructure`, not `maintenance`, even
+  in product source — sharpened to `refactor` on software repos.
 - **A sub-issue parent is structure, not work.** An umbrella issue that groups
   work via native sub-issues is exempt from the one-Type rule, and unlabelled
   does not mean "needs triage" — the sub-issue relationship is the
@@ -203,11 +214,11 @@ per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
 
 ### Scope
 
-- **Lecture repos get all 21** (core 19 + the lecture extension).
-- **Software / tooling repos get the core 19,** which is also the **org-level
-  default** for new repositories. This includes `meta`, which may keep unique
-  local labels (`project`, `education`) to triage its own kinds of work
-  alongside the standard set.
+- **Lecture repos get 21** (core 19 + the lecture extension).
+- **Software / tooling repos get 20** (core 19 + the software extension).
+- **The org-level default for new repositories is the core 19.** `meta` takes
+  the default, and may keep unique local labels (`project`, `education`) to
+  triage its own kinds of work alongside the standard set.
 - **Not touched:** translation forks (`translate:*`) and `*.notebooks` build
   repos.
 - **Applying the set is additive; pruning is separate and deliberate.**
@@ -250,6 +261,15 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   invisible churn (style, env bumps). The activity reports already surface them
   differently — folding them together sinks "we re-architected CI across the
   lecture repos" into the same bucket as "bumped a pin."
+- **Cover behaviour-preserving refactors with `enhancement`, or add `refactor`
+  to the core.** Rejected: nothing user-visible changes, so `enhancement` would
+  leak internal restructuring into reports that read it as user-facing
+  improvement — and in the core, `refactor` is dead weight on lecture repos.
+  Instead `infrastructure` owns behaviour-preserving restructuring (the
+  release-note test judges effort, not subject), and software repos — where
+  refactoring is a standing work-type, a quarter of a typical technical-debt
+  milestone — sharpen it to the extension label `refactor`, mirroring
+  `new-lecture` for lectures.
 - **A closed bot vocabulary (`automated` + exactly one diagnostic).** Rejected:
   routine scheduled output diagnoses nothing, so a mandatory diagnostic forces
   a false `build-failure` and poisons it as a standing query — the quantifier

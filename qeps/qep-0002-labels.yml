@@ -10,7 +10,8 @@
 #
 # Fields: name · color (hex, no '#') · description (shown on GitHub) ·
 #         group (type | priority | cross-cutting | community | workflow |
-#         automation | meta | lecture) · scope (core | lecture) ·
+#         automation | meta | lecture | software) ·
+#         scope (core | lecture | software) ·
 #         applied-by: bot (automation labels only; default is human)
 
 labels:
@@ -32,7 +33,7 @@ labels:
     scope: core
   - name: infrastructure
     color: 1d3c78
-    description: Substantial CI / build / deploy / tooling / automation work
+    description: Substantial CI / build / deploy / tooling / automation work, or behaviour-preserving restructuring
     group: type
     scope: core
   - name: maintenance
@@ -138,3 +139,10 @@ labels:
     description: Requires editor review — final sign-off stage
     group: lecture
     scope: lecture
+
+  # Software extension — software / tooling repos only
+  - name: refactor
+    color: 2c5aa0
+    description: Behaviour-preserving restructuring of product source
+    group: software
+    scope: software
