@@ -161,6 +161,15 @@ deliberately few:
   decides, not which files were touched. Substantial restructuring that changes
   no behaviour passes the same test: `infrastructure`, not `maintenance`, even
   in product source — sharpened to `refactor` on software repos.
+- **The `bug` / `enhancement` boundary is the promise, not the size of the
+  fix.** An artefact's own words — a heading, a title, a docstring — are its
+  specification. A lecture section headed *Existence and uniqueness* that proves
+  only existence is a `bug`; adding a uniqueness proof to a section headed
+  *Existence* is an `enhancement`. The work is identical; what the text already
+  claimed decides the label. Same on the software side: a `--dry-run` flag
+  documented as making no changes that still writes a cache file is a `bug`,
+  whereas adding `--dry-run` to a command that never offered one is an
+  `enhancement`.
 - **A sub-issue parent is structure, not work.** An umbrella issue that groups
   work via native sub-issues is exempt from the one-Type rule, and unlabelled
   does not mean "needs triage" — the sub-issue relationship is the
@@ -178,6 +187,8 @@ deliberately few:
   scale.
 - **`question` vs `discuss`.** `question` seeks a single answer and is done when
   answered; `discuss` is open-ended deliberation with no single right answer.
+  An issue that opens with a factual question but **terminates in a decision**
+  is `discuss`.
   **A `discuss` thread should not drift open indefinitely** — once it reaches a
   conclusion, summarise the decision and close, spawn a concrete follow-up
   issue, or escalate to a QEP if it crosses repos or changes team workflow.
@@ -226,18 +237,21 @@ per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
 - **Lecture repos get 21** (core 19 + the lecture extension).
 - **Software / tooling repos get 20** (core 19 + the software extension).
 - **The org-level default for new repositories is the core 19.** `meta` takes
-  the default, and may keep unique local labels (`project`, `education`) to
-  triage its own kinds of work alongside the standard set.
+  the default; its local labels (`project`, `education`) are resolved by the
+  migration like any other non-standard label, not held as a standing
+  exception.
 - **Not touched:** translation forks (`translate:*`) and `*.notebooks` build
   repos.
-- **Applying the set is additive; pruning is separate and deliberate.**
-  `qe gh labels sync` *guarantees* the standard set on a repo and renames known
-  variants in place (e.g. `linkchecker` → `broken-links`, `high priority` →
-  `high-priority`, preserving every existing issue and PR tag), but it **never
-  blanket-prunes** bespoke local labels that some repos legitimately rely on (`jax-conversion`, `colab`,
-  `site-refresh`, `reading-group-*`). Removing non-standard labels is a
-  **separate** `qe gh labels prune` step that reviews each one **one by one**,
-  keeping the ones that still make sense locally.
+- **Conformance is the standard set and nothing else.** Legacy labels left in
+  place alongside the standard ones reproduce the drift this QEP exists to end,
+  so adoption is a **migration**, not an addition. The migration is
+  history-preserving: a local label that maps to a standard one is **renamed in
+  place** (`linkchecker` → `broken-links`, `high priority` → `high-priority`),
+  which carries every existing issue and PR tag; where a rename is blocked
+  because both labels already exist, the issues are **re-tagged before** the
+  local label is removed. Nothing is deleted out from under an issue that
+  carries it. A local label the standard does not cover is **kept and recorded
+  as unmapped** rather than forced into a wrong Type — see *Adoption*.
 
 ### Machine-readable appendix
 
@@ -255,8 +269,8 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   request where the tables and the yml disagree, so drift is a red ✗, not a
   judgement call.
 - **The yml carries only the standard itself.** Rename maps for historical
-  variants, retired-label handling, and pruning knowledge are operational
-  concerns of the tool implementing this QEP (`qe gh labels sync` / `prune` in
+  variants, retired-label handling, and the migration report are operational
+  concerns of the tool implementing this QEP (`qe gh labels sync` in
   [`QuantEcon/cli`](https://github.com/QuantEcon/cli)), which reads the yml
   from this repository rather than carrying its own copy.
 
@@ -321,14 +335,32 @@ Acceptance fixes the names, colours, descriptions, and policy above as the
 QuantEcon standard. Applying the set to a repo is done with tooling that reads
 the co-located [`qep-0002-labels.yml`](qep-0002-labels.yml) from this
 repository (see *Machine-readable appendix*) — `qe gh labels sync` in
-[`QuantEcon/cli`](https://github.com/QuantEcon/cli) — and is **additive**:
-known variants are renamed in place so issue and PR history is preserved.
-Removing non-standard labels is the separate, deliberate `qe gh labels prune` pass,
-reviewed one label at a time. Adoption is **pilot-first**: validate on a single
+[`QuantEcon/cli`](https://github.com/QuantEcon/cli) — and is a **migration**,
+not an addition: known variants are renamed in place so issue and PR history is
+preserved (see *Scope*). Adoption is **pilot-first**: validate on a single
 lecture repo before widening to the remaining lecture repos and then the
 software / tooling repos. The org-level default label set for new repositories
 is the core 19 (a manual settings change — there is no public API for org
 defaults).
+
+Syncing a repo emits a **migration report**: one row per non-standard label, its
+usage count, and its disposition — *renamed to `X`* · *re-tagged (12 →
+`infrastructure`, 9 → `maintenance`), removed* · *replaced by a milestone* ·
+*removed (unused)* · *kept, unmapped*. The report is the repo's audit trail and
+the standard's evidence base. A label the standard does not cover is **removed
+if unused** and **kept if it carries tags** — removing it would strip triage
+signal from live issues with nothing to replace it. A kept-unmapped label is a
+**quarantine, not an exception**: it reappears on every subsequent report until
+it is resolved, by an amendment that covers it, by re-tagging its issues to a
+standard label, or by a decision that the tags are not worth keeping. The tool
+never removes a label that carries tags; only a human decision does.
+
+A label recorded as **unmapped across several repos** is a gap in the set, and
+closing it is a normal in-place amendment under
+[QEP-1](qep-0001-purpose-and-process.md), which bumps this QEP's `version`. The
+bar is **recurrence** — one repo's oddity is a local exception, the same label
+unmapped in four repos is a missing label. Tooling produces the evidence;
+proposing the amendment stays a human judgement.
 
 The sequenced execution checklist — the CLI integration, the pilot target,
 widening order, org defaults, closing the earlier unification attempts
