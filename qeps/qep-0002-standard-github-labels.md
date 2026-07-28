@@ -201,6 +201,13 @@ off labels:
 | `review` | a **review request** |
 | `blocked` / `on-hold` | native **issue dependencies** ("Blocked by #N") for issues; a Draft PR with a "Blocked by #N" note for PRs |
 
+Dependencies are for **hard blocks only** — the UI renders one as a blocker,
+which overstates "should ideally follow"; soft ordering belongs to sub-issue
+order or the parent's body. A blocker that **is not an issue** — a pending
+decision, a named person's availability — has no native representation: record
+it as a **"Blocked by: …"** first line in the issue body, so a deliberately
+parked issue reads as parked rather than neglected, and ages visibly.
+
 Only **`do-not-merge`** survives as a workflow label, for the genuine case of a
 PR that *looks* mergeable (even approved) but must be held.
 
