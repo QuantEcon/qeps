@@ -115,7 +115,10 @@ middle of the scale.
 
 Automation labels take a grey in the band `#ededed`–`#bdbdbd`; a new automation
 label takes the next value in the band not already used by *any* label — the
-meta grey `duplicate` `#cfd3d7` also sits inside it.
+meta grey `duplicate` `#cfd3d7` also sits inside it. In a repo with no
+label-applying automation yet, these four sit **installed but dormant** — a
+conformant state, not a misconfiguration: the labels are the org-wide
+vocabulary contract, and they activate when the automation arrives.
 
 **Meta — closing outcomes**
 
@@ -353,7 +356,12 @@ signal from live issues with nothing to replace it. A kept-unmapped label is a
 **quarantine, not an exception**: it reappears on every subsequent report until
 it is resolved, by an amendment that covers it, by re-tagging its issues to a
 standard label, or by a decision that the tags are not worth keeping. The tool
-never removes a label that carries tags; only a human decision does.
+never removes a label that carries tags; only a human decision does. Carrying
+tags counts **closed** items too: GitHub strips a deleted label retroactively
+from closed issues and merged PRs, so deleting a label always costs history.
+A retired label whose remaining tags are all on closed items — the status
+label `ready` on merged PRs, say — is a decision to make knowingly: delete and
+accept the stripped history, or keep the label as deprecated.
 
 A label recorded as **unmapped across several repos** is a gap in the set, and
 closing it is a normal in-place amendment under
