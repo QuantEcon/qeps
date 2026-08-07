@@ -44,6 +44,17 @@ export function parseQep(path) {
     version = Number(v[1]);
   }
 
+  // Optional `related: [N, ...]` — QEPs this one is paired with. The header
+  // table's **Related** row is the primary human record; check.mjs keeps the
+  // two in lockstep. Editing `related` is editorial (no normative content).
+  const rawRelated = field(block, 'related');
+  let related;
+  if (rawRelated !== undefined && rawRelated !== '') {
+    const r = rawRelated.match(/^\[([0-9,\s]*)\]$/);
+    if (!r) throw new Error(`${path}: malformed "related: ${rawRelated}" (expected e.g. [2, 4])`);
+    related = r[1].split(',').map((s) => s.trim()).filter(Boolean).map(Number);
+  }
+
   // `version-hash` may carry a trailing "# stamped by CI" signpost comment.
   const rawHash = field(block, 'version-hash');
   let hash;
@@ -60,6 +71,7 @@ export function parseQep(path) {
     title: stripQuotes(field(block, 'title')),
     status: stripQuotes(field(block, 'status')),
     type: stripQuotes(field(block, 'type')),
+    related,
     version,
     hash,
   };

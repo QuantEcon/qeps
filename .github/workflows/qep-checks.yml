@@ -27,3 +27,7 @@ jobs:
         run: node .github/scripts/check.mjs
         env:
           BASE_REF: ${{ github.base_ref }}
+      - name: Run label appendix checks
+        run: node .github/scripts/check-labels.mjs
+        env:
+          BASE_REF: ${{ github.base_ref }}

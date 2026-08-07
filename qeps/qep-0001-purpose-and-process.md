@@ -4,7 +4,7 @@ title: QEP Purpose and Process
 author: "@mmcky"
 status: Accepted
 type: process
-version: 1
+version: 2
 version-hash: 0bff77a  # stamped by CI; do not edit
 created: 2026-06-16
 discussion: https://github.com/QuantEcon/meta/issues/325
@@ -19,7 +19,7 @@ discussion: https://github.com/QuantEcon/meta/issues/325
 | **Author**   | @mmcky                                                 |
 | **Status**   | Accepted                                               |
 | **Type**     | process                                                |
-| **Version**  | 1                                                      |
+| **Version**  | 2                                                      |
 | **Created**  | 2026-06-16                                             |
 | **Discussion** | [QuantEcon/meta#325](https://github.com/QuantEcon/meta/issues/325) |
 
@@ -155,7 +155,7 @@ From `v1` onward a sibling `version-hash` field carries the short commit hash th
 anchors the revision to git history:
 
 ```yaml
-version: 1
+version: 2
 version-hash: a1b2c3d  # stamped by CI; do not edit
 ```
 
@@ -240,7 +240,7 @@ Each QEP is a Markdown file with YAML frontmatter (`qep`, `title`, `author`, `st
 `type`, `created`, `discussion` — plus `version` and its CI-stamped `version-hash`, which
 sit just after `type` once the QEP is first amended) followed by the sections in
 [`qeps/template.md`](../qeps/template.md): **Summary, Motivation, Proposal, Alternatives
-considered, Rollout**. The `type` field describes the **kind of content** the QEP
+considered, Adoption**. The `type` field describes the **kind of content** the QEP
 carries:
 
 - **`standard`** — a normative spec or rule you conform to (a label schema, a style
@@ -279,7 +279,7 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
   instead, surfaced on the site by the theme's history feature and on GitHub by
   history/blame.
 
-## Rollout
+## Adoption
 
 1. **(v0) Establish the process.** Merge this QEP to set the process; re-record the
    label-set decision
@@ -296,3 +296,9 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
    author-side steps in `AGENTS.md`; and set the repository to squash-merge only.
    Adopting this mechanism is QEP-1's own first substantive amendment, so QEP-1
    becomes **v1**.
+3. **(v2) Rename this section: `Rollout` becomes `Adoption`.** The section states
+   what adopting a QEP requires — mechanism, tooling, and the guarantees any
+   implementation must honour — as obligations rather than a plan, so nothing in it
+   can be falsified by work not happening; sequenced execution (who does what, when)
+   belongs in a tracking issue. Applied first by QEP-2, whose acceptance PR carries
+   this amendment.
