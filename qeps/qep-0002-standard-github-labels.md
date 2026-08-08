@@ -2,7 +2,7 @@
 qep: 2
 title: Standard GitHub Label Set and Labelling Policy
 author: "@mmcky"
-status: Draft
+status: Accepted
 type: standard
 created: 2026-06-17
 discussion: https://github.com/QuantEcon/meta/issues/324
@@ -15,7 +15,7 @@ discussion: https://github.com/QuantEcon/meta/issues/324
 | **QEP**      | 2                                                                  |
 | **Title**    | Standard GitHub Label Set and Labelling Policy                    |
 | **Author**   | @mmcky                                                             |
-| **Status**   | Draft                                                              |
+| **Status**   | Accepted                                                           |
 | **Type**     | standard                                                           |
 | **Created**  | 2026-06-17                                                         |
 | **Discussion** | [QuantEcon/meta#324](https://github.com/QuantEcon/meta/issues/324) |

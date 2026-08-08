@@ -15,7 +15,7 @@ need a QEP.
 | QEP | Title | Type | Status | Version |
 |-----|-------|------|--------|---------|
 | [QEP-1](qeps/qep-0001-purpose-and-process.md) | QEP Purpose and Process | process | Accepted | v2 |
-| [QEP-2](qeps/qep-0002-standard-github-labels.md) | Standard GitHub Label Set and Labelling Policy | standard | Draft | – |
+| [QEP-2](qeps/qep-0002-standard-github-labels.md) | Standard GitHub Label Set and Labelling Policy | standard | Accepted | – |
 
 QEPs that set an ongoing rule are **maintained in place**: a substantive amendment bumps
 the QEP's `version` (shown above) under the same review process, rather than superseding
