@@ -16,6 +16,7 @@ need a QEP.
 |-----|-------|------|--------|---------|
 | [QEP-1](qeps/qep-0001-purpose-and-process.md) | QEP Purpose and Process | process | Accepted | v2 |
 | [QEP-2](qeps/qep-0002-standard-github-labels.md) | Standard GitHub Label Set and Labelling Policy | standard | Accepted | – |
+| [QEP-5](qeps/qep-0005-code-of-ai-use.md) | Code of AI Use | standard | Draft | – |
 
 QEPs that set an ongoing rule are **maintained in place**: a substantive amendment bumps
 the QEP's `version` (shown above) under the same review process, rather than superseding
