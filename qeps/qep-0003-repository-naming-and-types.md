@@ -70,7 +70,8 @@ is decided*, so the manual has an authority to cite.
 ### 1. Naming grammar
 
 1. Repository names are lowercase and use only characters that need no shift key:
-   dashes, not underscores; no capitals.
+   dashes, not underscores; no capitals. (Names that are load-bearing elsewhere are
+   exempt — see §3.)
 2. **A dash prefix encodes the repository's type**: `{type}-{name}` (e.g.
    `lecture-dp`, `status-translations`, `action-translation`).
 3. **A dot suffix encodes a variant or companion of the same content**:
@@ -79,7 +80,7 @@ is decided*, so the manual has an authority to cite.
    | Suffix | Meaning | Example |
    |---|---|---|
    | `.notebooks` | notebook companion of a lecture series | `lecture-dp.notebooks` |
-   | `.{lang}` | translated edition (lowercase IETF tag) | `lecture-python-programming.zh-cn`, `.fa` |
+   | `.{lang}` | translated edition (lowercase IETF tag) | `lecture-python-programming.zh-cn`, `lecture-python-programming.fa` |
    | `.public` / `.private` | visibility twin of an existing repo | `notebook-gallery.private` |
    | `.docker` | container-build companion | `lecture-python.docker` |
    | `.myst` | build-system variant (legacy; being retired via [meta#334](https://github.com/QuantEcon/meta/issues/334)) | `lecture-julia.myst` |
