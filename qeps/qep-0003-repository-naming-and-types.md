@@ -26,12 +26,16 @@ This QEP makes the QuantEcon organization's repository namespace a decided stand
 rather than an observed habit. It defines a naming **grammar** (a dash prefix encodes a
 repository's *type*; a dot suffix encodes a *variant* of the same content), a
 **registry** of type prefixes with the meaning, default visibility and lifecycle of
-each, an **exemption** for published software packages and forks (which keep their
-ecosystem names), a new convention for the organization's largest unnamed family
-(**teaching events**), and a **migration and archival policy** (new repositories must
-comply; existing ones are renamed opportunistically or simply archived). The team
-manual's repository-conventions page remains the operational how-to and follows this
-QEP.
+each, a **naming rule for published software packages and forks** (they take the name
+the ecosystem knows them by, unprefixed), a new convention for the organization's
+largest unnamed family (**teaching events**), and a **migration and archival policy**
+(new repositories must comply; existing ones are renamed opportunistically or simply
+archived; a repository that has outgrown its type is succeeded, never renamed into
+it). While in Draft, the registry was field-tested against live placement and rename
+decisions recorded on the discussion PR; the operational types that emerged are named
+for an actor's *effect* — decide, measure, narrate, execute, assess — never for a
+mechanism or trigger. The team manual's repository-conventions page remains the
+operational how-to and follows this QEP.
 
 ## Motivation
 
@@ -89,6 +93,11 @@ is decided*, so the manual has an authority to cite.
    dotted type forms in use today (`project.{name}`, `audit.{yyyy-mm}.{topic}`,
    `benchmark.{topic}`) are grandfathered, and new members of those families use the
    dash form (`project-{name}`, `audit-{yyyy-mm}-{topic}`, `benchmark-{topic}`).
+5. **Name tokens pass the reversal test**: choose tokens so the name reads as natural
+   English when expanded — attributive singulars inside compounds
+   (`compliance-lecture-style` → "lecture-style compliance", like *house style* or
+   *user guide*), standalone plurals for whole-domain tokens (`status-translations`).
+   This settles singular/plural choices mechanically.
 
 ### 2. Type registry
 
@@ -103,31 +112,62 @@ decision guide live in the team manual (private) and follow this table.
 | `book-{name}` | textbook project (+ `.public` companion) | private | living |
 | `quantecon-book-{name}` | companion software package for a book | public | living |
 
-**Programs and operations** — the four operational types map onto verbs: `project-*`
-**decides** (plans, records why), `workspace-*` **operates** (humans executing across a
-repo family), `workflow-*` **automates** (machines acting on a schedule), `status-*`
-**measures** (machines reporting resulting state).
+**Programs and operations** — the five operational types map onto verbs: `project-*`
+**decides** (plans, records why), `status-*` **measures** (machines reporting observed
+facts), `reporter-*` **narrates** (machines writing periodic digests), `task-*`
+**executes** (machines doing recurring chores), `compliance-*` **assesses** (a
+standing rubric-adjudicated record). Three of the five publish observations and are
+separated by contract and epistemic mode: `status-*` publishes machine-measured state
+under a data contract; `reporter-*` publishes narrative digests, read-only and
+contract-free; `compliance-*` maintains an adjudicated ledger against a named
+standard.
 
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
 | `project-{name}` | planning and decision home for an initiative or program: roadmap, decision register, research, reports; no production code (may carry a minimal command bench — see boundary rules) | private | goal-scoped — lives and dies with its goal (initiatives end; programs run long) |
-| `workspace-{collection}` | cross-repo operating bench for a repo family: manifest + runner; never vendors content | private | fleet-scoped — persists as long as the family |
 | `status-{domain}` | machine-updated dashboard of facts about a domain: collector + versioned data + Pages site | public (typically) | domain-scoped — outlives any project |
-| `workflow-{name}` | scheduled automation that acts for the org (e.g. backups) | either | ongoing |
+| `reporter-{name}` | read-only automation that observes org or web state and writes reports, digests or dashboard-adjacent narrative; needs read scopes (plus issue/PR comment) only | either | ongoing |
+| `task-{name}` | automation with write access to org resources, executing recurring org chores (backups, archival sweeps); the machinery that does a chore, not a task tracker — work tracking stays in GitHub Projects | either | ongoing |
+| `compliance-{domain}` | standing record of a domain's conformance with a named standard: rubric + runbook, findings and scores re-measured in place per pass; versioned history seeded from each absorbed audit | public (typically) | standard-scoped — durable while the standard is enforced |
 | `action-{name}` | reusable GitHub Action consumed by other repos via `uses:` | public | ongoing |
 
-Two boundary rules worth recording at the standard level:
+Boundary rules worth recording at the standard level:
 
 - **`status-*` holds the numbers; `project-*` holds the narrative.** A dashboard may
-  incubate as hand-maintained tables inside a project repo; once its numbers are
-  collected automatically on a cadence it graduates to a `status-*` repo named for the
-  *domain it measures*, not the project that created it.
-- **A `project-*` repo is organized around a goal; a `workspace-*` repo is organized
-  around a fleet.** A project may carry a minimal command bench (manifest + runner)
-  for the repos it is changing; for a long-running program this arrangement can be
-  durable, not merely transitional — locality of decisions, bench and clones under
-  one root is a feature. The bench graduates to a `workspace-*` when it is shared
-  across initiatives, or grows beyond minimal to serve routine fleet operations.
+  incubate as hand-maintained tables (typically inside a project repo); once numbers a
+  machine could collect are being collected automatically on a cadence — wherever they
+  incubated — they graduate to a `status-*` repo named for the *domain it measures*,
+  not the project that created it. Evidence graduates; judgment does not (see the
+  `compliance-*` rule below).
+- **A `project-*` repo is organized around a goal.** It may carry a minimal command
+  bench (manifest + runner) for the repos it is changing; for a long-running program
+  the arrangement can be durable, not merely transitional — locality of decisions,
+  bench and clones under one root is a feature. There is deliberately no fleet-bench
+  type in the registry (see Alternatives); a standing bench shared across initiatives
+  and serving routine fleet operations is the evidence that would justify registering
+  one by amendment (Rollout §6).
+- **The automation types split on the read/write boundary, not the trigger.**
+  `reporter-*` observes and narrates with read scopes; `task-*` acts with write access
+  to org resources. Both are typically scheduled and either may be event-driven — the
+  durable, governance-relevant property is the effect, and it makes the org's
+  automation estate triage-able for security review directly from the repository list.
+- **`status-*` reports what machines observe; `compliance-*` records what a rubric
+  adjudicates.** Shared anatomy (collector + versioned data + Pages site) does not
+  decide the type; the epistemic mode does. Litmus tests: a script with no prompt
+  could produce the number → `status-`; publication requires reviewing findings →
+  `compliance-`; the repo recommends anything → `compliance-` (status has no
+  opinions). Containment is asymmetric: a compliance ledger may embed
+  machine-collected facts as evidence, but adjudicated numbers never appear on a
+  status dashboard. Both may exist for one domain: the ledger keeps its mechanical
+  evidence inside until that plane has consumers of its own — at which point the
+  *evidence* (never the judgment) graduates to `status-{domain}`.
+- **The audit is the event; the compliance repo is the ledger.** A one-off examination
+  publishes as `audit-{yyyy-mm}-{topic}` and freezes — an audit stays an audit even
+  when it recurs. When examinations acquire a cadence, an owner and a runbook, the
+  standing record is a `compliance-*` repo assembled from one or more audits; absorbed
+  audit repos are archived (content and Pages stay public and citable), never renamed.
+  Routine passes post to the ledger directly; dated audit repos remain available as
+  citable freezes of a specific pass.
 
 **Teaching events** (new)
 
@@ -146,16 +186,21 @@ suffix (e.g. `workshop-india-2022.private`).
 |---|---|---|---|
 | `test-{name}` | disposable test double / CI target for tooling | either | archive when the pilot ends |
 | `template-{name}` | template repository | public | living |
+| `tool-{name}` | internal, unpublished tooling — scripts and benches that are not installable and not meant to be; a tool published to an ecosystem takes its package name instead (§3) | either | living |
 | `contractor-{name}` | payment artifacts for an individual RA/contractor | private | per engagement |
-| `audit-{yyyy-mm}-{topic}` | dated point-in-time audit | public (typically) | frozen once published |
+| `audit-{yyyy-mm}-{topic}` | dated point-in-time audit | public (typically) | frozen once published; archived once absorbed into a `compliance-*` ledger (see boundary rules) |
 | `benchmark-{topic}` | benchmark dataset / evaluation harness | public | living |
 
 ### 3. Exemptions — names that are load-bearing elsewhere
 
-- **Published software packages** keep the name they are published under
-  (`QuantEcon.py`, `QuantEcon.jl`, `GameTheory.jl`, `sphinx-tojupyter`,
-  `quantecon-book-theme`): the repository name must match the registry/distribution
-  name, because install commands, badges and citations depend on it.
+- **Published software packages take their ecosystem name, unprefixed** — the
+  repository name equals the name the package is registered under (PyPI, npm, Julia
+  General, …): `QuantEcon.py`, `QuantEcon.jl`, `GameTheory.jl`, `sphinx-tojupyter`,
+  `quantecon-book-theme`, `textstrata`. This is a forward rule for new packages, not
+  merely grandfathering: install commands, badges and citations depend on the repo and
+  registry names agreeing. (`action-*` is the same principle for the Actions
+  marketplace, where the `uses:` path is the identity; internal unpublished tooling is
+  `tool-*`, §2.)
 - **Forks** keep the upstream name (`mystmd`, `gametracer`).
 - **Deployed web properties** are named by their domain
   (`atlas.quantecon.org`; the dots here are the domain's, not variant suffixes).
@@ -175,11 +220,20 @@ would.
 - **No bulk renames.** Existing repositories are renamed opportunistically — when a
   repo is actively maintained and a rename is proposed in its own issue tracker.
   GitHub's automatic redirects make renames cheap for links and clones, but CI,
-  submodules, and hard-coded paths still need checking, so renames ride on active
-  maintenance rather than a campaign. The open lecture-rename proposals
+  submodules, Pages URLs, and hard-coded paths still need checking, so renames ride on
+  active maintenance rather than a campaign. The open lecture-rename proposals
   ([meta#333](https://github.com/QuantEcon/meta/issues/333),
   [meta#334](https://github.com/QuantEcon/meta/issues/334)) proceed as the first
   instances of this policy.
+- **Renames fix names; they never transmute types.** A repository that has outgrown
+  its type is not renamed into the new type: it is *succeeded* by a new repository of
+  the right type and archived — the same shape as "concluded events are archived, not
+  renamed", stated generally.
+- **Rename and succession proposals are adjudicated against the published record.** A
+  proposal states the facts its target row's lifecycle turns on (cadence, series,
+  consumers), and the registry adjudicates them against what is published — in-flight
+  work is cited as in-flight, not as state. A repo *planning* a series is not yet a
+  repo *having* one.
 - **Concluded events are archived, not renamed.** Past-event repositories are made
   read-only via GitHub archiving (content stays public and citable); an annual sweep
   archives the previous cycle's concluded events. Legacy names are grandfathered at
@@ -195,12 +249,40 @@ would.
 - **A prefix for software libraries** (e.g. `pkg-*`). Rejected: package names are
   load-bearing in registries, install commands and citations; a repo/registry name
   mismatch is a permanent tax for zero disambiguation gain — the ecosystem suffixes
-  (`.py`, `.jl`) already mark these repos clearly.
+  (`.py`, `.jl`) already mark these repos clearly. §3 states the accepted rule (the
+  ecosystem name, unprefixed), and `tool-*` covers internal unpublished tooling so the
+  published/unpublished boundary is decidable.
+- **A `workflow-*` type, and registering `reports-*`** (both in use today). Rejected:
+  `workflow-` names the mechanism rather than the role — every repository has
+  `.github/workflows/`, so "contains workflows" distinguishes nothing and pollutes org
+  search — and registering `reports-*` would legitimize a single-member family. Both
+  incumbents rename into the effect-named `reporter-*`/`task-*` pair (Rollout §4).
+  For that pair, agent nouns colliding with the org's own domain vocabulary were
+  rejected outright (`operator-`, `agent-`, `actor-`): mathematical and economic
+  vocabulary is off-limits for type prefixes — the mirror image of §3, where registry
+  names are load-bearing *outside* the org. `routine-`, `automation-`, `bot-`,
+  `scheduled-`/`cron-` and `job-` fell to narrower objections (cadence-implying,
+  off-pattern, interactivity-connoting, trigger-naming, Actions-jargon). Full record:
+  [discussion](https://github.com/QuantEcon/qeps/pull/7#issuecomment-4980556272).
+- **A `workspace-*` type for fleet benches** (a cross-repo operating bench: manifest +
+  runner; present in earlier drafts of this QEP). Removed before acceptance: the
+  family had zero members, and both live placement decisions run against the draft
+  resolved into `project-*`. The registry should trail reality by one repository, not
+  lead it. The bench allowance lives in the `project-*` boundary rule; a real standing
+  fleet bench re-registers the type by amendment (Rollout §6).
+- **Folding conformance records into `status-*`, or de-dating `audit-*` into a living
+  series.** Rejected: `status-*`'s promise is *re-run the collector, get the same
+  number*, and rubric-adjudicated scores behind that prefix would launder opinion as
+  fact; while an audit is an event even when it recurs — financial audits recur
+  annually and stay audits. The living thing is the ledger: `compliance-*`.
+  ([discussion](https://github.com/QuantEcon/qeps/pull/7#issuecomment-5421261197))
 - **Keeping the dotted type forms** (`audit.{yyyy-mm}.{topic}`, `benchmark.{topic}`)
   **for new repos.** Rejected: dots are the variant-suffix marker, and reserving them
-  keeps names machine-parseable (split on first dash → type; split on dot → variant).
-  Existing dotted names are grandfathered; the families are small and rarely minted, so
-  the switch costs nothing.
+  keeps names machine-parseable (split on first dash → candidate type, validated
+  against the registry; split on first dot → variant; §3-exempt names such as
+  `sphinx-tojupyter` do not parse this way and are not meant to — the registry, not
+  the grammar, is authoritative). Existing dotted names are grandfathered; the
+  families are small and rarely minted, so the switch costs nothing.
 - **A bulk rename campaign.** Rejected: ~150 repositories, most of them concluded
   events or dormant research, with CI and submodule breakage risk for near-zero reader
   benefit. Archival delivers most of the cleanup value; redirects make the remaining
@@ -215,16 +297,32 @@ would.
 ## Rollout
 
 1. **On acceptance**, update the team manual's repository-conventions page to cite
-   QEP-3 as the naming authority and align its "other prefixes" table with the dash
-   forms (`audit-`, `benchmark-`).
+   QEP-3 as the naming authority, align its "other prefixes" table with the dash forms
+   and the current registry (`reporter-`, `task-`, `compliance-`, `tool-`), and add a
+   pointer from the operational program homes (e.g. `project-style-guide`) back to
+   this registry, so namespace decisions are not re-made locally.
 2. **Lecture renames** proceed under the open proposals
    ([meta#333](https://github.com/QuantEcon/meta/issues/333),
    [meta#334](https://github.com/QuantEcon/meta/issues/334)); `continuous_time_mcs` — a
    live lecture series outside the `lecture-` prefix — is added to that batch as a
-   candidate.
+   candidate, as are the two translated editions whose base names do not parse
+   (`lecture-intro.zh-cn` → `lecture-python-intro.zh-cn`; `lecture-python.zh-cn`
+   follows meta#334's resolution of its source), cheapest sequenced ahead of the
+   translation-sync wiring
+   ([action-translation#74](https://github.com/QuantEcon/action-translation/issues/74)).
 3. **Event archival sweep**: generate the list of concluded teaching-event
    repositories and archive them in one pass (proposed and tracked in `meta`);
-   thereafter an annual sweep.
-4. **Future families** (`research-*`, `paper-*`, `tool-*` are visible in the long tail)
-   are added to the registry by amending this QEP in place (version bump per QEP-1),
-   not by new QEPs.
+   thereafter an annual sweep — itself a `task-*` candidate.
+4. **Automation renames** proceed under §5's opportunistic policy:
+   `reports-activity` → `reporter-activity` and `workflow-backups` → `task-backups`
+   (both actively maintained, so the rename rides on maintenance as §5 requires).
+5. **First succession instance**: `compliance-lecture-style` is assembled from
+   `audit.2026-05.style-guide` and its in-flight 2026-08 pass; the audit repo is then
+   archived with its Pages site and posted issue links intact (decided in
+   [audit.2026-05.style-guide#2](https://github.com/QuantEcon/audit.2026-05.style-guide/issues/2),
+   tracked in
+   [audit.2026-05.style-guide#7](https://github.com/QuantEcon/audit.2026-05.style-guide/issues/7))
+   — the first instance of §5's "renames never transmute types".
+6. **Future families** (`research-*`, `paper-*` are visible in the long tail) are
+   added to the registry by amending this QEP in place (version bump per QEP-1), not
+   by new QEPs.
