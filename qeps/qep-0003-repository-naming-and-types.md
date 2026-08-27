@@ -284,10 +284,26 @@ would.
   `project-*` would also have collided with §5: a rename into a different type is
   forbidden there, and succeeding-and-archiving a live bench is not a sane outcome for
   a naming standard. The type is therefore retained, with the goal-vs-fleet test as
-  its boundary rule. **Open for a future amendment: the prefix name itself.**
-  `workspace-` names the *place* rather than the actor's effect, which sits oddly
-  beside the other five operational types; a better-named replacement would be an
-  amendment carrying its one incumbent with it, not a new QEP.
+  its boundary rule.
+- **Renaming the `workspace-*` prefix**, on the objection that it names the *place*
+  while the other five operational types name the actor's effect. Rejected, and the
+  asymmetry is recorded as deliberate rather than tolerated: the five machine-written
+  types are named for effects because machines have no location, while a fleet bench
+  is the one operational repo humans work *in* rather than a process that runs — a
+  place is the accurate thing to name it after. Candidates considered on the way:
+  `maintenance-` (the strongest — effect-named and passing every filter, but no
+  better than the incumbent at saying what the repo *is*), `ops-` (abbreviations are
+  off-pattern, and operations research is domain vocabulary), `fleet-` (names the
+  object, and makes the boundary rule tautological — a `fleet-` repo organized around
+  a fleet), `bench-` (collides with the registered `benchmark-{topic}`, itself domain
+  vocabulary), `estate-` (names the object; estates are domain vocabulary), the agent
+  nouns `steward-`/`curator-`/`keeper-` (in this registry agent nouns are the machine
+  types, so a human-operated bench would misfile as automation), the verb forms
+  `maintain-`/`operate-` (every registered prefix is a noun), and the place synonyms
+  `garage-`/`depot-`/`yard-`/`hub-` (the incumbent's framing with less clarity;
+  `hub-` also collides with `dashboard`'s curated-hub role). One cost is accepted
+  knowingly: `workspace-` and `workshop-` differ by two characters and share a
+  registry, so the pair needs care in the manual's worked examples.
 - **Folding conformance records into `status-*`, or de-dating `audit-*` into a living
   series.** Rejected: `status-*`'s promise is *re-run the collector, get the same
   number*, and rubric-adjudicated scores behind that prefix would launder opinion as
