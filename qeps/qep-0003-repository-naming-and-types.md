@@ -191,7 +191,7 @@ suffix (e.g. `workshop-india-2022.private`).
 
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
-| `test-{name}` | disposable test double / CI target for tooling | either | archive when the pilot ends |
+| `test-{name}` | test double or CI target for tooling, pilot-scoped or standing (`test-cli` is a standing target for `cli`) | either | pilot-scoped doubles are archived when the pilot ends; a standing target lives as long as the tooling it tests |
 | `template-{name}` | template repository | public | living |
 | `tool-{name}` | internal, unpublished tooling — scripts and benches that are not installable and not meant to be; a tool published to an ecosystem takes its package name instead (§3) | either | living |
 | `contractor-{name}` | payment artifacts for an individual RA/contractor | private | per engagement |
@@ -345,8 +345,12 @@ would.
    translation-sync wiring
    ([action-translation#74](https://github.com/QuantEcon/action-translation/issues/74)).
 3. **Event archival sweep**: generate the list of concluded teaching-event
-   repositories and archive them in one pass (proposed and tracked in `meta`);
-   thereafter an annual sweep — itself a `task-*` candidate.
+   repositories and archive them in one pass. The first pass rides on the open
+   inventory in [meta#267](https://github.com/QuantEcon/meta/issues/267), whose
+   candidate list is already dominated by concluded workshops, but its criterion is
+   *inactive for two years* rather than *the event concluded* — under this QEP the
+   event's conclusion is the trigger, so that issue's scope widens on acceptance.
+   Thereafter an annual sweep — itself a `task-*` candidate.
 4. **Automation renames** proceed under §5's opportunistic policy:
    `reports-activity` → `reporter-activity` and `workflow-backups` → `task-backups`
    (both actively maintained, so the rename rides on maintenance as §5 requires).
