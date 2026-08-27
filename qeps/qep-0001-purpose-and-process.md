@@ -4,8 +4,7 @@ title: QEP Purpose and Process
 author: "@mmcky"
 status: Accepted
 type: process
-version: 2
-version-hash: 4ee318d  # stamped by CI; do not edit
+version: 3
 created: 2026-06-16
 discussion: https://github.com/QuantEcon/meta/issues/325
 ---
@@ -19,7 +18,7 @@ discussion: https://github.com/QuantEcon/meta/issues/325
 | **Author**   | @mmcky                                                 |
 | **Status**   | Accepted                                               |
 | **Type**     | process                                                |
-| **Version**  | 2                                                      |
+| **Version**  | 3                                                      |
 | **Created**  | 2026-06-16                                             |
 | **Discussion** | [QuantEcon/meta#325](https://github.com/QuantEcon/meta/issues/325) |
 
@@ -109,14 +108,16 @@ standard.
 2. **Draft.** Open a PR adding `qeps/qep-XXXX-slug.md` from the template (with
    **Status: Draft** and a discussion link) and a matching row in the README index.
 3. **Set a deadline.** The author announces the PR and sets a comment window —
-   normally **one to two weeks** — recording the **decision deadline** in the PR
+   normally **one week**; the team is small, and the author may extend it for a
+   larger or more contested change — recording the **decision deadline** in the PR
    description.
 4. **Decide.** At the deadline, the **Core Maintainers** decide by **lazy consensus**:
    objections are raised as PR comments, and no sustained objection means the QEP is
    Accepted. If there is no consensus, the lead (@jstac) decides or defers.
 5. **Record.** On acceptance, set **Status: Accepted** — in the frontmatter, the header
-   table, and the README index row — confirm the number, and merge. A newly accepted
-   QEP carries no `version`: it is implicitly **v0** until first amended.
+   table, and the README index row — confirm the number, and merge. The PR itself
+   carries no `version`: CI stamps **`version: 0`** and its `version-hash` anchor at
+   merge (see *Versioning*).
 
 ### Amending an accepted QEP
 
@@ -144,36 +145,45 @@ substantive-milestone marker.
 
 ### Versioning: `version` and its git anchor
 
-A QEP gains a `version` the first time it is **substantively** changed after acceptance:
+Every merged QEP carries a `version` from the moment it lands:
 
 | `version`   | Meaning                                                               |
 | ----------- | --------------------------------------------------------------------- |
-| *absent*    | Implicitly **v0** — as originally accepted, never substantively changed. Many QEPs (a one-off decision) stay here forever. |
-| `1`, `2`, … | The current substantive revision. The first substantive amendment introduces `version: 1`; each later substantive change climbs to `2`, `3`, … |
+| `0`         | As originally merged, never substantively changed. Many QEPs (a one-off decision) stay here forever. |
+| `1`, `2`, … | The current substantive revision. The first substantive amendment climbs to `version: 1`; each later substantive change to `2`, `3`, … |
 
-From `v1` onward a sibling `version-hash` field carries the short commit hash that
-anchors the revision to git history:
+A sibling `version-hash` field carries the short commit hash that anchors the revision
+to git history:
 
 ```yaml
-version: 2
+version: 0
 version-hash: a1b2c3d  # stamped by CI; do not edit
 ```
 
+Both fields are machine-written at birth: a Draft carries neither, and the post-merge
+step (see *Automation*) stamps `version: 0` and the hash when the QEP first merges — a
+commit cannot contain its own hash, so neither field is ever hand-written to start.
+From then on the author bumps `version` on substantive amendments, and CI re-stamps the
+hash on every merged change, editorial included. The stamp is uniform across merged
+outcomes — Accepted, Rejected, and Withdrawn QEPs all carry it — so every durable
+record is machine-referenceable.
+
 `version` is a plain number; the commit hash lives in the separate `version-hash` field —
-a real key, so any YAML parser keeps it. The hash is stamped
-**automatically at merge** — a commit cannot contain its own hash, so a post-merge step
-(see *Automation*) writes it; never hand-write it. Tooling that pins a standard (for
-example a labels-sync command) reads `version` and verifies against `version-hash`. A
-per-QEP `version` is the right anchor because a git *tag* tags the whole repository, not
-one QEP's revision.
+a real key, so any YAML parser keeps it. Tooling that pins a standard (for example a
+labels-sync command) reads `version` and cross-checks `version-hash` against the
+revision it fetched. **`version-hash` is a historical anchor, not a file checksum**:
+the stamp commit post-dates the hash it writes, so the field names the revision that
+last changed the QEP — it does not hash the file's bytes. A per-QEP `version` is the
+right anchor because a git *tag* tags the whole repository, not one QEP's revision.
 
 **Substantive vs editorial** decides whether the number moves:
 
 - **Substantive** — any change to normative content (a rule, a value, a table row, a
   machine-readable appendix) → **bump `version`** by one; the hash moves too.
 - **Editorial** — no change to normative content (a typo, wording, formatting, a link)
-  → **`version` unchanged**; only the hash moves (at v0, the change is simply a git
-  commit).
+  → **`version` unchanged**; only the hash moves — at v0 exactly as at v1+, so a
+  consumer of a machine-readable appendix sees that something changed without diffing
+  git.
 
 One-line rule: *editorial = no change to normative content; substantive = any change to
 normative content.* This keeps version numbers meaningful — not inflated by typos —
@@ -194,21 +204,24 @@ hand-maintained changelog (which would drift and clutter the document):
 
 Type and version are surfaced two ways:
 
-- the **README index** carries `Type` and `Version` columns, with `Version` showing `–`
-  at v0 and `v{N}` thereafter — repo-controlled, so it renders on any theme;
-- under the **QuantEcon theme** (once adopted), a coloured **`type` pill** always and a
-  **`version` pill** once a QEP reaches `v1` — e.g. `standard` · `v2`; a v0 QEP shows only
-  the type pill.
+- the **README index** carries `Type` and `Version` columns, with `Version` showing
+  `v{N}` from `v0` up (`–` only while a Draft's PR is open) — repo-controlled, so it
+  renders on any theme;
+- under the **QuantEcon theme** (once adopted), a coloured **`type` pill** and a
+  **`version` pill** on every merged QEP — e.g. `standard` · `v2`; `v0` is shown rather
+  than hidden, since it names an anchored revision.
 
 ### Automation
 
 Two mechanical steps are enforced by CI rather than left to memory:
 
 - a **post-merge action** (`.github/workflows/stamp-version.yml`) reads the merged short
-  hash, writes it into the `version-hash` field, and keeps the README `Type`/`Version`
-  columns in sync with each QEP's frontmatter;
+  hash, stamps `version: 0` alongside it into any newly merged QEP that carries no
+  `version`, writes the hash into every changed QEP's `version-hash` field, and keeps
+  the README `Type`/`Version` columns in sync with each QEP's frontmatter;
 - a **pull-request check** (`.github/workflows/qep-checks.yml`) confirms that `version`
-  moves legally — a new QEP starts unversioned, a versioned QEP stays versioned, and the
+  moves legally — a new QEP arrives unversioned in its PR (`version: 0` is stamped at
+  merge), a stamped QEP stays versioned, and the
   number stays the same (editorial) or increases by exactly one (substantive) — that
   `type` and `status` are known values, and that the README `Type`/`Status`/`Version`
   columns match each QEP's frontmatter.
@@ -237,8 +250,8 @@ light as the decisions it records.
 ### Format
 
 Each QEP is a Markdown file with YAML frontmatter (`qep`, `title`, `author`, `status`,
-`type`, `created`, `discussion` — plus `version` and its CI-stamped `version-hash`, which
-sit just after `type` once the QEP is first amended) followed by the sections in
+`type`, `created`, `discussion` — plus the CI-stamped `version` and `version-hash`, which
+sit just after `type` from the QEP's first merge) followed by the sections in
 [`qeps/template.md`](../qeps/template.md): **Summary, Motivation, Proposal, Alternatives
 considered, Adoption**. The `type` field describes the **kind of content** the QEP
 carries:
@@ -278,6 +291,14 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
   QEP would duplicate git, drift from it, and clutter the document; we point at git
   instead, surfaced on the site by the theme's history feature and on GitHub by
   history/blame.
+- **An implicit v0 (absent `version`), anchored only from v1.** The v1–v2 design:
+  absence itself said "never substantively changed", and one-off QEPs carried no stamp.
+  Dropped in v3 because the asymmetry pushed a special case into every consumer
+  ("absent means v0 — choose your own anchor") and left the machine-readable appendix
+  of an accepted-but-unamended standard with no recorded revision at all: QEP-2 shipped
+  normative tooling input with nothing to cite ([#22](https://github.com/QuantEcon/qeps/issues/22)).
+  Uniform stamping from v0 costs a pill and a bot commit; the implicit v0 cost
+  correctness, in prose that described pinning which did not yet exist.
 
 ## Adoption
 
@@ -302,3 +323,21 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
    can be falsified by work not happening; sequenced execution (who does what, when)
    belongs in a tracking issue. Applied first by QEP-2, whose acceptance PR carries
    this amendment.
+4. **(v3) Stamp `version` from v0; default comment window one week.** The same
+   amendment shortens the normal comment window from one-to-two weeks to **one
+   week** — the team is small enough that a fortnight is drift, not diligence, and
+   the author can still extend the window for a larger change. On the stamping
+   change: every merged QEP carries `version` and
+   `version-hash` from the moment it lands, so tooling reads one uniform contract
+   instead of treating an absent `version` as an implicit v0 with no anchor — the
+   asymmetry surfaced by QEP-2's machine-readable appendix
+   ([#22](https://github.com/QuantEcon/qeps/issues/22)). Stamping's supporting
+   changes, landing
+   as a follow-up once this amendment merges: the post-merge stamp action adds
+   `version: 0` where missing; already-merged v0 QEPs are backfilled, each stamped
+   with the most recent commit that touched it — mechanical, and consistent with the
+   rule that editorial changes move the hash; the pull-request check's new-QEP rule
+   becomes "unversioned in the PR, `v0` at merge"; the README index and the theme's
+   version pill show `v0` rather than `–`; `AGENTS.md` and the README's index note
+   follow. `qeps/template.md` is unchanged — `version` is machine-written, never
+   hand-written.
