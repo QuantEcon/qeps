@@ -33,8 +33,8 @@ largest unnamed family (**teaching events**), and a **migration and archival pol
 archived; a repository that has outgrown its type is succeeded, never renamed into
 it). While in Draft, the registry was field-tested against live placement and rename
 decisions recorded on the discussion PR; the operational types that emerged are named
-for an actor's *effect* — decide, measure, narrate, execute, assess — never for a
-mechanism or trigger. The team manual's repository-conventions page remains the
+for an actor's *effect* — decide, operate, measure, narrate, execute, assess — never
+for a mechanism or trigger. The team manual's repository-conventions page remains the
 operational how-to and follows this QEP.
 
 ## Motivation
@@ -112,19 +112,21 @@ decision guide live in the team manual (private) and follow this table.
 | `book-{name}` | textbook project (+ `.public` companion) | private | living |
 | `quantecon-book-{name}` | companion software package for a book | public | living |
 
-**Programs and operations** — the five operational types map onto verbs: `project-*`
-**decides** (plans, records why), `status-*` **measures** (machines reporting observed
-facts), `reporter-*` **narrates** (machines writing periodic digests), `task-*`
-**executes** (machines doing recurring chores), `compliance-*` **assesses** (a
-standing rubric-adjudicated record). Three of the five publish observations and are
-separated by contract and epistemic mode: `status-*` publishes machine-measured state
-under a data contract; `reporter-*` publishes narrative digests, read-only and
-contract-free; `compliance-*` maintains an adjudicated ledger against a named
-standard.
+**Programs and operations** — the six operational types map onto verbs: `project-*`
+**decides** (plans, records why), `workspace-*` **operates** (humans executing across a
+repo family), `status-*` **measures** (machines reporting observed facts), `reporter-*`
+**narrates** (machines writing periodic digests), `task-*` **executes** (machines doing
+recurring chores), `compliance-*` **assesses** (a standing rubric-adjudicated record).
+The first two are human-authored; the rest are machine-written. Three of the six
+publish observations and are separated by contract and epistemic mode: `status-*`
+publishes machine-measured state under a data contract; `reporter-*` publishes
+narrative digests, read-only and contract-free; `compliance-*` maintains an
+adjudicated ledger against a named standard.
 
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
 | `project-{name}` | planning and decision home for an initiative or program: roadmap, decision register, research, reports; no production code (may carry a minimal command bench — see boundary rules) | private | goal-scoped — lives and dies with its goal (initiatives end; programs run long) |
+| `workspace-{collection}` | cross-repo operating bench for a repo family: manifest + runner, humans executing across the set; never vendors content | private | fleet-scoped — persists as long as the family, and outlives every project that passes through it |
 | `status-{domain}` | machine-updated dashboard of facts about a domain: collector + versioned data + Pages site | public (typically) | domain-scoped — outlives any project |
 | `reporter-{name}` | read-only automation that observes org or web state and writes reports, digests or dashboard-adjacent narrative; needs read scopes (plus issue/PR comment) only | either | ongoing |
 | `task-{name}` | automation with write access to org resources, executing recurring org chores (backups, archival sweeps); the machinery that does a chore, not a task tracker — work tracking stays in GitHub Projects | either | ongoing |
@@ -139,13 +141,18 @@ Boundary rules worth recording at the standard level:
   incubated — they graduate to a `status-*` repo named for the *domain it measures*,
   not the project that created it. Evidence graduates; judgment does not (see the
   `compliance-*` rule below).
-- **A `project-*` repo is organized around a goal.** It may carry a minimal command
-  bench (manifest + runner) for the repos it is changing; for a long-running program
-  the arrangement can be durable, not merely transitional — locality of decisions,
-  bench and clones under one root is a feature. There is deliberately no fleet-bench
-  type in the registry (see Alternatives); a standing bench shared across initiatives
-  and serving routine fleet operations is the evidence that would justify registering
-  one by amendment (Rollout §6).
+- **A `project-*` repo is organized around a goal; a `workspace-*` repo is organized
+  around a fleet.** Remove the goal and a project repo is pointless even though its
+  member repos remain; remove the family and a workspace is pointless even if every
+  current initiative is still running. Lifecycle follows from this rather than
+  defining it. The overlap is legal, with a boundary rule: a project may carry a
+  minimal command bench (manifest + runner) for the repos it is changing — for a
+  long-running program that arrangement can be durable, not merely transitional, since
+  locality of decisions, bench and clones under one root is a feature — but the bench
+  graduates to a `workspace-*` once it is shared across initiatives or grows beyond
+  minimal to serve routine fleet operations. A family is workspace-ready when
+  membership is stable, the repos are structurally homogeneous, coordination tasks
+  recur mechanically, and development happens upstream in the member repos.
 - **The automation types split on the read/write boundary, not the trigger.**
   `reporter-*` observes and narrates with read scopes; `task-*` acts with write access
   to org resources. Both are typically scheduled and either may be event-driven — the
@@ -264,12 +271,23 @@ would.
   `scheduled-`/`cron-` and `job-` fell to narrower objections (cadence-implying,
   off-pattern, interactivity-connoting, trigger-naming, Actions-jargon). Full record:
   [discussion](https://github.com/QuantEcon/qeps/pull/7#issuecomment-4980556272).
-- **A `workspace-*` type for fleet benches** (a cross-repo operating bench: manifest +
-  runner; present in earlier drafts of this QEP). Removed before acceptance: the
-  family had zero members, and both live placement decisions run against the draft
-  resolved into `project-*`. The registry should trail reality by one repository, not
-  lead it. The bench allowance lives in the `project-*` boundary rule; a real standing
-  fleet bench re-registers the type by amendment (Rollout §6).
+- **Removing `workspace-*` and folding fleet benches into `project-*`** (proposed
+  during the field-test window, on the reading that both live placement decisions run
+  against the draft resolved into `project-*` and that the registry should trail
+  reality by one repository rather than lead it). Reversed before acceptance on a
+  point of fact: the family is not empty. `workspace-lectures` — private, standing
+  since January 2025 under the name `lectures` and renamed in July 2026, carrying the
+  manifest, the runner and the clone root for the lecture family — serves several
+  concurrent initiatives at once and outlives each of them, which is precisely the
+  "shared across initiatives, serving routine fleet operations" condition the
+  `project-*` boundary rule names. Folding it into
+  `project-*` would also have collided with §5: a rename into a different type is
+  forbidden there, and succeeding-and-archiving a live bench is not a sane outcome for
+  a naming standard. The type is therefore retained, with the goal-vs-fleet test as
+  its boundary rule. **Open for a future amendment: the prefix name itself.**
+  `workspace-` names the *place* rather than the actor's effect, which sits oddly
+  beside the other five operational types; a better-named replacement would be an
+  amendment carrying its one incumbent with it, not a new QEP.
 - **Folding conformance records into `status-*`, or de-dating `audit-*` into a living
   series.** Rejected: `status-*`'s promise is *re-run the collector, get the same
   number*, and rubric-adjudicated scores behind that prefix would launder opinion as
