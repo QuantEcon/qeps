@@ -25,9 +25,10 @@ discussion: https://github.com/QuantEcon/qeps/issues/15
 This QEP defines the org's unit of project tracking: a **Project** is one tracker
 issue, typed with the native `Project` issue type, whose work items are its
 **native sub-issues** one level down. Every structural fact lives in exactly one
-native carrier — membership in sub-issue edges, **order in list position**,
-constraints in dependencies, grouping in milestones, freshness in one fixed
-status stamp — and **sequence is never encoded in names**. The tracker body
+native carrier — kind in issue types, membership in sub-issue edges, **order
+in list position**, constraints in dependencies, grouping in milestones,
+freshness in one fixed status stamp — and **sequence is never encoded in
+names**. The tracker body
 carries what structure cannot: goal, current state, phase intent, gates, and
 rationale, and it never restates what the platform already holds.
 
@@ -96,7 +97,45 @@ direct children, not a time series**: membership changes — items dropped,
 items moved to another project, a tracker split — move the number without
 work occurring, so progress is never compared across a membership change.
 
-### 2. Order is positional
+### 2. Issue types
+
+Native issue types carry **structural role**: what kind of object an issue is
+in the tracking system. The axis is orthogonal to QEP-2's labels, which
+classify **content** at triage regardless of project membership — the two
+compose rather than compete (a work item whose content is a bug is `Task`
+plus the `bug` label, never a `Bug` type). Types are org metadata: the
+machine consumer branches on them, and they survive redaction where labels
+are never read.
+
+The org type set is three structural roles, each with its own meaning of
+"closed":
+
+| Type | Role | Closing means |
+|---|---|---|
+| `Project` | a tracker (§1) | the definition of done is met |
+| `Task` | a leaf work item | the work shipped |
+| `Decision` | a decision point in a plan | the choice is recorded |
+
+A **`Decision`** is open while the choice is pending, closed `completed` when
+decided — with the choice recorded in the issue — and closed `not_planned`
+when mooted. Work that cannot start before a choice is made is blocked-by
+the decision (§4), so "parked on a decision" is derived like any other
+parked-ness, and a consumer can render a project's open decisions as the
+distinct objects they are. A `Decision` may still carry QEP-2's `discuss`
+label: the label states what the conversation is; the type states the
+object's role in the plan.
+
+`Project` is required on trackers and `Decision` on decision points; `Task`
+on leaf work items is recommended, not required — an untyped issue remains
+the normal pre-triage state. Hierarchy level is never encoded in type:
+sub-issue edges carry level, so a tracker whose children are trackers is
+still a `Project`.
+
+A type is admitted to the set only when it names a structural role with its
+own meaning of "closed" that a machine consumer renders or branches on.
+Content classification is never a type — that axis belongs to QEP-2.
+
+### 3. Order is positional
 
 The sub-issue list is kept in **plan order**: **position is the order of the
 plan**, and the **topmost open item is next**. The list is a plan, not a
@@ -126,7 +165,7 @@ consumer that publishes a child list should preserve list order (order is an
 attribute of the membership edge and is observable exactly where membership
 is), but no consumer may require, parse, or infer sequence from names.
 
-### 3. Constraints are dependencies
+### 4. Constraints are dependencies
 
 A genuine sequencing constraint between work items is expressed as a **native
 dependency** (blocked-by), never as prose. A dependency states a
@@ -147,15 +186,15 @@ granularity that is actually true: a tracker-to-tracker edge asserts that
 *nothing* in the blocked project may start, and parks it wholesale in any
 consumer deriving parked-ness from blockers. A gate is stated **once**, in
 the body of the project that must wait; the other project points at it (see
-§6, Related work) rather than restating it.
+§7, Related work) rather than restating it.
 
 Whether an item is **parked** is derived, not carried: an open item with an
 open blocker is parked. Position states where an item sits in the plan;
 dependencies state whether it can start. Where a gate is a decision rather
-than an issue, create the issue for the decision rather than describing the
-park in prose.
+than an issue, create a `Decision`-typed issue for it (§2) rather than
+describing the park in prose.
 
-### 4. Phases are milestones (optional)
+### 5. Phases are milestones (optional)
 
 Where a tracker is large enough to want grouping, **milestones group work
 items into phases**. Milestone names are **descriptive** ("Phase 1 —
@@ -173,7 +212,7 @@ per-repository, so **cross-repo work items fall back to the body's phase
 table** — a same-named milestone in another repository is a copy, and copies
 diverge.
 
-### 5. The status stamp
+### 6. The status stamp
 
 The tracker body carries **exactly one machine-read element**: the status
 stamp, in one fixed form.
@@ -198,7 +237,7 @@ preserve it. Where only a sanitising surface is available, treat the body as
 append-only and record corrections as comments. This applies to every
 programmatic body write, not only the stamp.
 
-### 6. The body
+### 7. The body
 
 The body opens with a **one-sentence goal**, then the **stamp section at the
 top**. The stamp section may open with a single **`**Next:**` line** — a link
@@ -240,7 +279,7 @@ is the sub-issue list restated or dependency prose, both banned above.
 Work items are referenced from prose by number/URL (rendered live by GitHub),
 never by copied titles. An informative body skeleton is given in Appendix A.
 
-### 7. Scope
+### 8. Scope
 
 This QEP governs **project tracker issues** — the unit the projects registry
 registers. The **programme layer** (programme → project → items) is
@@ -273,6 +312,11 @@ ordering rule has no verified mechanism there.
   [#11](https://github.com/QuantEcon/qeps/issues/11)). Rejected in favour of
   the native `Project` issue type: QEP-2's one-type-per-issue label rule stays
   untouched, and the type survives redaction where labels are never read.
+- **Content-classifying issue types** (`Bug` and `Feature`, GitHub's default
+  set). Rejected: content classification is QEP-2's label axis, and a second
+  carrier for the same fact lets the two disagree — an issue typed `Bug` and
+  labelled `enhancement`, or typed and unlabelled and so invisible to every
+  QEP-2 query. The type axis is reserved for structural roles (§2).
 - **GitHub Projects (v2) as the ordering surface.** Rejected as authority:
   item order there is per-view, on a separate permission surface, in a second
   system the collector does not read. Fine as a *lens* over the same issues;
@@ -288,9 +332,17 @@ ordering rule has no verified mechanism there.
 
 ## Adoption
 
-Obligations on the three producer classes and the one consumer:
+One org-level precondition, then obligations on the three producer classes
+and the one consumer:
 
-1. **New trackers** conform at creation: `Project` type, sub-issue work items,
+1. **The org issue-type set** is reshaped once to the three roles of §2, by
+   four reversible calls to the issue-types API: `Bug` and `Feature` are
+   **disabled, not deleted** — disabling hides a type from every picker but
+   retains existing assignments latent, and is undone by one call — `Task`'s
+   description is edited to name the work-item role, and `Decision` is
+   created. Because the change is reversible it ships at the start of the
+   field test, not at acceptance.
+2. **New trackers** conform at creation: `Project` type, sub-issue work items,
    stamp, plan-ordered list, order-free names. A tracker template is a
    **markdown template**, never an issue form: forms render field labels as
    `###` headings and cannot emit the stamp heading or its dynamic date,
