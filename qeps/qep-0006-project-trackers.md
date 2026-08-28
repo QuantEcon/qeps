@@ -282,8 +282,12 @@ never by copied titles. An informative body skeleton is given in Appendix A.
 ### 8. Scope
 
 This QEP governs **project tracker issues** — the unit the projects registry
-registers. The **programme layer** (programme → project → items) is
-deliberately outside it. The surrounding *practice* — tracker vs period-plan
+registers. The grammar has **two normative tiers — project and work item —
+and no third**: a *programme* is a named collection of projects, a grouping
+the projects registry maintains, with no structural duties of its own. No
+producer or consumer reads programme membership as structure, an unparented
+tracker remains the normal case (§1), and hierarchy level never enters the
+type set (§2). The surrounding *practice* — tracker vs period-plan
 genres, session ledgers, succession, revision-log comment discipline — is
 maintained in the org's `qe` skills, which cite this QEP as the authority on
 the unit's structure.
