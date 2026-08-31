@@ -70,6 +70,7 @@ renames routine, and the conventions that tooling already depends on citable.
    | Suffix | Meaning | Example |
    |---|---|---|
    | `.notebooks` | notebook companion of a lecture series | `lecture-dp.notebooks` |
+   | `.companion` | public companion site of a book; the base names the work, which may span several volume repositories | `book-networks.companion`, `book-dp.companion` (for `book-dp1`, `book-dp2`) |
    | `.{lang}` | translated edition (lowercase IETF tag) | `lecture-python-programming.zh-cn`, `lecture-python-programming.fa` |
    | `.{ecosystem}` | edition or package built for a named ecosystem; a published package keeps the ecosystem's own suffix and casing (§3) | `QuantEcon.py`, `QuantEcon.jl`, `quantecon-theme.mystmd`, `myst-markdown.nvim` |
 
@@ -96,7 +97,7 @@ renames routine, and the conventions that tooling already depends on citable.
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
 | `lecture-{topic}` | official lecture series (+ `.notebooks`, `.{lang}` variants) | public | living |
-| `book-{name}` | textbook project | private | living |
+| `book-{name}` | textbook project (+ `.companion` site) | private | living |
 | `quantecon-book-{name}` | companion software package for a book | public | living |
 
 **Teaching**
