@@ -23,7 +23,7 @@ discussion: https://github.com/QuantEcon/qeps/pull/7
 ## Summary
 
 This QEP makes the QuantEcon organization's repository namespace a decided standard
-rather than an observed habit. It defines:
+and defines:
 
 - a naming **grammar** — a dash prefix encodes a repository's *type*; a dot suffix
   encodes a *variant* of the same content;
@@ -37,15 +37,14 @@ rather than an observed habit. It defines:
   are renamed opportunistically or simply archived; a repository that has outgrown its
   type is succeeded, never renamed into it.
 
-The operational types are named for an actor's *effect* — decide, operate, measure,
-narrate, execute, assess — never for a mechanism or trigger. The team manual's
-repository-conventions page remains the operational how-to and will follow this QEP.
+The [team manual](https://manual.quantecon.org)'s repository-conventions page
+remains the operational how-to and will follow this QEP.
 
 ## Motivation
 
 QuantEcon's repository namespace has drifted: of roughly 245 non-archived
-repositories, only about 40% follow a documented naming convention, and the costs
-recur. Placement questions are re-litigated project by project; teaching events — the
+repositories, only about 40% follow a documented naming convention. Placement
+questions are re-litigated project by project; teaching events — the
 organization's largest family, at ~55 repositories — use at least eight naming styles
 (`imf_2024`, `2026-nyu-course`, `workshop.africa-july2023`); load-bearing conventions
 such as the `.{lang}` suffix for translated lectures are written down nowhere; and
@@ -63,7 +62,8 @@ renames routine, and the conventions that tooling already depends on citable.
    dashes, not underscores; no capitals. (Names that are load-bearing elsewhere are
    exempt — see §3.)
 2. **A dash prefix encodes the repository's type**: `{type}-{name}` (e.g.
-   `lecture-dp`, `status-translations`, `action-translation`).
+   `lecture-dp`, `status-translations`, `workspace-lectures`). Types are drawn from
+   the [registry in §2](#type-registry).
 3. **A dot suffix encodes a variant or companion of the same content**:
    `{repo}.{variant}`. Established variants:
 
@@ -71,40 +71,53 @@ renames routine, and the conventions that tooling already depends on citable.
    |---|---|---|
    | `.notebooks` | notebook companion of a lecture series | `lecture-dp.notebooks` |
    | `.{lang}` | translated edition (lowercase IETF tag) | `lecture-python-programming.zh-cn`, `lecture-python-programming.fa` |
-   | `.public` / `.private` | visibility twin of an existing repo | `notebook-gallery.private` |
-   | `.docker` | container-build companion | `lecture-python.docker` |
-   | `.myst` | build-system variant (legacy; being retired via [meta#334](https://github.com/QuantEcon/meta/issues/334)) | `lecture-julia.myst` |
+   | `.{ecosystem}` | edition or package built for a named ecosystem; a published package keeps the ecosystem's own suffix and casing (§3) | `QuantEcon.py`, `QuantEcon.jl`, `quantecon-theme.mystmd`, `myst-markdown.nvim` |
 
    The `.{lang}` suffix is machine-consumed: `action-translation` locates translated
    editions by this pattern, so any change to it must be coordinated with that
    tooling.
 
-4. Dots are **reserved** for variant suffixes. Type prefixes always use a dash: the
-   dotted type forms in use today (`project.{name}`, `audit.{yyyy-mm}.{topic}`,
-   `benchmark.{topic}`) are grandfathered, and new members of those families use the
-   dash form (`project-{name}`, `audit-{yyyy-mm}-{topic}`, `benchmark-{topic}`).
+4. Dots are **reserved** for variant suffixes; a type prefix always takes a dash. The
+   dotted type forms that predate this QEP (`project.{name}`,
+   `audit.{yyyy}-{mm}.{topic}`, `benchmark.{topic}`) are non-compliant and are renamed
+   under §5, with any genuine variant moving to the dot:
+   `benchmark.translate-zh-cn` → `benchmark-translate.zh-cn`.
 5. **Name tokens pass the reversal test**: choose tokens so the name reads as natural
    English when expanded — singular inside compounds (`compliance-lecture-style` →
    "lecture-style compliance"), plural for whole-domain tokens
    (`status-translations`). This settles singular/plural choices mechanically.
 
+<span id="type-registry"></span>
+
 ### 2. Type registry
 
-The normative registry of type prefixes. Detailed anatomies, worked examples and the
-decision guide live in the team manual (private) and follow this table.
-
-**Content**
+**Content** — the organization's published material, maintained indefinitely.
 
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
 | `lecture-{topic}` | official lecture series (+ `.notebooks`, `.{lang}` variants) | public | living |
-| `book-{name}` | textbook project (+ `.public` companion) | private | living |
+| `book-{name}` | textbook project | private | living |
 | `quantecon-book-{name}` | companion software package for a book | public | living |
 
-**Programs and operations** — the six operational types map onto verbs: `project-*`
+**Teaching**
+
+| Prefix | Meaning | Visibility | Lifecycle |
+|---|---|---|---|
+| `workshop-{yyyy}-{mm}-{name}` | workshop, summer school, or tutorial | public (typically) | frozen and archived after the event |
+| `course-{yyyy}-{mm}-{name}` | semester or short course | public (typically) | frozen and archived after the course |
+| `conference-{yyyy}-{mm}-{name}` | conference or meeting materials | public (typically) | frozen and archived after the event |
+
+The date is the event's start month (`workshop-2022-07-africa`, `course-2026-01-nyu`),
+the pattern `audit-*` uses: a family sorts chronologically, and an archival sweep is
+a prefix match.
+
+**Operations** — the repositories through which the organization plans and runs its
+own work. Six types, each named for what the repository *does*: `project-*`
 **decides**, `workspace-*` **operates**, `status-*` **measures**, `reporter-*`
-**narrates**, `task-*` **executes**, `compliance-*` **assesses**. The first two are
-human-authored; the rest are machine-written.
+**narrates**, `task-*` **executes**, `compliance-*` **assesses** — never for how it
+runs or what starts it (`task-backups`, not `workflow-backups` or `cron-backups`).
+`action-*` joins this table as the shared automation building block; its name follows
+§3.
 
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
@@ -135,21 +148,10 @@ Boundary rules:
   number → `status-`; publication requires reviewing findings, or the repo recommends
   anything → `compliance-`. Adjudicated numbers never appear on a status dashboard.
 - **The audit is the event; the compliance repo is the ledger.** A one-off
-  examination publishes as `audit-{yyyy-mm}-{topic}` and freezes. When examinations
+  examination publishes as `audit-{yyyy}-{mm}-{topic}` and freezes. When examinations
   acquire a cadence, an owner and a runbook, the standing record is a `compliance-*`
   repo; absorbed audit repos are archived (content stays public and citable), never
   renamed.
-
-**Teaching events** (new)
-
-| Prefix | Meaning | Visibility | Lifecycle |
-|---|---|---|---|
-| `workshop-{name}-{yyyy}` | workshop, summer school, or tutorial | public (typically) | frozen and archived after the event |
-| `course-{name}-{yyyy}` | semester or short course | public (typically) | frozen and archived after the course |
-| `conference-{name}-{yyyy}` | conference or meeting materials | public (typically) | frozen and archived after the event |
-
-The name ends with the year; a private planning twin uses the `.private` variant
-suffix (e.g. `workshop-india-2022.private`).
 
 **Supporting**
 
@@ -159,7 +161,7 @@ suffix (e.g. `workshop-india-2022.private`).
 | `template-{name}` | template repository | public | living |
 | `tool-{name}` | internal, unpublished tooling — scripts and benches that are not installable and not meant to be; a tool published to an ecosystem takes its package name instead (§3) | either | living |
 | `contractor-{name}` | payment artifacts for an individual RA/contractor | private | per engagement |
-| `audit-{yyyy-mm}-{topic}` | dated point-in-time audit | public (typically) | frozen once published; archived once absorbed into a `compliance-*` ledger (see boundary rules) |
+| `audit-{yyyy}-{mm}-{topic}` | dated point-in-time audit | public (typically) | frozen once published; archived once absorbed into a `compliance-*` ledger (see boundary rules) |
 | `benchmark-{topic}` | benchmark dataset / evaluation harness | public | living |
 
 ### 3. Exemptions — names that are load-bearing elsewhere
@@ -178,7 +180,7 @@ suffix (e.g. `workshop-india-2022.private`).
 ### 4. Reserved names
 
 Singletons with an org-wide role, outside the prefix system: `meta`, `qeps`,
-`dashboard`, `QuantEcon.manual`, `actions`, `lectures`, `skills`, `cli`, `website`,
+`dashboard`, `manual`, `actions`, `lectures`, `skills`, `cli`, `website`,
 `grant-admin`, `grant-fundraising`, `admin`, `vault`, `governance`, `projects`,
 `.github`. New singletons should be rare and need a stronger reason than a new prefix
 would.
@@ -210,15 +212,11 @@ would.
 - **One `event-` prefix instead of `workshop-`/`course-`/`conference-`.** Rejected:
   the three-way split matches how the team already speaks and names, and the reader
   of a repo list gets more signal at no extra grammar cost.
-- **A prefix for software libraries** (e.g. `pkg-*`). Rejected: package names are
-  load-bearing in registries, install commands and citations, and the ecosystem
-  suffixes (`.py`, `.jl`) already mark these repos clearly. §3 states the accepted
-  rule; `tool-*` covers internal unpublished tooling.
 - **A `workflow-*` type, and registering `reports-*`.** Rejected: `workflow-` names
   the mechanism rather than the role — every repository has `.github/workflows/`, so
   "contains workflows" distinguishes nothing — and `reports-*` would legitimize a
-  single-member family. Both incumbents rename into the effect-named
-  `reporter-*`/`task-*` pair (see Adoption). Candidate names colliding with the org's
+  single-member family. Both incumbents rename into the `reporter-*`/`task-*` pair
+  (see Adoption). Candidate names colliding with the org's
   mathematical and economic vocabulary (`operator-`, `agent-`) or naming a cadence,
   mechanism or trigger (`routine-`, `bot-`, `cron-`, `job-`) were rejected; full
   record in the
@@ -229,31 +227,22 @@ would.
   precisely the fleet condition; and §5 forbids renaming a live repo into a
   different type.
 - **Renaming the `workspace-*` prefix**, since it names the *place* while the other
-  operational types name the actor's effect. Rejected: the asymmetry is deliberate —
-  the machine-written types are named for effects because machines have no location,
-  while a fleet bench is the one operational repo humans work *in*. No candidate
-  (`maintenance-`, `ops-`, `fleet-`, `bench-`, …) said better what the repo *is*. One
-  cost is accepted knowingly: `workspace-` and `workshop-` differ by two characters,
-  so the pair needs care in the manual's worked examples.
+  operational types name what the repository does. Rejected: the asymmetry is
+  deliberate — the automated types are named for what they do because machines have
+  no location, while a fleet bench is the one operational repo humans work *in*. No
+  candidate (`maintenance-`, `ops-`, `fleet-`, `bench-`, …) said better what the repo
+  *is*. One cost is accepted knowingly: `workspace-` and `workshop-` differ by two
+  characters, so the pair needs care in the manual's worked examples.
 - **Folding conformance records into `status-*`, or de-dating `audit-*` into a living
   series.** Rejected: `status-*`'s promise is *re-run the collector, get the same
   number*, and rubric-adjudicated scores behind that prefix would launder opinion as
   fact; an audit is an event even when it recurs. The living thing is the ledger:
   `compliance-*`.
   ([discussion](https://github.com/QuantEcon/qeps/pull/7#issuecomment-5421261197))
-- **Keeping the dotted type forms** (`audit.{yyyy-mm}.{topic}`, `benchmark.{topic}`)
+- **Keeping the dotted type forms** (`audit.{yyyy}-{mm}.{topic}`, `benchmark.{topic}`)
   **for new repos.** Rejected: dots are the variant-suffix marker, and reserving them
-  keeps names machine-parseable. Existing dotted names are grandfathered; the
-  families are small and rarely minted, so the switch costs nothing.
-- **A bulk rename campaign.** Rejected: ~150 repositories, most of them concluded
-  events or dormant research, with CI and submodule breakage risk for near-zero
-  reader benefit. Archival delivers most of the cleanup value; redirects make the
-  remaining opportunistic renames cheap.
-- **Leaving the standard in the team manual only.** Rejected: the manual is private
-  and describes *how*; the namespace decision needs a public, durable, versioned
-  record — the same reasoning that made the label set QEP-2.
-- **Doing nothing.** The namespace keeps drifting one repo at a time; the ~55-repo
-  event family shows where that ends.
+  keeps names machine-parseable. Existing dotted names are renamed opportunistically
+  under §5; the families are small and rarely minted, so the switch costs little.
 
 ## Adoption
 
