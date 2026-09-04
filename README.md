@@ -14,7 +14,7 @@ need a QEP.
 
 | QEP | Title | Type | Status | Version |
 |-----|-------|------|--------|---------|
-| [QEP-1](qeps/qep-0001-purpose-and-process.md) | QEP Purpose and Process | process | Accepted | v2 |
+| [QEP-1](qeps/qep-0001-purpose-and-process.md) | QEP Purpose and Process | process | Accepted | v3 |
 | [QEP-2](qeps/qep-0002-standard-github-labels.md) | Standard GitHub Label Set and Labelling Policy | standard | Accepted | – |
 | [QEP-3](qeps/qep-0003-repository-naming-and-types.md) | Repository Naming and Types | standard | Draft | – |
 
@@ -30,7 +30,8 @@ and each QEP's `version-hash` is stamped into its frontmatter at merge; `Version
    socialise it and confirm it needs a QEP.
 2. **Draft it.** Copy [`qeps/template.md`](qeps/template.md) to
    `qeps/qep-XXXX-short-slug.md`, fill it in with **Status: Draft**, and open a PR.
-3. **Set a deadline.** Announce the PR and give a comment window (1–2 weeks).
+3. **Set a deadline.** Announce the PR and give a comment window (normally one
+   week; extend it for a larger change).
 4. **Decide.** At the deadline the Core Maintainers decide by lazy consensus; the
    QEP is merged recording the outcome (Accepted / Rejected / Withdrawn).
 
