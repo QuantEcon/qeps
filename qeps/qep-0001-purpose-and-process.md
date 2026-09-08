@@ -136,17 +136,6 @@ point, and it evolves in small, frequent steps. Two paths keep that change order
   that marks the old one `Superseded` (link it). Superseding is reserved for a genuine
   rethink, not routine maintenance.
 
-**A QEP that touches another standard carries the amendment itself.** A QEP that
-depends on, extends or supersedes an existing standard is *not* forward-referenced by
-that standard while in development; instead the new QEP's acceptance PR carries the
-amendments to the standards it touches, version-bumped per the rule above. Reference and
-target then land atomically, `main` never holds a dangling cross-QEP link, and reviewers
-see the whole blast radius as one diff. Where the superseded standard is **not itself a
-QEP** — an external contract in another repository — the Adoption section names the
-contract, the obligation, and **the item that discharges it**: a tracking issue in the
-contract's own repository, so the handover has an owner and a state rather than a date.
-A precedence sentence with nothing to discharge it is a handover that never happens.
-
 **Squash-merge only.** Each amendment lands as a single commit, so a QEP's history
 reads as one line per change. This is a repository setting, not a convention to
 remember.
@@ -362,9 +351,8 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
    belongs in a tracking issue. Applied first by QEP-2, whose acceptance PR carries
    this amendment.
 4. **(v3) Stamp `version` from v0; drop the decision deadline; generate the README
-   index; carry downstream amendments upstream.** Four changes in one round, each
-   removing a place where this document described machinery that did not exist or
-   practice the team did not follow.
+   index.** Three changes in one round, each removing a place where this document
+   described machinery that did not exist or practice the team did not follow.
 
    **The decision deadline goes** and step 3 of *How a QEP is decided* with it; the
    acceptance trigger becomes *no objection outstanding* rather than a date, and the
@@ -385,13 +373,6 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
 
    **Numbering** states what already happened informally: a number is reserved when its
    draft PR opens and released if that PR closes unmerged, so index gaps are normal.
-
-   **A downstream QEP carries its upstream amendments**, and where the superseded
-   standard is not a QEP the Adoption section must name the item that discharges the
-   handover — closing
-   [#9](https://github.com/QuantEcon/qeps/issues/9), whose sentence this is, widened by
-   the case it did not anticipate: QEP-6's precedence clause over an external tracker
-   contract, with nothing to discharge it.
 
    On the stamping change: every QEP that records an outcome carries `version` and
    `version-hash` from
