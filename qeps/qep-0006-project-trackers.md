@@ -183,6 +183,20 @@ independent of the parent hierarchy, so an edge may cross project boundaries:
 an item-level constraint is a native edge on the two items **whether or not
 they share a project**, and the body carries only the rationale.
 
+**The test for a real constraint is output, not order.** An edge is written
+where the downstream item cannot start without something the upstream item
+produces — a ruling, a field, a document, a page it draws from. That two items
+touch the same file, or that one agent will work them in sequence, is
+coordination: it stays in the body as plan order and sequencing rationale,
+because written as an edge it shows the downstream as *blocked* while it could
+proceed, and it teaches producers that plan position is edge material. The
+same test decides what a *gate* is. A phase-level gate is a real constraint by
+definition — the waiting phase needs what the upstream phase's exit criterion
+delivers — so it carries edges (below); a phase-level *preference* is not a
+gate, is not written among the body's gates, and stays with the sequencing
+rationale. Where the waiting item needs only some of an upstream phase's
+outputs, the constraint is item-level and those edges alone are written.
+
 **A phase-level gate is carried as a conjunction.** Most cross-project gates
 are phase-level in practice — one phase of A waits on one phase of B while
 the rest of both proceeds — and no object represents a phase. The dependency
@@ -317,10 +331,12 @@ and no third**: a *programme* is a named collection of projects, a grouping
 the projects registry maintains, with no structural duties of its own. No
 producer treats programme membership as structure, an unparented tracker
 remains the normal case (§1), and hierarchy level never enters the type set
-(§2). A consumer may *observe* a programme's front door — read its list, count
-its decisions — and doing so creates no duty on any tracker and no third tier;
-what this scope excludes is a programme tier in the grammar, not a
-consumer's reading of one issue. The surrounding *practice* — tracker vs period-plan
+(§2). Whether a consumer reads a programme's front door at all is that consumer's
+question — for the projects dashboard, an open decision of its own
+(QuantEcon/status-projects#10) — and nothing in this scope answers it either
+way. What this scope excludes is a programme tier in the *grammar*: a front
+door a consumer does read is one issue read under that consumer's own
+contract, and no tracker acquires a duty by being listed on it. The surrounding *practice* — tracker vs period-plan
 genres, session ledgers, succession, revision-log comment discipline — is
 maintained in the org's `qe` skills, which cite this QEP as the authority on
 the unit's structure.
@@ -416,10 +432,15 @@ and the one consumer:
    lint/conform pass may verify mechanically: stamp form present and unique,
    no sequence tokens in child titles or milestone names, no checkbox work
    lists, at most one `Next:` line and only in the stamp section, phases
-   contiguous. The skills currently cite the dashboard's tracker contract,
-   which permits body constructs this QEP forbids; until that contract's
-   planned handover to this QEP, this QEP is authoritative for tracker
-   structure wherever the two disagree.
+   contiguous. The skills currently cite the dashboard's tracker contract
+   (`docs/contracts/tracker.md` in QuantEcon/status-projects), which permits
+   body constructs this QEP forbids. This QEP is authoritative for tracker
+   structure wherever the two disagree. The contract's handover — it stops
+   claiming it will become this QEP, keeps only what the collector parses, and
+   this sentence is then struck — is QuantEcon/status-projects#114, blocked on
+   this QEP's acceptance: the item that discharges the obligation, as QEP-1's
+   rule that a QEP touching another standard carries the amendment itself
+   requires.
 5. **The projects dashboard** treats the tracker's list order as the
    published child order (its tracker contract currently re-sorts children by
    issue number; that rule is amended to preserve list order — a one-row
@@ -451,7 +472,8 @@ the milestones below.
 **Gates:** … (only the rationale lives here, once, in the project that waits:
 a phase-level gate is carried as a conjunction of native edges onto the first
 item of the waiting phase, a decision gate as an edge to the `Decision`, and a
-whole-project gate as a tracker-to-tracker edge — see §4)
+whole-project gate as a tracker-to-tracker edge — see §4; an ordering with no
+edges behind it is not a gate and belongs under *Sequencing rationale*)
 
 **Sequencing rationale:** why this order — only what the list cannot say.
 
