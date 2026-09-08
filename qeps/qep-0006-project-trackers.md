@@ -167,10 +167,14 @@ never encoded in issue titles or milestone names** (no `W3 —`, no `Phase 2:`
 prefixes, no `stage{n}` tokens). Issue numbers are the stable handles; titles
 are pure descriptions.
 
-Order is an **operational property, not a published field** of the unit: a
-consumer that publishes a child list should preserve list order (order is an
+Order is an **operational property, not a published field** of the unit. A
+consumer that republishes a tracker should present the structure the tracker
+expresses — membership as recorded, in the position the tracker places it —
+rather than an arrangement of its own. A consumer that re-sorts or re-groups
+makes a conformant tracker and a non-conformant one publish identically, and
+the standard cannot then be evaluated from what is published. Order is an
 attribute of the membership edge and is observable exactly where membership
-is), but no consumer may require, parse, or infer sequence from names.
+is; no consumer may require, parse, or infer sequence from names.
 
 ### 4. Constraints are dependencies
 
