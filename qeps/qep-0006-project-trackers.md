@@ -434,13 +434,9 @@ and the one consumer:
    lists, at most one `Next:` line and only in the stamp section, phases
    contiguous. The skills currently cite the dashboard's tracker contract
    (`docs/contracts/tracker.md` in QuantEcon/status-projects), which permits
-   body constructs this QEP forbids. This QEP is authoritative for tracker
-   structure wherever the two disagree. The contract's handover — it stops
-   claiming it will become this QEP, keeps only what the collector parses, and
-   this sentence is then struck — is QuantEcon/status-projects#114, blocked on
-   this QEP's acceptance: the item that discharges the obligation, as QEP-1's
-   rule that a QEP touching another standard carries the amendment itself
-   requires.
+   body constructs this QEP forbids; the skills conform to this QEP. How each
+   consumer reaches conformance, and on what schedule, is that consumer's own
+   business.
 5. **The projects dashboard** treats the tracker's list order as the
    published child order (its tracker contract currently re-sorts children by
    issue number; that rule is amended to preserve list order — a one-row
