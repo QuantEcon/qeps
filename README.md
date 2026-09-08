@@ -30,10 +30,10 @@ and each QEP's `version-hash` is stamped into its frontmatter at merge; `Version
    socialise it and confirm it needs a QEP.
 2. **Draft it.** Copy [`qeps/template.md`](qeps/template.md) to
    `qeps/qep-XXXX-short-slug.md`, fill it in with **Status: Draft**, and open a PR.
-3. **Set a deadline.** Announce the PR and give a comment window (normally one
-   week; extend it for a larger change).
-4. **Decide.** At the deadline the Core Maintainers decide by lazy consensus; the
-   QEP is merged recording the outcome (Accepted / Rejected / Withdrawn).
+   The index row above is generated at merge — do not add one.
+3. **Decide.** Any Core Maintainer may accept it once it has been announced and no
+   objection is outstanding; the QEP is merged recording the outcome (Accepted /
+   Rejected / Withdrawn).
 
 The process itself is defined in **QEP-1**.
 
