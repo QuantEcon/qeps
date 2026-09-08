@@ -4,6 +4,7 @@ title: Project Tracker Structure and Order
 author: "@mmcky"
 status: Draft
 type: standard
+related: [2]
 created: 2026-08-26
 discussion: https://github.com/QuantEcon/qeps/issues/15
 ---
@@ -18,6 +19,7 @@ discussion: https://github.com/QuantEcon/qeps/issues/15
 | **Status**   | Draft                                                                |
 | **Type**     | standard                                                             |
 | **Created**  | 2026-08-26                                                           |
+| **Related**  | [QEP-2](qep-0002-standard-github-labels.md) — the content axis §2 composes with |
 | **Discussion** | [QuantEcon/qeps#15](https://github.com/QuantEcon/qeps/issues/15)   |
 
 ## Summary
@@ -92,7 +94,12 @@ likewise normal: not every project answers to a programme.
 A tracker's direct children should be **homogeneous in kind** — all leaf work
 items, or all project trackers. Progress is a count over direct children, so
 mixing a multi-item project with leaf issues weights them equally and makes
-the percentage meaningless. The percentage is also a **snapshot over current
+the percentage meaningless. **`Decision` children (§2) are compatible with
+either kind**: a decision is a point in the plan rather than a unit of work,
+so it does not distort the comparison the rule protects. A `Decision` closed
+`completed` counts toward progress like any other child — a recorded choice
+advances the definition of done — and a consumer may render a project's
+decisions apart from its work. The percentage is also a **snapshot over current
 direct children, not a time series**: membership changes — items dropped,
 items moved to another project, a tracker split — move the number without
 work occurring, so progress is never compared across a membership change.
@@ -172,27 +179,48 @@ dependency** (blocked-by), never as prose. A dependency states a
 **constraint** (a partial order), not a presentation order; position states
 presentation. Dependencies are **optional** — most order is soft preference,
 and edges are reserved for constraints that are real. Dependencies are
-independent of the parent hierarchy, so an edge may cross project boundaries.
+independent of the parent hierarchy, so an edge may cross project boundaries:
+an item-level constraint is a native edge on the two items **whether or not
+they share a project**, and the body carries only the rationale.
 
-**Gates** cover phase-level and project-level constraints. Most cross-project
-gates are **phase-level** in practice — one phase of A waits on one phase of
-B while the rest of both proceeds — and a phase-level gate ("nothing in
-Phase 2 starts before Phase 1's exit criterion") is stated in the body, not
-encoded as pairwise edges, because no object represents a phase. Where a
-project genuinely waits on another project **in its entirety**, that gate
-must also carry the native dependency edge between the two tracker issues,
-with the body carrying only the rationale. State the constraint at the
-granularity that is actually true: a tracker-to-tracker edge asserts that
+**A phase-level gate is carried as a conjunction.** Most cross-project gates
+are phase-level in practice — one phase of A waits on one phase of B while
+the rest of both proceeds — and no object represents a phase. The dependency
+graph is many-to-many, though, which is enough: the **first item of the
+waiting phase is blocked by every item of the phase it waits on**. That is
+linear in the size of the upstream phase rather than a cross-product; it
+publishes a real quantity, how many upstream items are still open; and it
+**clears when the phase closes** rather than when the upstream tracker
+closes. Where the items of the waiting phase are themselves ordered, the
+conjunction reaches them through that order; where they are genuinely
+parallel, only the first is gated and the body says so. A phase gate with no
+edges behind it is prose, and prose is the one carrier no consumer reads.
+
+**Where a phase's exit criterion is a single `Decision` closing, the gate is
+a decision gate rather than a phase gate**: the object exists, so each item
+that waits carries the native edge to it and the body states only why. Where
+a gate is a decision that has no issue, create a `Decision`-typed one for it
+(§2) rather than describing the park in prose.
+
+Where a project genuinely waits on another project **in its entirety**, that
+gate must also carry the native dependency edge between the two tracker
+issues, with the body carrying only the rationale. State the constraint at
+the granularity that is actually true: a tracker-to-tracker edge asserts that
 *nothing* in the blocked project may start, and parks it wholesale in any
-consumer deriving parked-ness from blockers. A gate is stated **once**, in
-the body of the project that must wait; the other project points at it (see
-§7, Related work) rather than restating it.
+consumer deriving parked-ness from blockers — which makes it the wrong
+instrument for a gate that holds one phase.
+
+A gate's rationale is stated **once**, in the body of the project that must
+wait. **The reverse direction is read, never written:** blocked-by and
+blocking are two ends of one edge, so the waited-on project needs no
+back-pointer to stay in step. A `Related work` line pointing at the gate (§7)
+is available prose for a human reader; it is not an obligation this standard
+relies on, because an obligation with a free platform inverse is one that
+will simply be missed.
 
 Whether an item is **parked** is derived, not carried: an open item with an
 open blocker is parked. Position states where an item sits in the plan;
-dependencies state whether it can start. Where a gate is a decision rather
-than an issue, create a `Decision`-typed issue for it (§2) rather than
-describing the park in prose.
+dependencies state whether it can start.
 
 ### 5. Phases are milestones (optional)
 
@@ -269,7 +297,9 @@ producers; a ban alone gets worked around.
 
 A **Related work** section (optional) names sibling **projects** — one line
 each on how they relate: informs, spawned by, shares an engine, gated by
-(pointing at the body that states the gate). GitHub records only that a
+(pointing at the body that states the gate — available prose, never an
+obligation, since §4's reverse direction is read rather than written).
+GitHub records only that a
 mention happened; a deliberate relationship between projects is an assertion
 with no native carrier, which is what the body is for. Entries name
 projects, never work items — an entry may cite item numbers as the specifics
@@ -285,9 +315,12 @@ This QEP governs **project tracker issues** — the unit the projects registry
 registers. The grammar has **two normative tiers — project and work item —
 and no third**: a *programme* is a named collection of projects, a grouping
 the projects registry maintains, with no structural duties of its own. No
-producer or consumer reads programme membership as structure, an unparented
-tracker remains the normal case (§1), and hierarchy level never enters the
-type set (§2). The surrounding *practice* — tracker vs period-plan
+producer treats programme membership as structure, an unparented tracker
+remains the normal case (§1), and hierarchy level never enters the type set
+(§2). A consumer may *observe* a programme's front door — read its list, count
+its decisions — and doing so creates no duty on any tracker and no third tier;
+what this scope excludes is a programme tier in the grammar, not a
+consumer's reading of one issue. The surrounding *practice* — tracker vs period-plan
 genres, session ledgers, succession, revision-log comment discipline — is
 maintained in the org's `qe` skills, which cite this QEP as the authority on
 the unit's structure.
@@ -361,7 +394,7 @@ and the one consumer:
    type enumeration (`GET /orgs/{org}/issue-types` is 403 for app identities
    where the repo-scoped read succeeds), and key automation on
    `issue.type.name` — webhook payloads carry no template identifier.
-2. **Registered existing trackers** are brought into this layout by the
+3. **Registered existing trackers** are brought into this layout by the
    conform tooling (QuantEcon/skills#49); the collector reports compliance
    nightly. Claiming a work item that already has a parent **detaches it
    from that parent**: sub-issue membership is single-parent, and both
@@ -373,9 +406,13 @@ and the one consumer:
    greenfield: at the 2026-08-23 baseline only 3 of 28 registered trackers
    carry any milestone (all descriptive) and none use dependencies, so
    nothing is renamed and no history is rewritten.
-3. **The `qe` skills** (`workplan-*`) operationalise the convention: create
+4. **The `qe` skills** (`workplan-*`) operationalise the convention: create
    sub-issues in plan position, reprioritize on re-plan, and refresh the
-   stamp section, `Next:` line, and list position as one atomic update. Their
+   stamp section, `Next:` line, and list position as one atomic update — and
+   **re-stamp the section in the same turn as any change to the list**, because
+   the body's phase intents and exit criteria are undated claims sitting outside
+   the one section whose contract is that its claims are re-verified on update,
+   and they go stale on a re-plan otherwise. Their
    lint/conform pass may verify mechanically: stamp form present and unique,
    no sequence tokens in child titles or milestone names, no checkbox work
    lists, at most one `Next:` line and only in the stamp section, phases
@@ -383,7 +420,7 @@ and the one consumer:
    which permits body constructs this QEP forbids; until that contract's
    planned handover to this QEP, this QEP is authoritative for tracker
    structure wherever the two disagree.
-4. **The projects dashboard** treats the tracker's list order as the
+5. **The projects dashboard** treats the tracker's list order as the
    published child order (its tracker contract currently re-sorts children by
    issue number; that rule is amended to preserve list order — a one-row
    contract change plus a sort removal, verified once against a deliberate
@@ -411,9 +448,10 @@ the milestones below.
 |---|---|---|
 | [Phase 1 — Name](milestone-url) | … | … |
 
-**Gates:** … (phase-level gates live here; a whole-project gate also carries
-a tracker-to-tracker dependency edge, with only the rationale stated here,
-once, in the project that waits)
+**Gates:** … (only the rationale lives here, once, in the project that waits:
+a phase-level gate is carried as a conjunction of native edges onto the first
+item of the waiting phase, a decision gate as an edge to the `Decision`, and a
+whole-project gate as a tracker-to-tracker edge — see §4)
 
 **Sequencing rationale:** why this order — only what the list cannot say.
 
