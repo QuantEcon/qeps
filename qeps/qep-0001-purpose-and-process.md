@@ -108,14 +108,17 @@ standard.
 2. **Draft.** Open a PR adding `qeps/qep-XXXX-slug.md` from the template, with
    **Status: Draft** and a discussion link. The README index row is generated at
    merge — do not add one.
-3. **Decide.** Any **Core Maintainer** may accept a QEP once it has been announced and
-   **no objection is outstanding** — lazy consensus, with no clock. Objections are
-   raised as PR comments, and an outstanding one blocks acceptance until it is resolved
-   or withdrawn. If there is no consensus, the lead (@jstac) decides or defers. There is
-   deliberately **no decision deadline**; see *Alternatives considered* for why the v1–v2
-   design had one and why it was dropped.
+3. **Decide.** A QEP is accepted when a **Core Maintainer other than its author**
+   approves it — an approving review on the PR — once it has been announced and
+   **no objection is outstanding**: lazy consensus, with no clock. The author does not
+   accept their own QEP; one other reader is the whole check, and a team this size has
+   no use for a larger one. Objections are raised as PR comments, and an outstanding one
+   blocks acceptance until it is resolved or withdrawn. If there is no consensus, the
+   lead (@jstac) decides or defers. There is deliberately **no decision deadline**; see
+   *Alternatives considered* for why the v1–v2 design had one and why it was dropped.
 4. **Record.** On acceptance, set **Status: Accepted** in the frontmatter and the header
-   table, confirm the number, and merge. The PR itself carries no `version`: CI stamps
+   table, confirm the number, and merge — the approval is the acceptance and the merge
+   records it, so either party may merge. The PR itself carries no `version`: CI stamps
    **`version: 0`** and its `version-hash` anchor at merge (see *Versioning*).
 
 ### Amending an accepted QEP
@@ -140,8 +143,9 @@ amendments to the standards it touches, version-bumped per the rule above. Refer
 target then land atomically, `main` never holds a dangling cross-QEP link, and reviewers
 see the whole blast radius as one diff. Where the superseded standard is **not itself a
 QEP** — an external contract in another repository — the Adoption section names the
-contract, the obligation, and a **date by which the handover completes**: an undated
-precedence sentence is a handover that never happens.
+contract, the obligation, and **the item that discharges it**: a tracking issue in the
+contract's own repository, so the handover has an owner and a state rather than a date.
+A precedence sentence with nothing to discharge it is a handover that never happens.
 
 **Squash-merge only.** Each amendment lands as a single commit, so a QEP's history
 reads as one line per change. This is a repository setting, not a convention to
@@ -258,7 +262,8 @@ them to four digits (`qep-0001-…`). This QEP is QEP-1.
 
 - **Author** — anyone may write a QEP; typically a maintainer. The author announces
   the PR and drives the discussion.
-- **Core Maintainers** — decide by lazy consensus, once no objection is outstanding.
+- **Core Maintainers** — decide by lazy consensus, once no objection is outstanding;
+  acceptance is an approving review from one of them who is not the author.
 - **Lead** (@jstac) — breaks ties and may defer a decision.
 
 No sponsor, delegate, or editor role is introduced; the process is intended to stay as
@@ -329,7 +334,9 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
   which lazy consensus resolves — is served as well by *no objection outstanding*, which
   a reviewer can establish by reading the thread. The cost of dropping it is that
   nothing is accepted by the mere passage of time; a QEP nobody is looking at stays open
-  until someone looks.
+  until someone looks. The external check the deadline never supplied is now step 3's:
+  an author cannot accept their own QEP, so at least one other Core Maintainer has read
+  it before it lands.
 
 ## Adoption
 
@@ -360,8 +367,10 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
    practice the team did not follow.
 
    **The decision deadline goes** and step 3 of *How a QEP is decided* with it; the
-   acceptance trigger becomes *no objection outstanding* rather than a date. The
-   evidence and the declined alternative (enforcing it in CI) are under *Alternatives
+   acceptance trigger becomes *no objection outstanding* rather than a date, and the
+   accepting party becomes **a Core Maintainer other than the author** — an author does
+   not accept their own QEP, which a deadline never prevented. The evidence and the
+   declined alternative (enforcing the deadline in CI) are under *Alternatives
    considered*. `Roles` follows, and nothing else in the process depends on a date.
 
    **The README index is generated** post-merge from each QEP's frontmatter, ordered by
@@ -378,10 +387,11 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
    draft PR opens and released if that PR closes unmerged, so index gaps are normal.
 
    **A downstream QEP carries its upstream amendments**, and where the superseded
-   standard is not a QEP the Adoption section must name a handover date — closing
+   standard is not a QEP the Adoption section must name the item that discharges the
+   handover — closing
    [#9](https://github.com/QuantEcon/qeps/issues/9), whose sentence this is, widened by
    the case it did not anticipate: QEP-6's precedence clause over an external tracker
-   contract, with no date on it.
+   contract, with nothing to discharge it.
 
    On the stamping change: every QEP that records an outcome carries `version` and
    `version-hash` from
