@@ -103,17 +103,57 @@ export function readIndex() {
   if (start === -1) throw new Error(`${README}: no index table header (| QEP | ...) found`);
   const header = splitRow(lines[start]);
   const col = (name) => header.findIndex((c) => c.toLowerCase() === name);
-  const cols = { type: col('type'), status: col('status'), version: col('version') };
+  const cols = {
+    qep: col('qep'),
+    title: col('title'),
+    type: col('type'),
+    status: col('status'),
+    version: col('version'),
+  };
 
+  // `end` is the first line after the table body, so the body is exactly
+  // lines[start + 2 .. end). renderIndex() replaces that span wholesale, which
+  // is why the bound is tracked rather than just the rows that parsed.
   const rows = [];
+  let end = start + 2;
   for (let i = start + 2; i < lines.length; i++) {
     const line = lines[i];
     if (!line.trimStart().startsWith('|')) break; // table ended
+    end = i + 1;
     const m = line.match(/qep-(\d+)-/);
     if (!m) continue;
     rows.push({ index: i, cells: splitRow(line), qep: Number(m[1]) });
   }
-  return { lines, cols, rows };
+  return { lines, cols, rows, start, end, header };
+}
+
+// The index row a QEP's frontmatter implies. Column ORDER comes from the table
+// header, so a reordered or extended table needs no change here; a column this
+// function does not know about is left empty rather than guessed at.
+export function buildRow(q, cols) {
+  const width = Math.max(...Object.values(cols)) + 1;
+  const cells = new Array(width).fill('');
+  const put = (i, v) => {
+    if (i !== -1) cells[i] = v;
+  };
+  put(cols.qep, `[QEP-${q.qep}](${q.path})`);
+  put(cols.title, q.title ?? '');
+  put(cols.type, q.type ?? '');
+  put(cols.status, q.status ?? '');
+  put(cols.version, versionCell(q.version));
+  return cells;
+}
+
+// The whole index body, rebuilt from frontmatter and ordered by QEP number.
+// Returns the new `lines` array; the caller decides whether to write it.
+// This is the generated-index rule: the table is derived, never hand-edited,
+// so a PR need not carry its own row and two PRs cannot collide on one line.
+export function renderIndex(idx, qeps) {
+  const body = [...qeps]
+    .filter((q) => q.qep !== undefined)
+    .sort((a, b) => a.qep - b.qep)
+    .map((q) => formatRow(buildRow(q, idx.cols)));
+  return [...idx.lines.slice(0, idx.start + 2), ...body, ...idx.lines.slice(idx.end)];
 }
 
 // Rebuild a single-spaced Markdown row from its trimmed cells.
