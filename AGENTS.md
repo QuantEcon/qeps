@@ -55,6 +55,25 @@ standard is a normal PR against the QEP under lazy-consensus that **bumps its
 `version`**; a *different* decision that replaces it wholesale is a **new** QEP that
 marks the old one `Superseded`. Don't supersede for routine maintenance.
 
+**A QEP that changes another QEP carries the edit itself.** Don't add a forward
+reference from an accepted QEP to one still in draft: the link dangles on `main`, and
+the draft's review can still reshape what the reference promised. Put the upstream edits
+in the downstream QEP's own branch — an *Amendments to QEP-N* section until acceptance,
+applied as file edits at landing — so reference and target land in one commit, and a
+reviewer sees the whole change as one diff.
+
+Standards **outside** this repo are not covered by that. A QEP is the source of truth
+and is independent of every repository: it states the rule, and a consuming repo owns
+how and when it conforms. Don't write precedence clauses, handover obligations, or
+tracking-issue references for another repository into a QEP.
+
+Nor what another repository **does today**. A description goes stale the same way a
+pointer does, and silently: QEP-6 said the projects dashboard re-sorts children by issue
+number and prescribed the fix, when that repo had already removed the sort on its own
+two days earlier. State the **principle and the reason for it**, never the instance — a
+rule that explains itself outlives any one consumer's behaviour, and a reader can apply
+it to consumers you have never heard of.
+
 **Does `version` move?** — the author/reviewer call, not CI's:
 
 - **Substantive** (any change to normative content — a rule, a value, a table row, a
