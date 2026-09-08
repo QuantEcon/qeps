@@ -437,12 +437,6 @@ and the one consumer:
    body constructs this QEP forbids; the skills conform to this QEP. How each
    consumer reaches conformance, and on what schedule, is that consumer's own
    business.
-5. **The projects dashboard** treats the tracker's list order as the
-   published child order (its tracker contract currently re-sorts children by
-   issue number; that rule is amended to preserve list order — a one-row
-   contract change plus a sort removal, verified once against a deliberate
-   re-order on a public tracker). Order remains unpublished as a field;
-   dependencies continue to publish as counts.
 
 ## Appendix A (informative): tracker body skeleton
 
