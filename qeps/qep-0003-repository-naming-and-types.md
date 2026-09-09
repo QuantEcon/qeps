@@ -2,7 +2,7 @@
 qep: 3
 title: Repository Naming and Types
 author: "@mmcky"
-status: Draft
+status: Accepted
 type: standard
 created: 2026-07-10
 discussion: https://github.com/QuantEcon/qeps/pull/7
@@ -15,7 +15,7 @@ discussion: https://github.com/QuantEcon/qeps/pull/7
 | **QEP**      | 3                                    |
 | **Title**    | Repository Naming and Types          |
 | **Author**   | @mmcky                               |
-| **Status**   | Draft                                |
+| **Status**   | Accepted                             |
 | **Type**     | standard                             |
 | **Created**  | 2026-07-10                           |
 | **Discussion** | [QuantEcon/qeps#7](https://github.com/QuantEcon/qeps/pull/7) |
