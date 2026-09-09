@@ -77,7 +77,27 @@ for (const path of qepFiles()) {
   if (q.status !== undefined && !STATUSES.has(q.status)) {
     errors.push(`${path}: unknown status "${q.status}" (expected one of ${[...STATUSES].join(', ')})`);
   }
+}
 
+// Every QEP file declares a number, and no two declare the same one. The index is
+// generated from these, so a missing number drops a QEP out of the table silently
+// and a duplicate emits two rows under one heading — neither shows up anywhere
+// else. QEP-1 expects colliding proposals to be "adjusted at merge"; this is what
+// tells the author there is a collision to adjust.
+{
+  const seen = new Map();
+  for (const path of qepFiles()) {
+    const q = parseQep(path);
+    if (q.qep === undefined) {
+      errors.push(`${path}: no "qep:" number in the frontmatter`);
+      continue;
+    }
+    if (seen.has(q.qep)) {
+      errors.push(`${path}: QEP number ${q.qep} is already used by ${seen.get(q.qep)}`);
+      continue;
+    }
+    seen.set(q.qep, path);
+  }
 }
 
 // The index is GENERATED post-merge from frontmatter (stamp.mjs), so a PR need
@@ -87,8 +107,10 @@ for (const path of qepFiles()) {
 {
   const want = renderIndex(idx, qepFiles().map((p) => parseQep(p)));
   if (want.join('\n') !== idx.lines.join('\n')) {
+    // `::warning::` so this lands as a PR annotation: the parity check is a warning
+    // now, and a line in the raw log is a signal nobody reads on a green check.
     console.warn(
-      'WARN README.md: the index differs from what frontmatter implies; ' +
+      '::warning file=README.md::the index differs from what frontmatter implies; ' +
         'stamp.mjs will regenerate it after merge (this is not a failure)',
     );
   }
@@ -146,7 +168,11 @@ for (const path of qepFiles()) {
       const line = lines[i];
       if (FENCE.test(line)) {
         fenced = !fenced;
-        runs.clear(); // a fenced block is not part of any list
+        // A fence ends only the lists it is not nested inside: an INDENTED fence is
+        // a continuation of its list item, so the run around it must survive, or a
+        // marker repeated across it goes unreported. Same indent rule as below.
+        const fi = line.match(/^(\s*)/)[1].length;
+        for (const k of [...runs.keys()]) if (k >= fi) runs.delete(k);
         continue;
       }
       if (fenced) continue;

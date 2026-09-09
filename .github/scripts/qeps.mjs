@@ -129,10 +129,11 @@ export function readIndex() {
 
 // The index row a QEP's frontmatter implies. Column ORDER comes from the table
 // header, so a reordered or extended table needs no change here; a column this
-// function does not know about is left empty rather than guessed at.
-export function buildRow(q, cols) {
-  const width = Math.max(...Object.values(cols)) + 1;
-  const cells = new Array(width).fill('');
+// function does not know about is left empty rather than guessed at. `width` is
+// the header's own column count, so an unknown column at the END of the table is
+// emitted empty like any other rather than dropped off the row.
+export function buildRow(q, cols, width = Math.max(...Object.values(cols)) + 1) {
+  const cells = new Array(Math.max(width, Math.max(...Object.values(cols)) + 1)).fill('');
   const put = (i, v) => {
     if (i !== -1) cells[i] = v;
   };
@@ -152,7 +153,7 @@ export function renderIndex(idx, qeps) {
   const body = [...qeps]
     .filter((q) => q.qep !== undefined)
     .sort((a, b) => a.qep - b.qep)
-    .map((q) => formatRow(buildRow(q, idx.cols)));
+    .map((q) => formatRow(buildRow(q, idx.cols, idx.header.length)));
   return [...idx.lines.slice(0, idx.start + 2), ...body, ...idx.lines.slice(idx.end)];
 }
 
