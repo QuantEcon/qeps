@@ -7,11 +7,10 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import {
   FRONTMATTER,
   README,
-  formatRow,
   parseQep,
   qepFiles,
   readIndex,
-  versionCell,
+  renderIndex,
 } from './qeps.mjs';
 
 const sha = execSync('git rev-parse --short HEAD').toString().trim();
@@ -65,25 +64,19 @@ for (const path of qepFiles()) {
   }
 }
 
-// 2. Sync the README Type/Version columns from frontmatter.
-const meta = new Map(
-  qepFiles()
-    .map((p) => parseQep(p))
-    .filter((q) => q.qep !== undefined)
-    .map((q) => [q.qep, q]),
-);
+// 2. Regenerate the README index from frontmatter.
+// The index is DERIVED, not hand-maintained: every column comes from a QEP's
+// own frontmatter and the rows are ordered by number. This is what lets a PR
+// omit its own row entirely, so two QEP PRs can no longer collide on one line
+// of one table — the add/add conflict class that made #18 unmergeable against
+// QEP-3's row. check.mjs warns when a PR's index is stale; it never fails on it.
 const idx = readIndex();
-const out = [...idx.lines];
-for (const row of idx.rows) {
-  const q = meta.get(row.qep);
-  if (!q) continue;
-  const cells = [...row.cells];
-  if (idx.cols.type !== -1 && q.type !== undefined) cells[idx.cols.type] = q.type;
-  if (idx.cols.version !== -1) cells[idx.cols.version] = versionCell(q.version);
-  if (cells.join('|') !== row.cells.join('|')) {
-    out[row.index] = formatRow(cells);
-    console.log(`README: synced QEP-${row.qep} row`);
-  }
+const out = renderIndex(
+  idx,
+  qepFiles().map((p) => parseQep(p)),
+);
+if (out.join('\n') !== idx.lines.join('\n')) {
+  console.log('README: index regenerated from frontmatter');
 }
 const readme = out.join('\n');
 if (readme !== readFileSync(README, 'utf8')) {
