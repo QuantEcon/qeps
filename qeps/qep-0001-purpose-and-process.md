@@ -108,14 +108,12 @@ standard.
 2. **Draft.** Open a PR adding `qeps/qep-XXXX-slug.md` from the template, with
    **Status: Draft** and a discussion link. The README index row is generated at
    merge — do not add one.
-3. **Decide.** A QEP is accepted when a **Core Maintainer other than its author**
-   approves it — an approving review on the PR — once it has been announced and
-   **no objection is outstanding**: lazy consensus, with no clock. The author does not
-   accept their own QEP; one other reader is the whole check, and a team this size has
-   no use for a larger one. Objections are raised as PR comments, and an outstanding one
-   blocks acceptance until it is resolved or withdrawn. If there is no consensus, the
-   lead (@jstac) decides or defers. There is deliberately **no decision deadline**; see
-   *Alternatives considered* for why the v1–v2 design had one and why it was dropped.
+3. **Decide.** Objections are raised as PR comments; an outstanding objection blocks
+   acceptance until it is resolved or withdrawn. Once the PR has been announced and
+   **no objection is outstanding**, a **Core Maintainer other than the author** accepts
+   the QEP with an approving review; the author does not accept their own QEP. There
+   is no decision deadline. If there is no consensus, the lead (@jstac) decides or
+   defers.
 4. **Record.** On acceptance, set **Status: Accepted** in the frontmatter and the header
    table, confirm the number, and merge — the approval is the acceptance and the merge
    records it, so either party may merge. The PR itself carries no `version`: CI stamps
@@ -128,10 +126,11 @@ guide, editorial conventions — is a **living standard**: its *current state* i
 point, and it evolves in small, frequent steps. Two paths keep that change orderly:
 
 - **Amend in place.** A substantive evolution of the *same* standard — tweak a value,
-  add a label, clarify a rule — is a normal PR against the QEP, reviewed under the same
-  lazy-consensus rule, that bumps the QEP's `version` (below). The document stays
-  `Accepted`, and a reader always sees one current standard instead of chasing a chain
-  of superseding documents.
+  add a label, clarify a rule — is a normal PR against the QEP that bumps the QEP's
+  `version` (below), accepted the same way as a new QEP: no objection outstanding, and
+  an approving review from a Core Maintainer other than the author. An editorial change
+  needs no second reader. The document stays `Accepted`, and a reader always sees one
+  current standard instead of chasing a chain of superseding documents.
 - **Supersede.** A *different* decision that replaces the QEP wholesale is a **new** QEP
   that marks the old one `Superseded` (link it). Superseding is reserved for a genuine
   rethink, not routine maintenance.
@@ -207,8 +206,7 @@ hand-maintained changelog (which would drift and clutter the document):
 Type and version are surfaced two ways:
 
 - the **README index** carries `Type` and `Version` columns, with `Version` showing
-  `v{N}` from `v0` up (`–` only while a QEP is Draft) — repo-controlled, so it
-  renders on any theme;
+  `v{N}` from `v0` up — repo-controlled, so it renders on any theme;
 - under the **QuantEcon theme** (once adopted), a coloured **`type` pill** always and a
   **`version` pill** once the QEP leaves Draft — e.g. `standard` · `v2`; `v0` is shown
   rather than hidden, since it names an anchored revision.
@@ -243,16 +241,16 @@ opening the PR; it is confirmed (and adjusted if two proposals collide) at merge
 number is **reserved when the draft PR opens** and released if that PR is closed without
 merging. The README index lists only merged QEPs, so **gaps are normal while drafts are
 open**, and a QEP that merges out of numeric order takes its numeric position
-automatically.
-Numbers are written **unpadded** in text (QEP-1, QEP-2, …); only the filename zero-pads
-them to four digits (`qep-0001-…`). This QEP is QEP-1.
+automatically. Numbers are written **unpadded** in text (QEP-1, QEP-2, …); only the
+filename zero-pads them to four digits (`qep-0001-…`). This QEP is QEP-1.
 
 ### Roles
 
 - **Author** — anyone may write a QEP; typically a maintainer. The author announces
   the PR and drives the discussion.
-- **Core Maintainers** — decide by lazy consensus, once no objection is outstanding;
-  acceptance is an approving review from one of them who is not the author.
+- **Core Maintainers** — the maintainers with admin rights on `QuantEcon/qeps`. They
+  decide by lazy consensus, once no objection is outstanding; acceptance is an
+  approving review from one of them who is not the author.
 - **Lead** (@jstac) — breaks ties and may defer a decision.
 
 No sponsor, delegate, or editor role is introduced; the process is intended to stay as
@@ -310,22 +308,16 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
   normative tooling input with nothing to cite ([#22](https://github.com/QuantEcon/qeps/issues/22)).
   Uniform stamping from v0 costs a pill and a bot commit; the implicit v0 cost
   correctness, in prose that described pinning which did not yet exist.
-
 - **A recorded decision deadline, with lazy consensus resolving at it.** The v1–v2
   design: the author set a comment window and recorded a decision date in the PR
-  description, and the Core Maintainers decided at it. Dropped in v3 because it
-  described something the team did not do. On 2026-09-08 **none of the four open QEP
-  pull requests had a live deadline** — one had never set one in 47 days, two had
-  passed, and one was deliberately deferred pending evidence — while nothing in CI ever
-  read a PR description, so the field was required by this document and checked by
-  nothing. Enforcing it was considered and declined: a check would have turned three
-  open PRs red for a rule they predated, and the deadline's real function — a moment at
-  which lazy consensus resolves — is served as well by *no objection outstanding*, which
-  a reviewer can establish by reading the thread. The cost of dropping it is that
-  nothing is accepted by the mere passage of time; a QEP nobody is looking at stays open
-  until someone looks. The external check the deadline never supplied is now step 3's:
-  an author cannot accept their own QEP, so at least one other Core Maintainer has read
-  it before it lands.
+  description, and the Core Maintainers decided at it. Dropped in v3 because nothing
+  enforced it and the team did not keep it
+  ([#26](https://github.com/QuantEcon/qeps/issues/26)). Enforcing it in CI was
+  considered and declined: the deadline's function — a moment at which lazy consensus
+  resolves — is served as well by *no objection outstanding*, which a reviewer
+  establishes by reading the thread. The cost is that nothing is accepted by the passage
+  of time; a QEP nobody looks at stays open until someone looks. The check the deadline
+  never supplied is the second reader in step 3.
 
 ## Adoption
 
@@ -351,39 +343,19 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
    belongs in a tracking issue. Applied first by QEP-2, whose acceptance PR carries
    this amendment.
 4. **(v3) Stamp `version` from v0; drop the decision deadline; generate the README
-   index.** Three changes in one round, each removing a place where this document
-   described machinery that did not exist or practice the team did not follow.
-
-   **The decision deadline goes** and step 3 of *How a QEP is decided* with it; the
-   acceptance trigger becomes *no objection outstanding* rather than a date, and the
-   accepting party becomes **a Core Maintainer other than the author** — an author does
-   not accept their own QEP, which a deadline never prevented. The evidence and the
-   declined alternative (enforcing the deadline in CI) are under *Alternatives
-   considered*. `Roles` follows, and nothing else in the process depends on a date.
-
-   **The README index is generated** post-merge from each QEP's frontmatter, ordered by
-   number, so a PR no longer carries its own row and two QEP PRs can no longer collide
-   on one line of one table — the add/add conflict that made
-   [#18](https://github.com/QuantEcon/qeps/pull/18) unmergeable against QEP-3's row. A
-   branch that still carries a row conflicts textually, but a *mis-resolved* index
-   conflict is self-healing, because the regeneration restores the table from
-   frontmatter whatever the resolution did. Shipped ahead of this amendment in
-   [#30](https://github.com/QuantEcon/qeps/pull/30), together with the ordered-list
-   check the *Automation* section now names; `AGENTS.md` follows there.
-
-   **Numbering** states what already happened informally: a number is reserved when its
-   draft PR opens and released if that PR closes unmerged, so index gaps are normal.
-
-   On the stamping change: every QEP that records an outcome carries `version` and
-   `version-hash` from
-   the moment it lands, so tooling reads one uniform contract instead of treating an
+   index.** Every QEP that records an outcome carries `version` and `version-hash` from
+   the merge that records it, so tooling reads one contract instead of treating an
    absent `version` as an implicit v0 with no anchor — the asymmetry surfaced by QEP-2's
-   machine-readable appendix ([#22](https://github.com/QuantEcon/qeps/issues/22)).
-   Stamping's supporting changes, landing as a follow-up once this amendment merges: the
-   post-merge stamp action adds `version: 0` where missing; already-merged QEPs past
-   Draft are backfilled, each stamped with the most recent commit that touched it —
-   mechanical, and consistent with the rule that editorial changes move the hash; the
-   pull-request check's new-QEP rule becomes "unversioned in the PR, `v0` at merge"; the
-   README index and the theme's version pill show `v0` rather than `–`; `AGENTS.md` and
-   the README's index note follow. `qeps/template.md` is unchanged — `version` is
-   machine-written, never hand-written.
+   machine-readable appendix. Supporting changes: the post-merge stamp action writes
+   `version: 0` where missing; already-merged QEPs past Draft are backfilled, each
+   stamped with the most recent commit that touched it; the pull-request check's
+   new-QEP rule becomes "unversioned in the PR, `v0` at merge"; the README index and
+   the theme's version pill show `v0` rather than `–`
+   ([#22](https://github.com/QuantEcon/qeps/issues/22) tracks them). The decision
+   deadline goes: acceptance is *no objection outstanding* plus an approving review from
+   a Core Maintainer other than the author, and `Roles` follows. The README index is
+   generated post-merge from each QEP's frontmatter, ordered by number, so a PR carries
+   no row of its own and two QEP PRs cannot collide on one line of one table;
+   *Numbering* states the reservation rule that makes index gaps normal, and the
+   pull-request check requires ordered-list markers to ascend in source.
+   `qeps/template.md` and `AGENTS.md` follow in the same round.
