@@ -39,9 +39,9 @@ table from frontmatter whatever the resolution did to it.
 
 ## Accepting a QEP
 
-When a QEP reaches a decision (see QEP-1 for the lazy-consensus rule), apply the outcome
-in a **single PR**. The status lives in **two places in the document** — keep them in
-sync:
+When a QEP reaches a decision (QEP-1: no objection outstanding, and an approving review
+from a Core Maintainer other than the author), apply the outcome in a **single PR**. The
+status lives in **two places in the document** — keep them in sync:
 
 1. the YAML frontmatter `status:` field, and
 2. the **Status** row in the in-document header table.
@@ -64,8 +64,9 @@ that state. QEP-3 did, for two months.
 
 Copy [`qeps/template.md`](qeps/template.md) to `qeps/qep-XXXX-slug.md`, fill it in with
 **Status: Draft** and a discussion link, and open a PR. **Do not add a README index
-row** — it is generated from the frontmatter when the PR merges. A new QEP is unversioned
-(implicitly v0): omit the `version` field. See QEP-1 for the full process.
+row** — it is generated from the frontmatter when the PR merges. Omit the `version`
+field: CI stamps `version: 0` and `version-hash` at the merge that records the outcome
+(QEP-1 v3; the stamp change is tracked in #22). See QEP-1 for the full process.
 
 ## Amending an accepted QEP
 
@@ -97,8 +98,11 @@ it to consumers you have never heard of.
 
 - **Substantive** (any change to normative content — a rule, a value, a table row, a
   machine-readable appendix): increment `version` by one in **both** the frontmatter and
-  the header table. The first amendment introduces `version: 1` and adds a **Version**
-  row to the header table; the README `Version` column moves from `–` to `v{N}`.
+  the header table. The first amendment moves the stamped `version: 0` to `1` and adds a
+  **Version** row to the header table — a v0 QEP has no such row, because the stamp
+  writes frontmatter only. The README `Version` column is generated. A substantive
+  amendment is accepted the same way as a new QEP (a second reader who is not the
+  author); an editorial change needs no second reader.
 - **Editorial** (no change to normative content — typo, wording, formatting, link):
   leave `version` unchanged.
 
@@ -118,13 +122,15 @@ GitHub UI choose **Squash and merge**.
 
 ## What CI does (don't do these by hand)
 
-- **Post-merge** — [`stamp-version.yml`](.github/workflows/stamp-version.yml) stamps the
-  merged short hash into the `version-hash` field and **regenerates the whole README
+- **Post-merge** — [`stamp-version.yml`](.github/workflows/stamp-version.yml) stamps
+  `version: 0` into any QEP that has left Draft and carries no `version`, stamps the
+  merged short hash into the `version-hash` field, and **regenerates the whole README
   index** from each QEP's frontmatter, ordered by number.
 - **On every PR** — [`qep-checks.yml`](.github/workflows/qep-checks.yml) checks that
-  `version` moves legally (a new QEP starts unversioned; a versioned QEP stays versioned;
-  the number stays the same or increases by exactly one), that `type` and `status` are
-  known values, that `related:` and the header table's **Related** row agree, and that
+  `version` moves legally (a new QEP arrives unversioned in its PR and is stamped `v0`
+  at merge; a versioned QEP stays versioned; the number stays the same or increases by
+  exactly one), that `type` and `status` are known values, that `related:` and the
+  header table's **Related** row agree, and that
   **ordered-list markers ascend in source** (see below). A stale README index is a
   warning, not a failure.
 
