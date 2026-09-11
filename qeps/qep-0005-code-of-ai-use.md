@@ -24,15 +24,14 @@ discussion: https://github.com/QuantEcon/qeps/issues/12
 
 This QEP adopts a **Code of AI Use** for QuantEcon: AI-assisted contributions
 are welcome, a human must be in the loop — choosing the task, reading the
-result, submitting it, and answering review on it — and meaningful AI
-involvement must be disclosed with a machine-readable marker. It is policy, not
+result, submitting it, and answering review on it — and every pull request
+states its AI involvement in one machine-readable line. It is policy, not
 infrastructure: the norms bind every contributor from acceptance, and the volume
 problem they sit alongside is handled with GitHub's own native controls rather
 than with anything we build. What a repository does build is visibility: the
 Code is put in front of contributors and the tools they run, through the three
 channels set out under *Adoption*. The problem it answers is **cost**, not
-safety.
-Maintainer review attention is the scarce resource here, and a submission nobody
+safety. Maintainer review attention is the scarce resource here, and a submission nobody
 has read before asking us to read it is an *extractive contribution* — one that
 costs more to review than it returns to the project. A contributor registry and
 a pull-request gate were drafted and are deliberately **not** part of this
@@ -130,8 +129,8 @@ the full norms that follow differ, the full norms govern.
    approving what it does. Whether a human was at the keyboard when the pull
    request opened does not matter; whether one owns it and is present for review
    does.
-2. **Disclose.** Every pull request carries one machine-readable line, in the
-   pull-request description or a commit message. Where AI tools meaningfully
+2. **Disclose.** Every pull request carries a machine-readable `Assisted-by:`
+   line, in the pull-request description or a commit message. Where AI tools meaningfully
    contributed to the code, tests, or text, it names them:
    `Assisted-by: <tool> (<model>)` — the harness first, the model in
    parentheses, one line per tool, as in `Assisted-by: Claude Code (Claude
@@ -193,8 +192,8 @@ and answers for it**, it is **declared** — recorded in a public register of th
 organisation's automation, not self-asserted in a pull-request description — and
 it carries [QEP-2](qep-0002-standard-github-labels.md)'s `automated` label so its
 output stays distinguishable from human triage at a glance. Disclosure (norm 2)
-is satisfied structurally by that label and the bot account rather than by a
-trailer; norms 3 and 4 bind the operating maintainer exactly as they would for
+is satisfied structurally by that label and the bot account rather than by the
+line; norms 3 and 4 bind the operating maintainer exactly as they would for
 work submitted by hand. Automation meeting none of those conditions is an
 unattended agent, whoever built it.
 
@@ -232,9 +231,9 @@ short of the last is undone by the contributor simply fixing the problem.
   *first* contribution behind a registration step, which is the worst possible
   moment to introduce friction. A comment that asks and holds nothing is a
   different thing, and *Adoption* calls for one. Should a gate prove necessary
-  later, it is an amendment to
-  this QEP or a QEP of its own, covering the maintenance and procedures a
-  registry needs — and two constraints from the design work carry over to it:
+  later, it is an amendment to this QEP or a QEP of its own, covering the
+  maintenance and procedures a registry needs — and two constraints from the
+  design work carry over to it:
   whatever records a contributor's standing must be **public and auditable**, so
   that removing someone is a reviewable act rather than a private one, and no
   mechanism may **check out or execute pull-request code** while holding
@@ -247,8 +246,8 @@ short of the last is undone by the contributor simply fixing the problem.
   not a one-off.
 - **Adopt LLVM's [AI Tool Use Policy][llvm] as written.** The closest prior art,
   and this Code borrows from it: the binding test (a human in the loop, not a
-  human at the keyboard), the hand-added `Assisted-by:` trailer, the
-  `good first issue` reservation, and the name *extractive contribution* for the
+  human at the keyboard), the hand-added `Assisted-by:` trailer (extended here
+  with the model and an explicit `none`), the `good first issue` reservation, and the name *extractive contribution* for the
   cost the whole policy exists to control. Not adopted wholesale because LLVM
   bans any agent that acts in its repositories without per-action human
   approval, which would cover the scheduled maintenance automation and delegated
@@ -306,8 +305,8 @@ short of the last is undone by the contributor simply fixing the problem.
 ## Adoption
 
 Acceptance fixes the Code of AI Use as QuantEcon policy. It binds from that
-point, like the Code of Conduct — without anyone signing anything, and without
-anything being built.
+point, like the Code of Conduct — without anyone signing anything. What a
+repository builds is the visibility below, not enforcement.
 
 Two obligations follow for a repository adopting it.
 
@@ -340,16 +339,15 @@ therefore provides three things.
   agents echoed back to us verbatim.
 - **The Code in brief in the file agents read from a checkout** (`AGENTS.md`,
   by current convention), verbatim from the block above, so that the tool adds
-  the trailer rather than the contributor remembering to.
+  the line rather than the contributor remembering to.
 - **A neutral ask on pull requests the template did not reach.** A comment on
   each pull request from outside the organisation whose description carries no
   `Assisted-by:` line, posted once, that links to this Code and asks the author
   for two things: add the line to their description, and confirm in a reply
-  that a human has read the pull request and answers for it. Where the template
-  did its job the comment never fires. It reaches a pull request however it was
-  opened,
-  and it is the ask that produced full disclosure within the hour in the one
-  case tested. It holds nothing, decides nothing, skips the organisation's own
+  that a human chose the task, read the result, and will answer review on it.
+  Where the template did its job the comment never fires. It reaches a pull
+  request however it was opened, and it is the ask that produced full
+  disclosure within the hour in the one case tested. It holds nothing, decides nothing, skips the organisation's own
   automation, and never checks out or executes the pull request's code.
 
 A norm nobody encounters is not a norm.
@@ -361,7 +359,7 @@ it, and a maintainer who wants an audit or tech-debt issue kept for learning
 labels it rather than assuming the reservation.
 
 The Code is applied by maintainers reading pull requests. The only automation
-it asks for is the comment above, which asks and never decides; enforcement
+it calls for is the comment above, which asks and never decides; enforcement
 stays human. It assumes GitHub's native volume controls — org-level
 [pull-request limits][pr-limits] in particular — are already in use. Those need
 no QEP to enable, tune, or turn off, and this Code stands whether or not they
