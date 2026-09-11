@@ -31,7 +31,8 @@ problem they sit alongside is handled with GitHub's own native controls rather
 than with anything we build. What a repository does build is visibility: the
 Code is put in front of contributors and the tools they run, through the three
 channels set out under *Adoption*. The problem it answers is **cost**, not
-safety. Maintainer review attention is the scarce resource here, and a submission nobody
+safety. Maintainer review attention is the scarce resource here, and a
+submission nobody
 has read before asking us to read it is an *extractive contribution* — one that
 costs more to review than it returns to the project. A contributor registry and
 a pull-request gate were drafted and are deliberately **not** part of this
@@ -130,7 +131,8 @@ the full norms that follow differ, the full norms govern.
    request opened does not matter; whether one owns it and is present for review
    does.
 2. **Disclose.** Every pull request carries a machine-readable `Assisted-by:`
-   line, in the pull-request description or a commit message. Where AI tools meaningfully
+   line, in the pull-request description or a commit message. Where AI tools
+   meaningfully
    contributed to the code, tests, or text, it names them:
    `Assisted-by: <tool> (<model>)` — the harness first, the model in
    parentheses, one line per tool, as in `Assisted-by: Claude Code (Claude
@@ -247,7 +249,8 @@ short of the last is undone by the contributor simply fixing the problem.
 - **Adopt LLVM's [AI Tool Use Policy][llvm] as written.** The closest prior art,
   and this Code borrows from it: the binding test (a human in the loop, not a
   human at the keyboard), the hand-added `Assisted-by:` trailer (extended here
-  with the model and an explicit `none`), the `good first issue` reservation, and the name *extractive contribution* for the
+  with the model and an explicit `none`), the `good first issue` reservation,
+  and the name *extractive contribution* for the
   cost the whole policy exists to control. Not adopted wholesale because LLVM
   bans any agent that acts in its repositories without per-action human
   approval, which would cover the scheduled maintenance automation and delegated
@@ -347,7 +350,8 @@ therefore provides three things.
   that a human chose the task, read the result, and will answer review on it.
   Where the template did its job the comment never fires. It reaches a pull
   request however it was opened, and it is the ask that produced full
-  disclosure within the hour in the one case tested. It holds nothing, decides nothing, skips the organisation's own
+  disclosure within the hour in the one case tested. It holds nothing, decides
+  nothing, skips the organisation's own
   automation, and never checks out or executes the pull request's code.
 
 A norm nobody encounters is not a norm.
