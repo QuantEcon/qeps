@@ -101,9 +101,10 @@ the full norms that follow differ, the full norms govern.
 > 1. **A human is in the loop.** Choose the task, read the result before asking
 >    anyone else to, submit it under your own account, and answer review on it
 >    yourself.
-> 2. **Disclose.** If AI tools meaningfully contributed to the code, tests, or
->    text, tick the disclosure box and add `Assisted-by: <tool>` to the commit
->    message or the pull-request description.
+> 2. **Disclose.** Put one line in the pull-request description or a commit
+>    message: `Assisted-by: <tool> (<model>)` where AI tools meaningfully
+>    contributed to the code, tests, or text, or `Assisted-by: none` where they
+>    did not.
 > 3. **Own it.** Be able to explain the change and answer review on it: read
 >    every line, or read the tests that would fail if it were wrong.
 > 4. **Verify before you claim.** Say tests pass, coverage rose, or benchmarks
@@ -129,17 +130,21 @@ the full norms that follow differ, the full norms govern.
    approving what it does. Whether a human was at the keyboard when the pull
    request opened does not matter; whether one owns it and is present for review
    does.
-2. **Disclose.** If AI tools meaningfully contributed to the code, tests, or
-   text of a pull request, say so — tick the disclosure box in the pull-request
-   template and add one machine-readable trailer naming the tool,
-   `Assisted-by: <tool>`, to the commit message or the pull-request description.
-   Add it yourself, or have your tool add it — repositories put the Code in
-   front of agents for exactly that reason — but check that it is there: the
-   trailer is your responsibility, not the tool's. A `Co-Authored-By:` trailer
-   that a tool emits on its own (Claude Code and Copilot do) also serves as the
-   marker, but an in-house or third-party pipeline emits nothing, so for those
-   the trailer exists only if its operator writes it or instructs it. The disclosure is a **marker,
-   not a narrative**.
+2. **Disclose.** Every pull request carries one machine-readable line, in the
+   pull-request description or a commit message. Where AI tools meaningfully
+   contributed to the code, tests, or text, it names them:
+   `Assisted-by: <tool> (<model>)` — the harness first, the model in
+   parentheses, one line per tool, as in `Assisted-by: Claude Code (Claude
+   Fable 5.1)`. Where they did not, it says so: `Assisted-by: none`. The
+   explicit negative exists because silence is ambiguous — forgotten, or
+   unassisted — and a reviewer should not have to guess which. Add the line
+   yourself, or have your tool add it — repositories put the Code in front of
+   agents for exactly that reason — but check that it is there: the line is
+   your responsibility, not the tool's. A `Co-Authored-By:` trailer that a tool
+   emits on its own (Claude Code and Copilot do) also serves as the marker, but
+   an in-house or third-party pipeline emits nothing, so for those the line
+   exists only if its operator writes it or instructs it. The disclosure is a
+   **marker, not a narrative**: it names what was used, not what it did.
 3. **Own it.** You are the author: you can explain what the change does, you
    answer review yourself — not by passing a reviewer's comments to an agent —
    and you carry the result. Reading every line is the default way to earn that.
@@ -314,26 +319,34 @@ repository's agent-instruction file and nothing else; a pipeline that opens
 pull requests through the API sees neither. A repository adopting the Code
 therefore provides three things.
 
-- **A disclosure checkbox pair in the pull-request template**, in this form,
-  where the second box is an ownership attestation (norm 3) and not only a
-  disclosure:
+- **The disclosure line in the pull-request template.** The template carries
+  an empty `Assisted-by:` line for the author to complete, with the two forms
+  and one fixed sentence of attestation explained beside it:
 
-  > - [ ] I did not use generative AI tools when creating this pull request.
-  > - [ ] I used generative AI tools when creating this pull request, and a
-  >       human has checked the work and is responsible for the code and the
-  >       description above.
+  ```markdown
+  <!-- Code of AI Use (QEP-5): complete the line below.
+       Assisted-by: <tool> (<model>)   e.g. Assisted-by: Claude Code (Claude Fable 5.1)
+       Assisted-by: none               if no generative AI tools were used
+       A human has read this pull request and answers for it. -->
+  Assisted-by:
+  ```
 
-  Alongside it, `CONTRIBUTING.md` documents the `Assisted-by:` trailer and the
-  tool-emitted `Co-Authored-By:` form it also accepts, and the structured issue
-  templates link to this policy — the same text several agents echoed back to
-  us verbatim.
+  The attestation is a fixed sentence rather than a box to tick: norm 3 binds
+  whether or not anyone ticks anything, and the template's job is to make sure
+  the author has seen it. Alongside it, `CONTRIBUTING.md` documents the line
+  and the tool-emitted `Co-Authored-By:` form it also accepts, and the
+  structured issue templates link to this policy — the same text several
+  agents echoed back to us verbatim.
 - **The Code in brief in the file agents read from a checkout** (`AGENTS.md`,
   by current convention), verbatim from the block above, so that the tool adds
   the trailer rather than the contributor remembering to.
 - **A neutral ask on pull requests the template did not reach.** A comment on
-  each pull request from outside the organisation, posted once, that links to
-  this Code and asks the author to paste the checkbox pair into their
-  description and tick one. It reaches a pull request however it was opened,
+  each pull request from outside the organisation whose description carries no
+  `Assisted-by:` line, posted once, that links to this Code and asks the author
+  for two things: add the line to their description, and confirm in a reply
+  that a human has read the pull request and answers for it. Where the template
+  did its job the comment never fires. It reaches a pull request however it was
+  opened,
   and it is the ask that produced full disclosure within the hour in the one
   case tested. It holds nothing, decides nothing, skips the organisation's own
   automation, and never checks out or executes the pull request's code.
@@ -379,4 +392,4 @@ This QEP was drafted with AI assistance, under the norms it sets out. Claude,
 via Claude Code, produced text under the author's direction; the author read,
 revised, and owns every line, and answers review on it.
 
-`Assisted-by: Claude Code`
+`Assisted-by: Claude Code (Claude Fable 5.1)`
