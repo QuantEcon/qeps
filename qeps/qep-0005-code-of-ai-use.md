@@ -32,12 +32,12 @@ than with anything we build. What a repository does build is visibility: the
 Code is put in front of contributors and the tools they run, through the three
 channels set out under *Adoption*. The problem it answers is **cost**, not
 safety. Maintainer review attention is the scarce resource here, and a
-submission nobody
-has read before asking us to read it is an *extractive contribution* — one that
-costs more to review than it returns to the project. A contributor registry and
-a pull-request gate were drafted and are deliberately **not** part of this
-decision; if the native controls prove insufficient, that is a later amendment
-or a separate QEP.
+submission nobody has read before asking us to read it is an *extractive
+contribution* — one that costs more to review than it returns to the project. A
+contributor registry and a pull-request gate were drafted and are deliberately
+**not** part of this decision; if the native controls prove insufficient, that
+is a later amendment or a separate QEP.
+
 
 ## Motivation
 
@@ -132,20 +132,20 @@ the full norms that follow differ, the full norms govern.
    does.
 2. **Disclose.** Every pull request carries a machine-readable `Assisted-by:`
    line, in the pull-request description or a commit message. Where AI tools
-   meaningfully
-   contributed to the code, tests, or text, it names them:
+   meaningfully contributed to the code, tests, or text, it names them:
    `Assisted-by: <tool> (<model>)` — the harness first, the model in
-   parentheses, one line per tool, as in `Assisted-by: Claude Code (Claude
-   Fable 5.1)`. Where they did not, it says so: `Assisted-by: none`. The
-   explicit negative exists because silence is ambiguous — forgotten, or
-   unassisted — and a reviewer should not have to guess which. Add the line
-   yourself, or have your tool add it — repositories put the Code in front of
-   agents for exactly that reason — but check that it is there: the line is
-   your responsibility, not the tool's. A `Co-Authored-By:` trailer that a tool
-   emits on its own (Claude Code and Copilot do) also serves as the marker, but
-   an in-house or third-party pipeline emits nothing, so for those the line
-   exists only if its operator writes it or instructs it. The disclosure is a
-   **marker, not a narrative**: it names what was used, not what it did.
+   parentheses, one line per tool, as in `Assisted-by: Claude Code (Claude Fable
+   5.1)`. Where they did not, it says so: `Assisted-by: none`. The explicit
+   negative exists because silence is ambiguous — forgotten, or unassisted — and
+   a reviewer should not have to guess which. Add the line yourself, or have
+   your tool add it — repositories put the Code in front of agents for exactly
+   that reason — but check that it is there: the line is your responsibility,
+   not the tool's. A `Co-Authored-By:` trailer that a tool emits on its own
+   (Claude Code and Copilot do) also serves as the marker, but an in-house or
+   third-party pipeline emits nothing, so for those the line exists only if its
+   operator writes it or instructs it. The disclosure is a **marker, not a
+   narrative**: it names what was used, not what it did.
+
 3. **Own it.** You are the author: you can explain what the change does, you
    answer review yourself — not by passing a reviewer's comments to an agent —
    and you carry the result. Reading every line is the default way to earn that.
@@ -250,12 +250,13 @@ short of the last is undone by the contributor simply fixing the problem.
   and this Code borrows from it: the binding test (a human in the loop, not a
   human at the keyboard), the hand-added `Assisted-by:` trailer (extended here
   with the model and an explicit `none`), the `good first issue` reservation,
-  and the name *extractive contribution* for the
-  cost the whole policy exists to control. Not adopted wholesale because LLVM
-  bans any agent that acts in its repositories without per-action human
-  approval, which would cover the scheduled maintenance automation and delegated
-  agent pull requests QuantEcon runs itself. The organisation-automation
-  paragraph above is where the two policies part.
+  and the name *extractive contribution* for the cost the whole policy exists to
+  control. Not adopted wholesale because LLVM bans any agent that acts in its
+  repositories without per-action human approval, which would cover the
+  scheduled maintenance automation and delegated agent pull requests QuantEcon
+  runs itself. The organisation-automation paragraph above is where the two
+  policies part.
+
 - **Decline AI-generated contributions on provenance grounds**, as
   [QEMU][qemu] does under its Developer Certificate of Origin, or ban the tools
   outright as Gentoo has. Defensible positions that would cover our own
@@ -346,13 +347,14 @@ therefore provides three things.
 - **A neutral ask on pull requests the template did not reach.** A comment on
   each pull request from outside the organisation whose description carries no
   `Assisted-by:` line, posted once, that links to this Code and asks the author
-  for two things: add the line to their description, and confirm in a reply
-  that a human chose the task, read the result, and will answer review on it.
-  Where the template did its job the comment never fires. It reaches a pull
-  request however it was opened, and it is the ask that produced full
-  disclosure within the hour in the one case tested. It holds nothing, decides
-  nothing, skips the organisation's own
-  automation, and never checks out or executes the pull request's code.
+  for two things: add the line to their description, and confirm in a reply that
+  a human chose the task, read the result, and will answer review on it. Where
+  the template did its job the comment never fires. It reaches a pull request
+  however it was opened, and it is the ask that produced full disclosure within
+  the hour in the one case tested. It holds nothing, decides nothing, skips the
+  organisation's own automation, and never checks out or executes the pull
+  request's code.
+
 
 A norm nobody encounters is not a norm.
 
