@@ -14,7 +14,7 @@ need a QEP.
 
 | QEP | Title | Type | Status | Version |
 |-----|-------|------|--------|---------|
-| [QEP-1](qeps/qep-0001-purpose-and-process.md) | QEP Purpose and Process | process | Accepted | v2 |
+| [QEP-1](qeps/qep-0001-purpose-and-process.md) | QEP Purpose and Process | process | Accepted | v3 |
 | [QEP-2](qeps/qep-0002-standard-github-labels.md) | Standard GitHub Label Set and Labelling Policy | standard | Accepted | – |
 | [QEP-3](qeps/qep-0003-repository-naming-and-types.md) | Repository Naming and Types | standard | Accepted | – |
 
@@ -22,7 +22,8 @@ QEPs that set an ongoing rule are **maintained in place**: a substantive amendme
 the QEP's `version` (shown above) under the same review process, rather than superseding
 the whole document — see **QEP-1**. The index table is **generated** from each QEP's
 frontmatter after merge — do not hand-edit it; `version-hash` is stamped at the same time.
-`Version` reads `–` until a QEP is first amended.
+`Version` shows `v{N}` from `v0` up; a `–` marks a QEP the stamp has not reached yet
+(see QEP-1's *Adoption*).
 
 ## Proposing a QEP
 
@@ -30,9 +31,10 @@ frontmatter after merge — do not hand-edit it; `version-hash` is stamped at th
    socialise it and confirm it needs a QEP.
 2. **Draft it.** Copy [`qeps/template.md`](qeps/template.md) to
    `qeps/qep-XXXX-short-slug.md`, fill it in with **Status: Draft**, and open a PR.
-3. **Set a deadline.** Announce the PR and give a comment window (1–2 weeks).
-4. **Decide.** At the deadline the Core Maintainers decide by lazy consensus; the
-   QEP is merged recording the outcome (Accepted / Rejected / Withdrawn).
+   The index row above is generated at merge — do not add one.
+3. **Decide.** A Core Maintainer other than the author approves it once it has been
+   announced and no objection is outstanding — nobody accepts their own QEP; the QEP is
+   merged recording the outcome (Accepted / Rejected / Withdrawn).
 
 The process itself is defined in **QEP-1**.
 
