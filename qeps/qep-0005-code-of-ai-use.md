@@ -327,7 +327,8 @@ therefore provides three things.
   <!-- Code of AI Use (QEP-5): complete the line below.
        Assisted-by: <tool> (<model>)   e.g. Assisted-by: Claude Code (Claude Fable 5.1)
        Assisted-by: none               if no generative AI tools were used
-       A human has read this pull request and answers for it. -->
+       Opening this pull request confirms a human chose the task, read the
+       result, and will answer review on it. -->
   Assisted-by:
   ```
 
