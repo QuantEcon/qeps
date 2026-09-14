@@ -301,9 +301,9 @@ Where the tracker lives follows from whom the obligations fall on:
 A repository per QEP, rather than one for all governance work, because the documents a
 rollout accumulates — an audit, a design, a month of evidence, a ruling — belong to
 that QEP's goal and end with it; a standing repository would hold every rollout's
-residue with nothing to close. Rollouts that predate this rule keep their trackers
-where they are (QEP-2's is
-[QuantEcon/meta#358](https://github.com/QuantEcon/meta/issues/358)).
+residue with nothing to close. A rollout that predates this rule moves under it: its
+tracker and coordination issues are transferred (the old URLs redirect), and work items
+in other repositories are parented in place.
 
 ## Alternatives considered
 
@@ -354,7 +354,9 @@ where they are (QEP-2's is
   `project-*`, a goal-scoped planning and decision home — so a `project-qep{N}` per
   QEP with cross-repo obligations was chosen over a standing `project-governance`
   (which would become a second `meta`) and over this repository (which is the standard,
-  not its execution).
+  not its execution). Leaving pre-rule rollouts in place was
+  considered and rejected: a rule with one exception is two rules, and QEP-2's rollout
+  was about to produce the migration reports the rule exists to house.
 
 ## Adoption
 
@@ -398,7 +400,8 @@ where they are (QEP-2's is
    `qeps/template.md` and `AGENTS.md` follow in the same round.
 5. **(v4) Name the rollout home.** *Adoption and rollout* says where sequenced
    execution lives: a `project-qep{N}` repository, created at acceptance, for a QEP
-   whose Adoption section obligates other repositories; an issue here otherwise. First
-   applied by QEP-5 (`project-qep5`). `qeps/template.md` and `AGENTS.md` follow in the
-   same round; the `qe` CLI may later scaffold the repository, which changes nothing
-   here.
+   whose Adoption section obligates other repositories; an issue here otherwise. Applied
+   in the same round to QEP-5 (`project-qep5`, new), QEP-2 (`project-qep2`, tracker
+   transferred from `meta`) and QEP-3 (`project-qep3`, its execution items gathered
+   from `meta`). `qeps/template.md` and `AGENTS.md` follow; the `qe` CLI may later
+   scaffold the repository, which changes nothing here.
