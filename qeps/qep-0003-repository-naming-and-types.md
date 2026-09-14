@@ -4,6 +4,8 @@ title: Repository Naming and Types
 author: "@mmcky"
 status: Accepted
 type: standard
+version: 0
+version-hash: d7b1f24  # stamped by CI; do not edit
 created: 2026-07-10
 discussion: https://github.com/QuantEcon/qeps/pull/7
 ---

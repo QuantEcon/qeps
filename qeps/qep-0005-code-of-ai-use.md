@@ -4,6 +4,8 @@ title: Code of AI Use
 author: "@mmcky"
 status: Accepted
 type: standard
+version: 0
+version-hash: 8cdca64  # stamped by CI; do not edit
 created: 2026-08-14
 discussion: https://github.com/QuantEcon/qeps/issues/12
 ---
