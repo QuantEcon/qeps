@@ -5,7 +5,6 @@ author: "@mmcky"
 status: Accepted
 type: process
 version: 4
-version-hash: f6db66f  # stamped by CI; do not edit
 created: 2026-06-16
 discussion: https://github.com/QuantEcon/meta/issues/325
 ---
