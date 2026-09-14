@@ -2,7 +2,7 @@
 qep: 5
 title: Code of AI Use
 author: "@mmcky"
-status: Draft
+status: Accepted
 type: standard
 created: 2026-08-14
 discussion: https://github.com/QuantEcon/qeps/issues/12
@@ -15,7 +15,7 @@ discussion: https://github.com/QuantEcon/qeps/issues/12
 | **QEP**        | 5                                                                |
 | **Title**      | Code of AI Use                                                   |
 | **Author**     | @mmcky                                                           |
-| **Status**     | Draft                                                            |
+| **Status**     | Accepted                                                         |
 | **Type**       | standard                                                         |
 | **Created**    | 2026-08-14                                                       |
 | **Discussion** | [QuantEcon/qeps#12](https://github.com/QuantEcon/qeps/issues/12) |
@@ -370,26 +370,6 @@ stays human. It assumes GitHub's native volume controls — org-level
 [pull-request limits][pr-limits] in particular — are already in use. Those need
 no QEP to enable, tune, or turn off, and this Code stands whether or not they
 are.
-
-## Amendments to QEP-2
-
-Norm 5 gives `good first issue` a meaning that
-[QEP-2](qep-0002-standard-github-labels.md)'s label table does not carry. At
-acceptance the edit below is applied to QEP-2 as a substantive amendment — its
-first, so its `version` moves to 1 and a **Version** row is added to its header
-table. The yml appendix is unchanged: the label's name, colour, and description
-do not move.
-
-In the label table, the **When to use** cell of the `good first issue` row
-changes from
-
-> Only when genuinely self-contained with clear acceptance criteria
-
-to
-
-> Only when genuinely self-contained with clear acceptance criteria. Under
-> [QEP-5](qep-0005-code-of-ai-use.md) the label also reserves the issue for
-> hands-on work — AI tools are not to be used on it — so apply it deliberately
 
 ## Disclosure
 

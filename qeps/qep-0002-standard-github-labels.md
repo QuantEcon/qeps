@@ -4,6 +4,7 @@ title: Standard GitHub Label Set and Labelling Policy
 author: "@mmcky"
 status: Accepted
 type: standard
+version: 1
 created: 2026-06-17
 discussion: https://github.com/QuantEcon/meta/issues/324
 ---
@@ -17,6 +18,7 @@ discussion: https://github.com/QuantEcon/meta/issues/324
 | **Author**   | @mmcky                                                             |
 | **Status**   | Accepted                                                           |
 | **Type**     | standard                                                           |
+| **Version**  | 1                                                                  |
 | **Created**  | 2026-06-17                                                         |
 | **Discussion** | [QuantEcon/meta#324](https://github.com/QuantEcon/meta/issues/324) |
 
@@ -95,7 +97,7 @@ middle of the scale.
 
 | Label | Colour | Description | When to use |
 |---|---|---|---|
-| `good first issue` | 🟪 `#7057ff` | Self-contained and friendly to newcomers | Only when genuinely self-contained with clear acceptance criteria |
+| `good first issue` | 🟪 `#7057ff` | Self-contained and friendly to newcomers | Only when genuinely self-contained with clear acceptance criteria. Under [QEP-5](qep-0005-code-of-ai-use.md) the label also reserves the issue for hands-on work — AI tools are not to be used on it — so apply it deliberately |
 | `help wanted` | 🟩 `#008672` | Maintainers would welcome outside help | Including domain (econ/math) expertise — say what's needed in a comment |
 
 **Workflow**
