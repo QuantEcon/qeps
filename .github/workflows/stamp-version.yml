@@ -30,7 +30,9 @@ jobs:
     # `version: 0` and the README's `v0` cell first appear, so the last step
     # dispatches deploy.yml explicitly (a workflow_dispatch call from
     # GITHUB_TOKEN does run; only events *caused by* its pushes are dropped).
-    if: ${{ !startsWith(github.event.head_commit.message, 'Stamp QEP version hash and sync README [skip-stamp]') }}
+    # A manual run (workflow_dispatch) always runs — stamp.mjs handles starting
+    # from the bot's own commit — so the guard applies to push events only.
+    if: ${{ github.event_name != 'push' || !startsWith(github.event.head_commit.message, 'Stamp QEP version hash and sync README [skip-stamp]') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
