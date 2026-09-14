@@ -53,6 +53,13 @@ not edit it. This applies to every terminal outcome — **Accepted**, **Rejected
 Then **merge** the PR; do not close it. Accepted, Rejected, and Withdrawn QEPs are all
 merged so the record stays durable — only abandoned or spam drafts are closed.
 
+**If the QEP's Adoption section obligates repositories other than this one**, create
+`QuantEcon/project-qep{N}` (private; `N` unpadded) in the same sitting, open its
+tracker as issue #1 with the native `Project` type, register it in
+`QuantEcon/status-projects`, and hang the work items off it as sub-issues in the
+repositories where the work lands. Rule and rationale: QEP-1 § Adoption and rollout;
+first instance: `project-qep5`.
+
 Before merging, confirm the QEP number is final and not colliding with another open PR,
 and that the filename is zero-padded to four digits.
 

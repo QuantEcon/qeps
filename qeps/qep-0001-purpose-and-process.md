@@ -4,7 +4,7 @@ title: QEP Purpose and Process
 author: "@mmcky"
 status: Accepted
 type: process
-version: 3
+version: 4
 version-hash: f6db66f  # stamped by CI; do not edit
 created: 2026-06-16
 discussion: https://github.com/QuantEcon/meta/issues/325
@@ -19,7 +19,7 @@ discussion: https://github.com/QuantEcon/meta/issues/325
 | **Author**   | @mmcky                                                 |
 | **Status**   | Accepted                                               |
 | **Type**     | process                                                |
-| **Version**  | 3                                                      |
+| **Version**  | 4                                                      |
 | **Created**  | 2026-06-16                                             |
 | **Discussion** | [QuantEcon/meta#325](https://github.com/QuantEcon/meta/issues/325) |
 
@@ -277,6 +277,35 @@ A *policy* is a normative rule — a `standard` you conform to — so it is not 
 type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
 `informational` if it only records rationale.
 
+### Adoption and rollout
+
+The **Adoption** section states what adopting the decision requires — mechanism,
+tooling, and the guarantees any implementation must honour — as obligations, not a
+plan. Sequenced execution (who does what, when) lives in a **tracker issue** opened at
+acceptance, never in the QEP.
+
+Where the tracker lives follows from whom the obligations fall on:
+
+- **A QEP whose Adoption section obligates repositories other than this one** gets a
+  **`project-qep{N}` repository** at acceptance — `N` unpadded, as the number is
+  displayed everywhere but the filename — created by whoever merges the acceptance PR.
+  It is a `project-*` repository under QEP-3: private, goal-scoped, no production code.
+  Its first issue is the tracker; the coordination issues that have no single landing
+  repository, the research behind the decision, and the decision register live there
+  too. A work item lands as an issue in the repository where the work happens and
+  hangs off the tracker as a sub-issue. The tracker is registered in the projects
+  registry, and the repository is archived when the tracker closes.
+- **A QEP whose obligations fall only on this repository, or that carries none** —
+  most `process` and `informational` QEPs — tracks its execution in an issue here, or
+  needs no tracker at all.
+
+A repository per QEP, rather than one for all governance work, because the documents a
+rollout accumulates — an audit, a design, a month of evidence, a ruling — belong to
+that QEP's goal and end with it; a standing repository would hold every rollout's
+residue with nothing to close. Rollouts that predate this rule keep their trackers
+where they are (QEP-2's is
+[QuantEcon/meta#358](https://github.com/QuantEcon/meta/issues/358)).
+
 ## Alternatives considered
 
 - **Location — a `qeps/` directory in `QuantEcon/meta` vs a dedicated repository.**
@@ -319,6 +348,14 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
   establishes by reading the thread. The cost is that nothing is accepted by the passage
   of time; a QEP nobody looks at stays open until someone looks. The check the deadline
   never supplied is the second reader in step 3.
+- **Rollout tracking in `meta`, in this repository, or in a per-QEP project
+  repository.** QEP-2's rollout tracks in `meta` and QEP-5's checklist opened here;
+  neither has anywhere to put a document, and QEP-5's rollout arrived with an audit, a
+  deferred design and a decision to make on evidence. QEP-3 already provides the type —
+  `project-*`, a goal-scoped planning and decision home — so a `project-qep{N}` per
+  QEP with cross-repo obligations was chosen over a standing `project-governance`
+  (which would become a second `meta`) and over this repository (which is the standard,
+  not its execution).
 
 ## Adoption
 
@@ -360,3 +397,9 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
    *Numbering* states the reservation rule that makes index gaps normal, and the
    pull-request check requires ordered-list markers to ascend in source.
    `qeps/template.md` and `AGENTS.md` follow in the same round.
+5. **(v4) Name the rollout home.** *Adoption and rollout* says where sequenced
+   execution lives: a `project-qep{N}` repository, created at acceptance, for a QEP
+   whose Adoption section obligates other repositories; an issue here otherwise. First
+   applied by QEP-5 (`project-qep5`). `qeps/template.md` and `AGENTS.md` follow in the
+   same round; the `qe` CLI may later scaffold the repository, which changes nothing
+   here.
