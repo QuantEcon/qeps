@@ -64,8 +64,9 @@ function lastTouch(path) {
 //      last commit that touched it (this push's SHA when it merged just now, a
 //      historical anchor when it is being backfilled) — QEP-1 v3, stamp from v0;
 //    - a changed, versioned QEP whose `version-hash` isn't this SHA is re-stamped.
-//    A Draft is never stamped: `version` arrives with the merge that records the
-//    outcome, and a Draft on main is a state the lifecycle does not admit.
+//    A Draft is never stamped: this script writes `version` on the push to main
+//    that records the outcome, and a Draft on main is a state the lifecycle does
+//    not admit.
 const SIGNPOST = '# stamped by CI; do not edit';
 for (const path of qepFiles()) {
   const { status, version, hash } = parseQep(path);
