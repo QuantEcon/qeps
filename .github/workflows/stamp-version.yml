@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - "qeps/**"
+      - ".github/scripts/**"
+  workflow_dispatch:
 
 # Needs write access to push the stamp/sync commit back to main.
 permissions:
