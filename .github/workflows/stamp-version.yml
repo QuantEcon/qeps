@@ -4,10 +4,14 @@ on:
     branches: [main]
     paths:
       - "qeps/**"
+      - ".github/scripts/**"
+  workflow_dispatch:
 
-# Needs write access to push the stamp/sync commit back to main.
+# Needs write access to push the stamp/sync commit back to main, and to
+# dispatch the site deploy afterwards.
 permissions:
   contents: write
+  actions: write
 
 # Serialise stamp runs so two QEP merges in quick succession don't race on the
 # push to main (the later push would otherwise be rejected non-fast-forward).
@@ -19,10 +23,11 @@ jobs:
   stamp:
     # The bot's own commit carries [skip-stamp]; pushes made with GITHUB_TOKEN
     # don't retrigger workflows anyway, so this guard is belt-and-suspenders.
-    # That same no-retrigger behaviour means this push does not redeploy the
-    # site — which is fine: everything visible (the type/version pills and the
-    # README columns) is already correct from the merge commit, and only the
-    # invisible `version-hash` field waits for the next push to main to republish.
+    # That same no-retrigger behaviour means the stamp push does not redeploy
+    # the site on its own — and since v0 stamping, the stamp commit is where
+    # `version: 0` and the README's `v0` cell first appear, so the last step
+    # dispatches deploy.yml explicitly (a workflow_dispatch call from
+    # GITHUB_TOKEN does run; only events *caused by* its pushes are dropped).
     if: ${{ !contains(github.event.head_commit.message, '[skip-stamp]') }}
     runs-on: ubuntu-latest
     steps:
@@ -35,11 +40,13 @@ jobs:
       - name: Stamp hash and sync README
         run: node .github/scripts/stamp.mjs
       - name: Commit and push if changed
+        id: push
         run: |
           if git diff --quiet; then
             echo "Nothing to commit."
             exit 0
           fi
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
@@ -48,3 +55,8 @@ jobs:
           # then push, so a near-simultaneous merge can't drop this stamp.
           git pull --rebase origin main
           git push origin HEAD:main
+      - name: Redeploy the site with the stamped metadata
+        if: steps.push.outputs.pushed == 'true'
+        run: gh workflow run deploy.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}
