@@ -19,7 +19,7 @@ discussion: https://github.com/QuantEcon/qeps/issues/15
 | **Status**   | Draft                                                                |
 | **Type**     | standard                                                             |
 | **Created**  | 2026-08-26                                                           |
-| **Related**  | [QEP-2](qep-0002-standard-github-labels.md) — the content axis §2 composes with |
+| **Related**  | [QEP-2](qep-0002-standard-github-labels.md) — the content axis that *Issue types* composes with |
 | **Discussion** | [QuantEcon/qeps#15](https://github.com/QuantEcon/qeps/issues/15)   |
 
 ## Summary
@@ -91,16 +91,18 @@ member.** Not every issue belongs to a project — an unparented issue is the
 normal case, not a gap to be filled — and an unparented project tracker is
 likewise normal: not every project answers to a programme.
 
-A tracker's direct children should be **homogeneous in kind** — all leaf work
-items, or all project trackers. Progress is a count over direct children, so
-mixing a multi-item project with leaf issues weights them equally and makes
-the percentage meaningless. **`Decision` children (§2) are compatible with
-either kind**: a decision is a point in the plan rather than a unit of work,
-so it does not distort the comparison the rule protects. A `Decision` closed
-`completed` counts toward progress like any other child — a recorded choice
-advances the definition of done — and a consumer may render a project's
-decisions apart from its work. The percentage is also a **snapshot over current
-direct children, not a time series**: membership changes — items dropped,
+A project's direct children are **leaf work items**, never other project
+trackers. Progress is a count over direct children, so a multi-item project
+counted beside leaf issues weighs the same as each of them and makes the
+percentage meaningless. A tracker whose children are project trackers is
+outside this QEP (see *Scope*) and is **not typed `Project`**. **`Decision`
+children sit beside work items**: a decision is a point in the plan rather
+than a unit of work, so it does not distort the comparison the rule
+protects. A `Decision` closed `completed` counts toward progress like any
+other child — a recorded choice advances the definition of done — and a
+consumer may render a project's decisions apart from its work. The
+percentage is also a **snapshot over current direct children, not a time
+series**: membership changes — items dropped,
 items moved to another project, a tracker split — move the number without
 work occurring, so progress is never compared across a membership change.
 
@@ -119,24 +121,24 @@ The org type set is three structural roles, each with its own meaning of
 
 | Type | Role | Closing means |
 |---|---|---|
-| `Project` | a tracker (§1) | the definition of done is met |
+| `Project` | a project tracker | the definition of done is met |
 | `Task` | a leaf work item | the work shipped |
 | `Decision` | a decision point in a plan | the choice is recorded |
 
 A **`Decision`** is open while the choice is pending, closed `completed` when
 decided — with the choice recorded in the issue — and closed `not_planned`
 when mooted. Work that cannot start before a choice is made is blocked-by
-the decision (§4), so "parked on a decision" is derived like any other
+the decision (see *Constraints are dependencies*), so "parked on a decision"
+is derived like any other
 parked-ness, and a consumer can render a project's open decisions as the
 distinct objects they are. A `Decision` may still carry QEP-2's `discuss`
 label: the label states what the conversation is; the type states the
 object's role in the plan.
 
-`Project` is required on trackers and `Decision` on decision points; `Task`
-on leaf work items is recommended, not required — an untyped issue remains
-the normal pre-triage state. Hierarchy level is never encoded in type:
-sub-issue edges carry level, so a tracker whose children are trackers is
-still a `Project`.
+`Project` is required on project trackers and `Decision` on decision
+points; `Task` on leaf work items is recommended, not required — an untyped
+issue remains the normal pre-triage state. A tracker whose children are
+project trackers is not typed `Project` (see *The unit*).
 
 A type is admitted to the set only when it names a structural role with its
 own meaning of "closed" that a machine consumer renders or branches on.
@@ -218,7 +220,7 @@ edges behind it is prose, and prose is the one carrier no consumer reads.
 a decision gate rather than a phase gate**: the object exists, so each item
 that waits carries the native edge to it and the body states only why. Where
 a gate is a decision that has no issue, create a `Decision`-typed one for it
-(§2) rather than describing the park in prose.
+rather than describing the park in prose.
 
 Where a project genuinely waits on another project **in its entirety**, that
 gate must also carry the native dependency edge between the two tracker
@@ -231,8 +233,8 @@ instrument for a gate that holds one phase.
 A gate's rationale is stated **once**, in the body of the project that must
 wait. **The reverse direction is read, never written:** blocked-by and
 blocking are two ends of one edge, so the waited-on project needs no
-back-pointer to stay in step. A `Related work` line pointing at the gate (§7)
-is available prose for a human reader; it is not an obligation this standard
+back-pointer to stay in step. A `Related work` line pointing at the gate
+(see *The body*) is available prose for a human reader; it is not an obligation this standard
 relies on, because an obligation with a free platform inverse is one that
 will simply be missed.
 
@@ -286,7 +288,7 @@ programmatic body write, not only the stamp.
 ### 7. The body
 
 The body opens with a **one-sentence goal**, then the **stamp section at the
-top**. The stamp section may open with a single **`**Next:**` line** — a link
+top**. The stamp section may open with a single `**Next:**` line — a link
 to one work item plus one line of pickup context (branch, failing thing,
 where to resume). This is the body's **only** statement of what is next: it
 is a dated claim inside the one section whose contract is
@@ -316,7 +318,7 @@ producers; a ban alone gets worked around.
 A **Related work** section (optional) names sibling **projects** — one line
 each on how they relate: informs, spawned by, shares an engine, gated by
 (pointing at the body that states the gate — available prose, never an
-obligation, since §4's reverse direction is read rather than written).
+obligation, since a gate's reverse direction is read rather than written).
 GitHub records only that a
 mention happened; a deliberate relationship between projects is an assertion
 with no native carrier, which is what the body is for. Entries name
@@ -329,21 +331,15 @@ never by copied titles. An informative body skeleton is given in Appendix A.
 
 ### 8. Scope
 
-This QEP governs **project tracker issues** — the unit the projects registry
-registers. The grammar has **two normative tiers — project and work item —
-and no third**: a *programme* is a named collection of projects, a grouping
-the projects registry maintains, with no structural duties of its own. No
-producer treats programme membership as structure, an unparented tracker
-remains the normal case (§1), and hierarchy level never enters the type set
-(§2). Whether a consumer reads a programme's front door at all is that consumer's
-question — for the projects dashboard, an open decision of its own
-(QuantEcon/status-projects#10) — and nothing in this scope answers it either
-way. What this scope excludes is a programme tier in the *grammar*: a front
-door a consumer does read is one issue read under that consumer's own
-contract, and no tracker acquires a duty by being listed on it. The surrounding *practice* — tracker vs period-plan
-genres, session ledgers, succession, revision-log comment discipline — is
-maintained in the org's `qe` skills, which cite this QEP as the authority on
-the unit's structure.
+This QEP governs **project trackers and their work items**. The layer above
+a project — a tracker whose children are project trackers, or any other
+grouping of projects — is **not defined here**: this QEP gives it no type and
+no structural duties, and a project tracker acquires no duty by belonging to
+one. An unparented project tracker remains the normal case (see *The unit*).
+The surrounding *practice* — tracker vs period-plan genres, session ledgers,
+succession, revision-log comment discipline — is also outside this QEP; it
+is maintained in the org's `qe` skills, and this QEP is the authority on the
+unit's structure.
 
 The QEP is scoped to **GitHub.com**: the sub-issue reordering endpoint is
 absent from GitHub Enterprise Server API descriptions through 3.18, so the
@@ -373,7 +369,7 @@ ordering rule has no verified mechanism there.
   set). Rejected: content classification is QEP-2's label axis, and a second
   carrier for the same fact lets the two disagree — an issue typed `Bug` and
   labelled `enhancement`, or typed and unlabelled and so invisible to every
-  QEP-2 query. The type axis is reserved for structural roles (§2).
+  QEP-2 query. The type axis is reserved for structural roles.
 - **GitHub Projects (v2) as the ordering surface.** Rejected as authority:
   item order there is per-view, on a separate permission surface, in a second
   system the collector does not read. Fine as a *lens* over the same issues;
@@ -389,16 +385,15 @@ ordering rule has no verified mechanism there.
 
 ## Adoption
 
-One org-level precondition, then obligations on the three producer classes
-and the one consumer:
+One org-level precondition, then obligations on whoever creates, conforms, or
+maintains a tracker:
 
-1. **The org issue-type set** is reshaped once to the three roles of §2, by
-   four reversible calls to the issue-types API: `Bug` and `Feature` are
+1. **The org issue-type set** is reshaped once to the three roles of *Issue
+   types*, by reversible calls to the issue-types API: `Bug` and `Feature` are
    **disabled, not deleted** — disabling hides a type from every picker but
-   retains existing assignments latent, and is undone by one call — `Task`'s
-   description is edited to name the work-item role, and `Decision` is
-   created. Because the change is reversible it ships at the start of the
-   field test, not at acceptance.
+   retains existing assignments latent, and is undone by one call — and
+   `Project`, `Task` and `Decision` each carry a description naming its role
+   from that section's table.
 2. **New trackers** conform at creation: `Project` type, sub-issue work items,
    stamp, plan-ordered list, order-free names. A tracker template is a
    **markdown template**, never an issue form: forms render field labels as
@@ -414,14 +409,13 @@ and the one consumer:
    type enumeration (`GET /orgs/{org}/issue-types` is 403 for app identities
    where the repo-scoped read succeeds), and key automation on
    `issue.type.name` — webhook payloads carry no template identifier.
-3. **Registered existing trackers** are brought into this layout by the
-   conform tooling (QuantEcon/skills#49); the collector reports compliance
-   nightly. Claiming a work item that already has a parent **detaches it
+3. **Registered existing trackers** are brought into this layout by conform
+   tooling. Claiming a work item that already has a parent **detaches it
    from that parent**: sub-issue membership is single-parent, and both
    `gh issue edit --add-sub-issue` and `--parent` set `replace_parent`
    unconditionally, with no opt-out. The conform tooling must read an item's
    existing parent before linking, and re-link that parent or record the
-   detachment — a programme tracker silently emptied this way reports its
+   detachment — a parent tracker silently emptied this way reports its
    remaining closed children as complete. Adoption of the ordering rules is
    greenfield: at the 2026-08-23 baseline only 3 of 28 registered trackers
    carry any milestone (all descriptive) and none use dependencies, so
@@ -429,18 +423,15 @@ and the one consumer:
 4. **The `qe` skills** (`workplan-*`) operationalise the convention: create
    sub-issues in plan position, reprioritize on re-plan, and refresh the
    stamp section, `Next:` line, and list position as one atomic update — and
-   **re-stamp the section in the same turn as any change to the list**, because
-   the body's phase intents and exit criteria are undated claims sitting outside
-   the one section whose contract is that its claims are re-verified on update,
-   and they go stale on a re-plan otherwise. Their
+   **check the phase table against the list, and re-stamp the section, in the
+   same turn as any change to the list**: the phase intents and exit criteria
+   sit outside the stamp section, undated, so re-stamping alone does not
+   re-verify them, and they go stale on a re-plan otherwise. Their
    lint/conform pass may verify mechanically: stamp form present and unique,
    no sequence tokens in child titles or milestone names, no checkbox work
    lists, at most one `Next:` line and only in the stamp section, phases
-   contiguous. The skills currently cite the dashboard's tracker contract
-   (`docs/contracts/tracker.md` in QuantEcon/status-projects), which permits
-   body constructs this QEP forbids; the skills conform to this QEP. How each
-   consumer reaches conformance, and on what schedule, is that consumer's own
-   business.
+   contiguous. The skills conform to this QEP; how each consumer reaches
+   conformance, and on what schedule, is that consumer's own business.
 
 ## Appendix A (informative): tracker body skeleton
 
@@ -466,7 +457,8 @@ the milestones below.
 **Gates:** … (only the rationale lives here, once, in the project that waits:
 a phase-level gate is carried as a conjunction of native edges onto the first
 item of the waiting phase, a decision gate as an edge to the `Decision`, and a
-whole-project gate as a tracker-to-tracker edge — see §4; an ordering with no
+whole-project gate as a tracker-to-tracker edge — see *Constraints are
+dependencies*; an ordering with no
 edges behind it is not a gate and belongs under *Sequencing rationale*)
 
 **Sequencing rationale:** why this order — only what the list cannot say.
