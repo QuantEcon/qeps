@@ -265,12 +265,23 @@ diverge.
 The tracker body carries **exactly one machine-read element**: the status
 stamp, in one fixed form.
 
-- **Canonical**: a `## Where we stand (verified YYYY-MM-DD)` heading.
+- **Canonical**: a `## Where we stand (verified YYYY-MM-DD)` heading,
+  optionally with a time and zone — `(verified 2026-09-21 09:32 AEST)`.
 - **Accepted fallback**: a `> **Updated YYYY-MM-DD.**` banner line.
 
-The string `verified YYYY-MM-DD` must not appear anywhere else in the body —
-free-text near-misses are the known failure mode of stamp parsing. Everything
-else in the body is for people; no other body text is machine-read.
+Nothing else goes inside the parentheses: an amendment note or a second date
+makes the stamp unreadable. The date is the writer's local calendar date; the
+zone, when given, says whose. The string `verified YYYY-MM-DD` must not appear
+anywhere else in the body — free-text near-misses are the known failure mode
+of stamp parsing. Everything else in the body is for people; no other body
+text is machine-read.
+
+A stamp **asserts that the section beneath it was checked on that date**, so
+it is never placed over a body with no status content: a heading dated to the
+last body edit claims a check nobody made. The stamp section states **where
+the project stands now, never how it got there** — what is in flight, what is
+blocked, what needs a person. A dated account of what happened is revision
+history, and belongs in comments.
 
 Body writes are **whole-replace**: GitHub offers no partial update and no
 compare-and-swap, so a stamp refresh is a **read-modify-write within a
@@ -304,7 +315,9 @@ mirrors structure**:
 | Never in the body | It already lives in |
 |---|---|
 | Work-item rosters or checkbox work lists | the sub-issue list (membership, order, state) |
+| A numbered kick-off order or sequence of items | list position — sequencing rationale says why the order, never enumerates it |
 | Milestone→issue tables | the milestone (one click, always live) |
+| Phase completion status or dates in the phase table | the list (a phase is done when its last item closes), or the milestone |
 | Hand-written progress counts or percentages | native sub-issue progress |
 | Pairwise dependency prose for edges that exist | the dependency edges |
 | Any "next"/"currently on" claim outside the stamp's `Next:` line | list position |
@@ -402,7 +415,9 @@ maintains a tracker:
    `type:`. Templates cannot set milestone, parent, dependencies, or order —
    those are post-creation for every producer. Creation is never trusted to
    carry the type: after creating a tracker, assert the type by read-back
-   (`gh issue view N --json issueType`) and set it explicitly if absent —
+   (`type.name` on the REST issue, `GET /repos/{owner}/{repo}/issues/{n}` —
+   GraphQL is not reachable from every producer surface) and set it
+   explicitly if absent —
    non-interactive `gh issue create` does not apply templates at all, and
    the REST `type` parameter is silently dropped for callers without push
    access; both fail silently. Assert against the issue itself, not an org
@@ -442,13 +457,14 @@ maintains a tracker:
 
 **Next:** Owner/repo#N — one line of pickup context.
 
-Narrative of state: recent movement, in flight, blockers.
+State now: in flight, blocked, needing a person — never how it got here.
 
 ## Plan
 
 Work items and their order: the sub-issue list (top = next; completed items
 keep their place). Constraints between items: native dependencies. Phases:
-the milestones below.
+the milestones below; the table carries intent and exit criterion only —
+never members, status, or dates.
 
 | Phase | Intent | Exit criterion |
 |---|---|---|
