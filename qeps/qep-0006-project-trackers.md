@@ -58,10 +58,10 @@ dependencies left in prose.
 The root problem is structural: a sequence token in an issue title or a
 milestone name **welds order to identity**. Every re-plan must then either
 rename the work (breaking every prior reference to it) or let the names lie
-against the visible list. Names are also the one carrier the machine consumer
-cannot use: the dashboard's tracker contract deliberately **never reads title
-conventions or labels**, and its redaction rules strip titles and milestone
-names from private repositories (12 of the 28 registered trackers). Position,
+against the visible list. Names are also the one carrier a machine consumer
+cannot rely on: a naming convention is a parse that breaks on every rename,
+and a consumer that publishes facts about private repositories cannot publish
+their titles or milestone names. Position,
 edges, types, dates, and counts survive everywhere names do not — and each is a
 single-writer fact: re-ordering a list is one gesture, renaming a token family
 is one edit per issue.
@@ -363,11 +363,11 @@ ordering rule has no verified mechanism there.
 - **Sequence tokens in titles or milestone names** (`W0–W6`, `wp{n}-stage{m}`,
   `Phase 2:` prefixes). Rejected: welds order to identity, so every re-order
   renames k issues (breaking every prior "see W3" in immutable comment
-  history) or leaves the tokens lying against the visible list. Unreadable by
-  the machine consumer by contract, and stripped by redaction for private
-  repositories. Field evidence: token families harden into names on first
-  use, which is the tell that the real need is *handles* (issue numbers) and
-  *grouping* (milestones), not order.
+  history) or leaves the tokens lying against the visible list. Unusable by
+  a machine consumer, which can neither parse names reliably nor publish them
+  for private repositories. Field evidence: token families harden into names
+  on first use, which is the tell that the real need is *handles* (issue
+  numbers) and *grouping* (milestones), not order.
 - **The body's plan table as the order authority.** Rejected: the native list
   renders in position order on the same page, so a table that enumerates a
   second order is a mirror in visible conflict with structure, and the
@@ -385,8 +385,12 @@ ordering rule has no verified mechanism there.
   QEP-2 query. The type axis is reserved for structural roles.
 - **GitHub Projects (v2) as the ordering surface.** Rejected as authority:
   item order there is per-view, on a separate permission surface, in a second
-  system the collector does not read. Fine as a *lens* over the same issues;
-  never the source of truth.
+  system that every consumer of the issues would have to read as well. Fine
+  as a *lens* over the same issues; never the source of truth.
+- **A `Phase` issue field** to group work items, including across
+  repositories where milestones cannot. Rejected: a field's options are
+  defined once for the whole organization, while phase names belong to each
+  project.
 - **Queue semantics for the list** (done sinks, next floats to top).
   Rejected: destroys the list's readability as a plan, fragments phase
   contiguity, and makes closing an item cost a move. Under plan semantics the
