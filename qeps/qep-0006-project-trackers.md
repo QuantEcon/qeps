@@ -4,7 +4,7 @@ title: Project Tracker Structure and Order
 author: "@mmcky"
 status: Draft
 type: standard
-related: [2]
+related: [2, 7]
 created: 2026-08-26
 discussion: https://github.com/QuantEcon/qeps/issues/15
 ---
@@ -19,479 +19,455 @@ discussion: https://github.com/QuantEcon/qeps/issues/15
 | **Status**   | Draft                                                                |
 | **Type**     | standard                                                             |
 | **Created**  | 2026-08-26                                                           |
-| **Related**  | [QEP-2](qep-0002-standard-github-labels.md) — the content axis that *Issue types* composes with |
+| **Related**  | [QEP-2](qep-0002-standard-github-labels.md) — the content axis that *Issue types* composes with; [QEP-7](qep-0007-project-management-protocols.md) — the protocol this QEP binds to GitHub |
 | **Discussion** | [QuantEcon/qeps#15](https://github.com/QuantEcon/qeps/issues/15)   |
 
 ## Summary
 
-This QEP defines the org's unit of project tracking: a **Project** is one tracker
-issue, typed with the native `Project` issue type, whose work items are its
-**native sub-issues** one level down. Every structural fact lives in exactly one
-native carrier — kind in issue types, membership in sub-issue edges, **order
-in list position**, constraints in dependencies, grouping in milestones,
-freshness in one fixed status stamp — and **sequence is never encoded in
-names**. The tracker body
-carries what structure cannot: goal, current state, phase intent, gates, and
-rationale, and it never restates what the platform already holds.
+This QEP is the GitHub binding of QEP-7. A **Project** is one tracker issue, typed
+`Project`, whose work items are its native sub-issues. Every structural fact lives in
+exactly one native carrier: kind in issue types, membership in sub-issue edges, order
+in list position, constraints in dependencies, phases in `Phase` issues, planning facts
+in issue fields, and freshness in one fixed status stamp. **Sequence is never encoded
+in names.** The body is a short charter that changes only with direction, followed by a
+status block rewritten whole at each update; each change to it is announced by one
+dated comment. What is next, what is in flight and how far a project has come are
+derived from structure and never written.
 
 ## Motivation
 
-The practice exists; the convention doesn't. A 2026-08-23 audit of 99
-tracker-shaped open issues org-wide found 13 title conventions (the commonest
-covering 23%), 92% with no issue type, 60% tracking work in body checkboxes or
-prose rather than sub-issues, status stamps in three forms, and zero use of
-native dependencies. Coordination issues also have no honest label under QEP-2
-([#11](https://github.com/QuantEcon/qeps/issues/11)), so "untyped = untriaged"
-is currently unreliable.
+The practice exists; the convention did not. A 2026-08-23 audit of 99 tracker-shaped
+open issues org-wide found 13 title conventions, 92% with no issue type, 60% tracking
+work in body checkboxes or prose rather than sub-issues, status stamps in three forms,
+and no use of native dependencies. Trackers also have a machine consumer, which reads
+every registered tracker nightly, and three producer classes: people, the `qe` skills
+and unattended agents.
 
-Two things force the decision now. First, trackers have a **machine consumer**:
-the projects dashboard's collector reads every registered tracker nightly, and
-three producer classes write them (people, the `qe` skills, and future
-maintenance agents). Second, **ordering has arrived from the field**: the first
-work plan reached for milestones to express sequence
-(QuantEcon/textstrata#8), and a `wp{issue}-stage{n}` milestone naming
-convention was proposed to generalise it (QuantEcon/skills#55). Milestones
-group but do not order; the review of that first instance found the plan's own
-phases and the milestone axis cutting across each other, with the real
-dependencies left in prose.
+The first draft of this QEP fixed the structure and left the body free. Two months of
+trackers written to it showed what that produces. A 2026-09-28 review of 38 registered
+trackers measured a median body of 1,100 words and no tracker shorter than a screen;
+in a twelve-tracker sample the first screen answered 17 of 71 planning questions, and
+none said whether the project was on track, when it would end, or whose decisions were
+pending. The section whose contract is *current state* had become the revision log,
+because it was the only mandatory write. Planning facts lived in prose: 0 of 212
+issues carried a field value and 0 of 38 trackers a target date. Child issues held 70%
+of the words a planner met and no rule covered them. A second status register beside
+the tracker won every time, because it was the cheaper write.
 
-The root problem is structural: a sequence token in an issue title or a
-milestone name **welds order to identity**. Every re-plan must then either
-rename the work (breaking every prior reference to it) or let the names lie
-against the visible list. Names are also the one carrier a machine consumer
-cannot rely on: a naming convention is a parse that breaks on every rename,
-and a consumer that publishes facts about private repositories cannot publish
-their titles or milestone names. Position,
-edges, types, dates, and counts survive everywhere names do not — and each is a
-single-writer fact: re-ordering a list is one gesture, renaming a token family
-is one edit per issue.
+The platform now carries what prose carried: issue fields, sub-issues, dependencies,
+types and relates-to links are all generally available with REST access. Every mature
+peer practice keeps typed status, a short dated update and a stable charter. This
+revision moves QuantEcon's trackers to the same shape.
 
 ## Proposal
 
 ### 1. The unit
 
-A **Project is one tracker issue**. It carries the org-level **`Project` issue
-type** — a native issue type, not a label, so QEP-2's label set is untouched.
-Issue types are org metadata rather than repository content, so the type
-survives even where a private repository's content is redacted. This resolves
-the gap reported in [#11](https://github.com/QuantEcon/qeps/issues/11).
-
-Its **work items are its direct native sub-issues** — which may live in any
-repository — and **progress is measured on direct children only, never
-deeper**. Membership lives in the sub-issue edges: body checkboxes, plan
-tables, and legacy tasklists are never work items. A tracker with no
-sub-issues has **unmeasured** progress (never 0% — "no sub-issues" and
-"nothing done yet" are different facts).
+A **Project is one tracker issue** carrying the org-level `Project` issue type. Its
+**work items are its direct native sub-issues**, which may live in any repository.
+Membership lives in the sub-issue edges: body checkboxes, plan tables and legacy
+tasklists are never work items.
 
 An issue is a **work item** of a project if closing it advances the project's
-definition of done. If the definition of done can be met without it, it is not
-a member — however much it shares a repository, a theme, or an owner. **If the
-goal must be widened to justify an item's membership, the item is not a
-member.** Not every issue belongs to a project — an unparented issue is the
-normal case, not a gap to be filled — and an unparented project tracker is
-likewise normal: not every project answers to a programme.
+definition of done. If the definition of done can be met without it, it is not a
+member, however much it shares a repository, a theme or an owner. **If the goal must
+be widened to justify an item's membership, the item is not a member.** An unparented
+issue is the normal case, not a gap to be filled.
 
-A project's direct children are **leaf work items**, never other project
-trackers. Progress is a count over direct children, so a multi-item project
-counted beside leaf issues weighs the same as each of them and makes the
-percentage meaningless. A tracker whose children are project trackers is
-outside this QEP (see *Scope*) and is **not typed `Project`**. **`Decision`
-children sit beside work items**: a decision is a point in the plan rather
-than a unit of work, so it does not distort the comparison the rule
-protects. A `Decision` closed `completed` counts toward progress like any
-other child — a recorded choice advances the definition of done — and a
-consumer may render a project's decisions apart from its work. The
-percentage is also a **snapshot over current direct children, not a time
-series**: membership changes — items dropped,
-items moved to another project, a tracker split — move the number without
-work occurring, so progress is never compared across a membership change.
+A project's direct children are work items and `Decision`s. A work item is a **leaf**
+or a **phase**, whose own sub-issues are that phase's leaves. A project's work items
+are of **one grain**: all leaves or all phases, with `Decision`s beside either. Progress
+is a count over direct children, and for a phased project also over the open phase's
+leaves; it is a snapshot over current membership, never compared across a membership
+change. A tracker with no sub-issues has **unmeasured** progress, never zero. A tracker
+whose children are project trackers is a programme (*Programmes*), never typed
+`Project`.
+
+**All started work has a plan home.** A repository with ongoing work keeps one standing
+project at `Stage` Steady, its **upkeep tracker**. An issue joins it when work on it
+starts outside any plan; its owner may also place an unstarted issue there to rank it.
+Every other unstarted issue stays unparented.
 
 ### 2. Issue types
 
-Native issue types carry **structural role**: what kind of object an issue is
-in the tracking system. The axis is orthogonal to QEP-2's labels, which
-classify **content** at triage regardless of project membership — the two
-compose rather than compete (a work item whose content is a bug is `Task`
-plus the `bug` label, never a `Bug` type). Types are org metadata: the
-machine consumer branches on them, and they survive redaction where labels
-are never read.
-
-The org type set is three structural roles, each with its own meaning of
-"closed":
+Native issue types carry **structural role**: what kind of object an issue is in the
+tracking system. The axis is orthogonal to QEP-2's labels, which classify **content**
+at triage regardless of membership; the two compose (a work item whose content is a
+bug is `Task` plus the `bug` label, never a `Bug` type). Types are org metadata: a
+consumer branches on them, and they survive redaction where labels are never read.
 
 | Type | Role | Closing means |
 |---|---|---|
+| `Programme` | a family of projects with a lead | the family is retired |
 | `Project` | a project tracker | the definition of done is met |
+| `Phase` | one step of a project, holding its leaves | the exit criterion is met |
 | `Task` | a leaf work item | the work shipped |
 | `Decision` | a decision point in a plan | the choice is recorded |
 
-A **`Decision`** is open while the choice is pending, closed `completed` when
-decided — with the choice recorded in the issue — and closed `not_planned`
-when mooted. Work that cannot start before a choice is made is blocked-by
-the decision (see *Constraints are dependencies*), so "parked on a decision"
-is derived like any other
-parked-ness, and a consumer can render a project's open decisions as the
-distinct objects they are. A `Decision` may still carry QEP-2's `discuss`
-label: the label states what the conversation is; the type states the
-object's role in the plan.
+A **`Decision`** is opened for a choice that blocks planned work beyond the session in
+which it arises, or that someone other than the person running that session must make.
+A choice ruled within one session is recorded in that session's change and in the next
+update instead. A `Decision`'s assignee is the decider and its `Target date` the
+needed-by date; its blocking edges go to what waits. The decider's own comment is the
+ruling, complete when posted; a relayed ruling stands once the decider confirms it; a
+ruling made in a document the decider merges is cited at its merge commit. The issue's
+first line, edited in place at ruling, carries the outcome and cites the ruling by
+option label or its first sentence, verbatim. A reversal is a new `Decision`.
 
-`Project` is required on project trackers and `Decision` on decision
-points; `Task` on leaf work items is recommended, not required — an untyped
-issue remains the normal pre-triage state. A tracker whose children are
-project trackers is not typed `Project` (see *The unit*).
+**Only a leaf `Task` is closed by a reference** from a pull request or commit. A phase,
+a project, a programme and a `Decision` close by their own act.
 
-A type is admitted to the set only when it names a structural role with its
-own meaning of "closed" that a machine consumer renders or branches on.
-Content classification is never a type — that axis belongs to QEP-2.
+A type is admitted to the set only when it names a structural role with its own
+meaning of "closed" that a consumer renders or branches on. Content classification is
+never a type.
 
-### 3. Order is positional
+### 3. Planning fields
 
-The sub-issue list is kept in **plan order**: **position is the order of the
-plan**, and the **topmost open item is next**. The list is a plan, not a
-queue — completed items keep their place, so the list stays readable as the
-plan with progress visible in it. A new item is placed on arrival (it appends
-by default; move it into its phase), and phase groups stay contiguous.
+A project tracker has **one assignee, its accountable owner**. It carries five issue
+fields: `Health` (On track, At risk, Off track), `Stage` (Proposed, Active, Parked,
+Steady), `Priority` (Now, Next, Later), `Start date` and `Target date`. An Active
+project meant to finish carries a `Target date`; a Steady one carries none. The date
+is the current expectation, not a commitment: the tooling reports on it and never
+enforces it, and moving it is an owner's judgement announced in an update.
 
-Dropping is different from completing. An item **dropped** from the plan —
-closed `not_planned`, or superseded — is **removed from the sub-issue list**:
-membership is the plan, and work no longer in the plan is not a member. The
-issue itself persists with its own `state_reason` (`completed`, `not_planned`,
-or `duplicate` with `duplicate_of`) and its cross-references intact — only
-the membership edge goes. This is mechanical as well as semantic:
-`sub_issues_summary.completed` counts every closed child regardless of
-`state_reason`, so a dropped item left in place inflates the tracker's
-reported progress.
+A phase's date is its `Target date`, except where a repository plans by release; there
+the release milestone's due date is the date of every item in it, and those items carry
+none. A leaf carries a `Target date` only for its own deadline. A `Decision`'s is its
+needed-by date.
 
-**Re-ordering moves items and never renames them** — by drag in the UI or by
-the sub-issue reprioritize API (`PATCH …/issues/{parent}/sub_issues/priority`;
-GraphQL `reprioritizeSubIssue`); the two write the same fact. **Sequence is
-never encoded in issue titles or milestone names** (no `W3 —`, no `Phase 2:`
-prefixes, no `stage{n}` tokens). Issue numbers are the stable handles; titles
-are pure descriptions.
+Everywhere, the assignee is the accountable person; an assignment never means work is
+under way. The fields are visible to everyone who can see the issue, and **a fact a
+field carries is never written in prose**.
 
-Order is an **operational property, not a published field** of the unit. A
-consumer that republishes a tracker should present the structure the tracker
-expresses — membership as recorded, in the position the tracker places it —
-rather than an arrangement of its own. A consumer that re-sorts or re-groups
-makes a conformant tracker and a non-conformant one publish identically, and
-the standard cannot then be evaluated from what is published. Order is an
-attribute of the membership edge and is observable exactly where membership
-is; no consumer may require, parse, or infer sequence from names.
+### 4. Order is positional
 
-### 4. Constraints are dependencies
+The sub-issue list is kept in **plan order**: position is the order of the plan, and
+the list is a plan, not a queue. Completed items keep their place; a new item is placed
+on arrival; phases stay contiguous. An item **dropped** from the plan is removed from
+the list, because membership is the plan and a closed child counts as complete
+whatever its closing reason. Re-ordering moves items and never renames them.
+**Sequence is never encoded in titles or milestone names.** Issue numbers are the
+stable handles; titles are outcomes, free of sequence, priority and date tokens.
 
-A genuine sequencing constraint between work items is expressed as a **native
-dependency** (blocked-by), never as prose. A dependency states a
-**constraint** (a partial order), not a presentation order; position states
-presentation. Dependencies are **optional** — most order is soft preference,
-and edges are reserved for constraints that are real. Dependencies are
-independent of the parent hierarchy, so an edge may cross project boundaries:
-an item-level constraint is a native edge on the two items **whether or not
-they share a project**, and the body carries only the rationale.
+What follows from order is **derived, never written**. *Next* is the topmost open leaf
+with no open blocker on itself or any ancestor and no open pull request referencing it,
+descending into the first open phase. *In flight* is an open leaf referenced by an open
+pull request, or by a pushed branch that has no pull request. *Pending decisions* are
+the open `Decision` children. No body states any of these.
 
-**The test for a real constraint is output, not order.** An edge is written
-where the downstream item cannot start without something the upstream item
-produces — a ruling, a field, a document, a page it draws from. That two items
-touch the same file, or that one agent will work them in sequence, is
-coordination: it stays in the body as plan order and sequencing rationale,
-because written as an edge it shows the downstream as *blocked* while it could
-proceed, and it teaches producers that plan position is edge material. The
-same test decides what a *gate* is. A phase-level gate is a real constraint by
-definition — the waiting phase needs what the upstream phase's exit criterion
-delivers — so it carries edges (below); a phase-level *preference* is not a
-gate, is not written among the body's gates, and stays with the sequencing
-rationale. Where the waiting item needs only some of an upstream phase's
-outputs, the constraint is item-level and those edges alone are written.
+Order is an operational property of the membership edge, observable exactly where
+membership is. A consumer that republishes a tracker presents membership as recorded,
+in the position the tracker places it; one that re-sorts or re-groups makes a
+conformant tracker and a non-conformant one publish identically. No consumer may
+require, parse or infer sequence from names.
 
-**A phase-level gate is carried as a conjunction.** Most cross-project gates
-are phase-level in practice — one phase of A waits on one phase of B while
-the rest of both proceeds — and no object represents a phase. The dependency
-graph is many-to-many, though, which is enough: the **first item of the
-waiting phase is blocked by every item of the phase it waits on**. That is
-linear in the size of the upstream phase rather than a cross-product; it
-publishes a real quantity, how many upstream items are still open; and it
-**clears when the phase closes** rather than when the upstream tracker
-closes. Where the items of the waiting phase are themselves ordered, the
-conjunction reaches them through that order; where they are genuinely
-parallel, only the first is gated and the body says so. A phase gate with no
-edges behind it is prose, and prose is the one carrier no consumer reads.
+### 5. Constraints are dependencies
 
-**Where a phase's exit criterion is a single `Decision` closing, the gate is
-a decision gate rather than a phase gate**: the object exists, so each item
-that waits carries the native edge to it and the body states only why. Where
-a gate is a decision that has no issue, create a `Decision`-typed one for it
-rather than describing the park in prose.
+A genuine sequencing constraint is a **native dependency** (blocked-by), never prose.
+**The test for a constraint is output, not order**: an edge is written where the
+downstream item cannot start without something the upstream item produces. Shared
+files, serial work by one agent and mere preference are sequencing rationale, never
+edges. Dependencies are independent of the parent hierarchy and may cross project
+boundaries.
 
-Where a project genuinely waits on another project **in its entirety**, that
-gate must also carry the native dependency edge between the two tracker
-issues, with the body carrying only the rationale. State the constraint at
-the granularity that is actually true: a tracker-to-tracker edge asserts that
-*nothing* in the blocked project may start, and parks it wholesale in any
-consumer deriving parked-ness from blockers — which makes it the wrong
-instrument for a gate that holds one phase.
+A gate is an edge **between the issues actually constrained**: leaves, phases or
+trackers. A phase-level gate is one edge between two `Phase` issues; a decision gate is
+an edge from each waiting item to the `Decision`; a whole-project gate is a
+tracker-to-tracker edge, which asserts that nothing in the blocked project may start
+and is therefore the wrong instrument for a gate that holds one phase. Derivation
+honours an ancestor's blockers, so a leaf under a blocked phase is parked without an
+edge of its own.
 
-A gate's rationale is stated **once**, in the body of the project that must
-wait. **The reverse direction is read, never written:** blocked-by and
-blocking are two ends of one edge, so the waited-on project needs no
-back-pointer to stay in step. A `Related work` line pointing at the gate
-(see *The body*) is available prose for a human reader; it is not an obligation this standard
-relies on, because an obligation with a free platform inverse is one that
-will simply be missed.
+A gate's rationale is **one clause, written once**, on the waiting issue, or on the
+programme when both ends belong to it, and it is removed with its edge. The reverse
+direction is read, never written: blocked-by and blocking are two ends of one edge. A
+relationship that constrains nothing is a relates-to link. Whether an item is parked is
+derived: an open item with an open blocker, on itself or an ancestor, is parked.
 
-Whether an item is **parked** is derived, not carried: an open item with an
-open blocker is parked. Position states where an item sits in the plan;
-dependencies state whether it can start.
+### 6. Phases
 
-### 5. Phases are milestones (optional)
+A phase is an issue of type `Phase`. Its title names its outcome; its body states the
+intent and the exit criterion; its date follows *Planning fields*. Phases carry edges
+and cross repositories, which is what a grouping needs. A project uses phases when its
+flat list stops reading as a plan, and its definition of done then holds only checks
+that no single phase's exit states.
 
-Where a tracker is large enough to want grouping, **milestones group work
-items into phases**. Milestone names are **descriptive** ("Phase 1 —
-Foundations"), never sequence tokens, and never purely numeric (`gh issue
-list --milestone` parses its argument as a number first, so a milestone
-titled "2026" is looked up as milestone *number* 2026 and fails). A milestone
-is a single object that issues *reference*, so renaming a phase is one edit
-that propagates everywhere — the single-update-point property no title
-convention has. Phase order shows as contiguity in the list; phase *meaning*
-(intent, exit criterion, gate) lives in the body's phase table.
+**Milestones group a repository's releases** and carry no phase meaning, membership or
+order. A release item's title may name its release, because the version is its
+identity. A milestone title is never purely numeric.
 
-Two platform limits are accepted rather than worked around: an issue takes
-one milestone, so phases must partition the work; and milestones are
-per-repository, so **cross-repo work items fall back to the body's phase
-table** — a same-named milestone in another repository is a copy, and copies
-diverge.
+### 7. The status stamp
 
-### 6. The status stamp
+The tracker body carries **exactly one machine-read element**, the status stamp, in one
+fixed form: the heading `## Where we stand (verified YYYY-MM-DD)`, optionally with a
+time and zone. Nothing else goes inside the parentheses. The date is the writer's
+local calendar date. The string `verified YYYY-MM-DD` appears nowhere else in the body.
 
-The tracker body carries **exactly one machine-read element**: the status
-stamp, in one fixed form.
+The stamp heads the **status block**, a fixed form at the end of the body. The block
+is the status. It is **rewritten whole, in place**, at each update, and holds only:
 
-- **Canonical**: a `## Where we stand (verified YYYY-MM-DD)` heading,
-  optionally with a time and zone — `(verified 2026-09-21 09:32 AEST)`.
-- **Accepted fallback**: a `> **Updated YYYY-MM-DD.**` banner line.
+- **`Risk:`** the reason, present exactly when `Health` is not On track;
+- **`Needs:`** what the plan waits on from people: an issue or pull request with the
+  act in a few words, naming a person only where no object carries the ask, and
+  mentioning them only when first named; or "none".
 
-Nothing else goes inside the parentheses: an amendment note or a second date
-makes the stamp unreadable. The date is the writer's local calendar date; the
-zone, when given, says whose. The string `verified YYYY-MM-DD` must not appear
-anywhere else in the body — free-text near-misses are the known failure mode
-of stamp parsing. Everything else in the body is for people; no other body
-text is machine-read.
+The block restates no field, assignee or structure. A line carried from the previous
+block is a claim like any other and is verified again. A wrong claim is corrected in
+place. A stamp asserts that the block beneath it was checked on that date, so it is
+never placed over a body with no status content.
 
-A stamp **asserts that the section beneath it was checked on that date**, so
-it is never placed over a body with no status content: a heading dated to the
-last body edit claims a check nobody made. The stamp section states **where
-the project stands now, never how it got there** — what is in flight, what is
-blocked, what needs a person. A dated account of what happened is revision
-history, and belongs in comments.
+**Each change to the block is announced by one update comment**: first the date and
+the `Health` value, then what changed and why, as at most two dated, linked events. It
+cites rulings by option label or the decider's words, records any correction,
+restates no unchanged state, and is never edited. A comment without a block change
+carries only an event that changes no status line. **No status comment is pinned.**
 
-Body writes are **whole-replace**: GitHub offers no partial update and no
-compare-and-swap, so a stamp refresh is a **read-modify-write within a
-single turn**, preserving all body content outside the stamp section —
-concurrent writers otherwise silently discard each other's edits. The read
-half must be **lossless**: read the body from a surface that returns its
-source (the REST issues endpoint returns raw markdown). Some agent surfaces
-return a sanitised rendering instead — HTML entities substituted, and
-anything tag-shaped, such as a `<placeholder>` in a code snippet, silently
-dropped — and writing such a read back destroys content while appearing to
-preserve it. Where only a sanitising surface is available, treat the body as
-append-only and record corrections as comments. This applies to every
-programmatic body write, not only the stamp.
+An update is due when a judgement changes (health, target, stage, priority, a new ask,
+a ruling, direction) or a direct child closes. A list edit or the passage of time
+never makes one due.
 
-### 7. The body
+### 8. The body
 
-The body opens with a **one-sentence goal**, then the **stamp section at the
-top**. The stamp section may open with a single `**Next:**` line — a link
-to one work item plus one line of pickup context (branch, failing thing,
-where to resume). This is the body's **only** statement of what is next: it
-is a dated claim inside the one section whose contract is
-dated-claims-re-verified-on-update, and if it ever disagrees with the list,
-**the list is the authority** and the line is stale prose awaiting its next
-stamp. Trackers that do not run working sessions omit the line.
+The body has two parts. First the **charter**: the goal, written as the outcome; a few
+observable done-when checks, or, for an upkeep tracker, the standing checks it keeps;
+what the project will not do; an optional one-clause order principle; a resume
+condition, present exactly when the project is parked; the one whole-project gate line,
+when one applies; and a link to the repository's records. The charter changes only
+when direction changes. Then the status block (*The status stamp*). **The skeleton is
+the ceiling.** With the title, the fields and the child list, the body passes QEP-7's
+planning test within one screen.
 
-The body carries what structure cannot: the goal and definition of done, the
-where-we-stand narrative, phase intents and exit criteria, gates, sequencing
-rationale, and scope boundaries ("what does not change"). The body **never
-mirrors structure**:
+Each banned kind of text has a named home:
 
 | Never in the body | It already lives in |
 |---|---|
-| Work-item rosters or checkbox work lists | the sub-issue list (membership, order, state) |
-| A numbered kick-off order or sequence of items | list position — sequencing rationale says why the order, never enumerates it |
-| Milestone→issue tables | the milestone (one click, always live) |
-| Phase completion status or dates in the phase table | the list (a phase is done when its last item closes), or the milestone |
-| Hand-written progress counts or percentages | native sub-issue progress |
-| Pairwise dependency prose for edges that exist | the dependency edges |
-| Any "next"/"currently on" claim outside the stamp's `Next:` line | list position |
+| A work-item roster, a numbered sequence, a checkbox work list | the sub-issue list |
+| A `Next:` line, "currently on", "in flight" | derived from the list and open pull requests |
+| Progress counts or percentages, phase completion or dates | native progress, `Phase` state, fields |
+| A planning value in prose: health, stage, priority, dates, owner | the fields and the assignee |
+| Dependency prose for an edge that exists | the edge and its one clause |
+| History: what landed, what was ruled, when | the update comments and the records |
+| Implementation detail, steps, evidence, resume notes | the records folder (QEP-7) and the pull request |
+| Related work | relates-to links |
 
-The bans have named replacements: the body's **phase table carries phase
-intent and exit criteria, never membership** — the question a roster answers
-(which items are in which phase) is already answered by the sub-issue list
-and the milestones. A ban with a named replacement survives contact with
-producers; a ban alone gets worked around.
+Work items are referenced by number, never by copied title. An ask on a tracker points
+at an issue its addressee can read.
 
-A **Related work** section (optional) names sibling **projects** — one line
-each on how they relate: informs, spawned by, shares an engine, gated by
-(pointing at the body that states the gate — available prose, never an
-obligation, since a gate's reverse direction is read rather than written).
-GitHub records only that a
-mention happened; a deliberate relationship between projects is an assertion
-with no native carrier, which is what the body is for. Entries name
-projects, never work items — an entry may cite item numbers as the specifics
-of a project-level relationship, but an entry whose subject is a work item
-is the sub-issue list restated or dependency prose, both banned above.
+### 9. Programmes
 
-Work items are referenced from prose by number/URL (rendered live by GitHub),
-never by copied titles. An informative body skeleton is given in Appendix A.
+A programme is one issue of type `Programme`, assigned to its lead. Its direct
+sub-issues are its member trackers, in focus order, and its own `Decision`s. A project
+belongs to at most one programme, through its parent edge, the only record of
+membership; a project tracker acquires no duty by belonging, and an unparented
+project tracker is normal.
 
-### 8. Scope
+Its body states the purpose; who besides the lead has a final say, and on what; the
+scope; the gates between members, each with its one clause; and, optionally, the reason
+for the order. It never states a member's state and never publishes a progress count
+over its members. Its `Stage` is a field; its status block and update comments follow
+*The status stamp*, without a `Risk:` line. Its health is derived: the worst `Health`
+among its open Active members. A programme that never ends stays open at `Stage`
+Steady.
 
-This QEP governs **project trackers and their work items**. The layer above
-a project — a tracker whose children are project trackers, or any other
-grouping of projects — is **not defined here**: this QEP gives it no type and
-no structural duties, and a project tracker acquires no duty by belonging to
-one. An unparented project tracker remains the normal case (see *The unit*).
-The surrounding *practice* — tracker vs period-plan genres, session ledgers,
-succession, revision-log comment discipline — is also outside this QEP; it
-is maintained in the org's `qe` skills, and this QEP is the authority on the
-unit's structure.
+### 10. Work items
 
-The QEP is scoped to **GitHub.com**: the sub-issue reordering endpoint is
-absent from GitHub Enterprise Server API descriptions through 3.18, so the
-ordering rule has no verified mechanism there.
+A work item's body states its outcome, its done-when checks, any person it needs and
+for what act, and the reason for any unobvious wait. It holds no status, steps,
+evidence, history or links to working files; those live in the repository's records
+folder (QEP-7) and in the pull request that does the work. An adopted report keeps its
+reporter's body, with at most a short done-when prepended.
+
+### 11. Comments
+
+A thread carries the update comments that announce status changes, rulings in the
+decider's own words, questions to a named person, closing notes and conversation. The
+status itself is in the body, never in a comment. A thread never carries session
+reports, revision logs, audits, pasted bodies, reminders or repeat mentions. A person
+may update the status by hand, in these forms.
+
+Agent-drafted text carries QEP-5's disclosure line and a marker a reader and a consumer
+can filter on. It is posted by the person who approved it, or, for an update of
+verified events only, by the person running the session. An agent never writes a
+decision line.
+
+### 12. Scope
+
+This QEP governs project trackers, their work items, their comments and programmes on
+**GitHub.com**: the sub-issue reordering endpoint is absent from GitHub Enterprise
+Server, so the ordering rule has no verified mechanism there. Procedures, numbers and
+lints belong to the tooling, which records its numbers, reports against them for one
+cycle before enforcing them, and enforces them at write. The records a project keeps
+beside its tracker are QEP-7's.
 
 ## Alternatives considered
 
-- **Sequence tokens in titles or milestone names** (`W0–W6`, `wp{n}-stage{m}`,
-  `Phase 2:` prefixes). Rejected: welds order to identity, so every re-order
-  renames k issues (breaking every prior "see W3" in immutable comment
-  history) or leaves the tokens lying against the visible list. Unusable by
-  a machine consumer, which can neither parse names reliably nor publish them
-  for private repositories. Field evidence: token families harden into names
-  on first use, which is the tell that the real need is *handles* (issue
-  numbers) and *grouping* (milestones), not order.
-- **The body's plan table as the order authority.** Rejected: the native list
-  renders in position order on the same page, so a table that enumerates a
-  second order is a mirror in visible conflict with structure, and the
-  discipline's own rule — claims re-verified, never carried forward — argues
-  against maintaining mirrors. The table's job is meaning (phases, gates,
-  rationale), not enumeration.
-- **A `tracking` type label** (as floated in
-  [#11](https://github.com/QuantEcon/qeps/issues/11)). Rejected in favour of
-  the native `Project` issue type: QEP-2's one-type-per-issue label rule stays
-  untouched, and the type survives redaction where labels are never read.
-- **Content-classifying issue types** (`Bug` and `Feature`, GitHub's default
-  set). Rejected: content classification is QEP-2's label axis, and a second
-  carrier for the same fact lets the two disagree — an issue typed `Bug` and
-  labelled `enhancement`, or typed and unlabelled and so invisible to every
-  QEP-2 query. The type axis is reserved for structural roles.
-- **GitHub Projects (v2) as the ordering surface.** Rejected as authority:
-  item order there is per-view, on a separate permission surface, in a second
-  system that every consumer of the issues would have to read as well. Fine
-  as a *lens* over the same issues; never the source of truth.
-- **A `Phase` issue field** to group work items, including across
-  repositories where milestones cannot. Rejected: a field's options are
-  defined once for the whole organization, while phase names belong to each
-  project.
-- **Queue semantics for the list** (done sinks, next floats to top).
-  Rejected: destroys the list's readability as a plan, fragments phase
-  contiguity, and makes closing an item cost a move. Under plan semantics the
-  routine gesture (closing) costs nothing and moves always mean re-planning.
-- **A standalone resume box above the body.** Rejected: a second dated prose
-  register beside the stamp section — two update points that diverge, and a
-  stylistic near-miss with the banner stamp form. Folded into the stamp
-  section as the single `Next:` line instead.
+- **Sequence tokens in titles or milestone names.** Rejected: welds order to identity,
+  so every re-order renames issues or lets the names lie against the list; unusable by
+  a consumer, which can neither parse names reliably nor publish them for private
+  repositories.
+- **A body status section of free prose.** Rejected: it was the first draft's rule, and
+  on every tracker measured it became the revision log, because it was the one
+  mandatory write and a session ending had nowhere else to put what it did.
+- **A `Next:` line in the body.** Rejected: it was the first draft's one resume
+  affordance, and in the field it grew to hundreds of words and disagreed with the list
+  within days. Next is derivable, and a derived value cannot drift.
+- **A pinned status comment.** Rejected: the body is the one surface every reader and
+  consumer sees first, a pinned comment is a second register, and who may pin was
+  unverified.
+- **Milestones as phases.** Rejected: an issue takes one milestone, milestones are
+  per-repository, and they carry no edges, so cross-repository projects had no phase
+  carrier at all.
+- **A conjunction of edges onto the first item of a waiting phase.** Rejected once
+  phases became issues: one edge between two `Phase` issues says the same thing, and
+  derivation honours an ancestor's blockers.
+- **Content-classifying issue types** (`Bug`, `Feature`). Rejected: content is QEP-2's
+  label axis, and a second carrier for the same fact lets the two disagree.
+- **GitHub Projects as the ordering surface.** Rejected as authority: item order there
+  is per-view, on a separate permission surface, in a second system every consumer
+  would also have to read. Fine as a lens; never the source of truth.
+- **A `Phase` issue field to group work items.** Rejected: a field's options are
+  defined once for the organisation, while phase names belong to each project.
+- **Queue semantics for the list** (done sinks, next floats to the top). Rejected:
+  destroys the list's readability as a plan and makes closing an item cost a move.
+- **Heartbeat updates on a schedule.** Rejected: reposting to keep a freshness signal
+  alive measures activity, not status.
+- **A `Decision` for every ruling.** Rejected: decision points stay few and real; a
+  choice ruled in session is recorded in that session's change and the next update.
 
 ## Adoption
 
-One org-level precondition, then obligations on whoever creates, conforms, or
-maintains a tracker:
+1. **The org issue-type set** is reshaped once by reversible calls: `Programme` and
+   `Phase` created, `Bug` and `Feature` disabled rather than deleted, and each type
+   given the description of its row in *Issue types*. **The org fields** `Health` and
+   `Stage` are created, `Priority`'s options become Now, Next and Later, and the five
+   planning fields are made visible to everyone who can see an issue. Each step can be
+   undone.
+2. **New trackers** conform at creation. A tracker template is a Markdown template,
+   never an issue form: forms render field labels as headings and cannot emit the stamp
+   heading, while a Markdown template passes the body through verbatim and can set the
+   type. A template sets the type only; fields, parent, dependencies and order are set
+   after creation and read back, because creation cannot be trusted to carry the type
+   on every surface. Placeholders use square brackets, because GitHub drops tag-shaped
+   text when it renders.
+3. **Existing trackers** are brought to this shape by a conform pass that re-verifies
+   every status claim against live records before writing, retitles as an outcome,
+   writes the charter from the goal and the phase exits, moves history to one update
+   comment and the records, types each child, adds native edges for real gates and
+   removes the gate prose, and sets the fields and the assignee. Claiming a work item
+   that already has a parent detaches it from that parent, so the pass reads an item's
+   parent before linking and re-links or records the detachment.
+4. **Tooling that writes trackers** drafts from the records and live structure,
+   resolves every present-tense or outcome claim to a primary record read live, and
+   has judgements approved by the accountable person. It re-reads each carrier before
+   writing it and abandons the write if the carrier moved. In a body it rewrites only a
+   tracker's status block and a `Decision`'s first line, from the raw source, because
+   body writes are whole-replace with no compare-and-swap and some surfaces return a
+   sanitised rendering that destroys content when written back. It writes fields one
+   at a time, reads back every write, and posts the update comment only after its
+   block reads back. Its lint checks the layout of a body against Appendix A, the
+   bans of *The body*, titles, and the budgets the tooling sets.
 
-1. **The org issue-type set** is reshaped once to the three roles of *Issue
-   types*, by reversible calls to the issue-types API: `Bug` and `Feature` are
-   **disabled, not deleted** — disabling hides a type from every picker but
-   retains existing assignments latent, and is undone by one call — and
-   `Project`, `Task` and `Decision` each carry a description naming its role
-   from that section's table.
-2. **New trackers** conform at creation: `Project` type, sub-issue work items,
-   stamp, plan-ordered list, order-free names. A tracker template is a
-   **markdown template**, never an issue form: forms render field labels as
-   `###` headings and cannot emit the stamp heading or its dynamic date,
-   while a markdown template passes the body through verbatim and can set
-   `type:`. Templates cannot set milestone, parent, dependencies, or order —
-   those are post-creation for every producer. Creation is never trusted to
-   carry the type: after creating a tracker, assert the type by read-back
-   (`type.name` on the REST issue, `GET /repos/{owner}/{repo}/issues/{n}` —
-   GraphQL is not reachable from every producer surface) and set it
-   explicitly if absent —
-   non-interactive `gh issue create` does not apply templates at all, and
-   the REST `type` parameter is silently dropped for callers without push
-   access; both fail silently. Assert against the issue itself, not an org
-   type enumeration (`GET /orgs/{org}/issue-types` is 403 for app identities
-   where the repo-scoped read succeeds), and key automation on
-   `issue.type.name` — webhook payloads carry no template identifier.
-3. **Registered existing trackers** are brought into this layout by conform
-   tooling. Claiming a work item that already has a parent **detaches it
-   from that parent**: sub-issue membership is single-parent, and both
-   `gh issue edit --add-sub-issue` and `--parent` set `replace_parent`
-   unconditionally, with no opt-out. The conform tooling must read an item's
-   existing parent before linking, and re-link that parent or record the
-   detachment — a parent tracker silently emptied this way reports its
-   remaining closed children as complete. Adoption of the ordering rules is
-   greenfield: at the 2026-08-23 baseline only 3 of 28 registered trackers
-   carry any milestone (all descriptive) and none use dependencies, so
-   nothing is renamed and no history is rewritten.
-4. **The `qe` skills** (`workplan-*`) operationalise the convention: create
-   sub-issues in plan position, reprioritize on re-plan, and refresh the
-   stamp section, `Next:` line, and list position as one atomic update — and
-   **check the phase table against the list, and re-stamp the section, in the
-   same turn as any change to the list**: the phase intents and exit criteria
-   sit outside the stamp section, undated, so re-stamping alone does not
-   re-verify them, and they go stale on a re-plan otherwise. Their
-   lint/conform pass may verify mechanically: stamp form present and unique,
-   no sequence tokens in child titles or milestone names, no checkbox work
-   lists, at most one `Next:` line and only in the stamp section, phases
-   contiguous. The skills conform to this QEP; how each consumer reaches
-   conformance, and on what schedule, is that consumer's own business.
+## Appendix A (informative): the six skeletons
 
-## Appendix A (informative): tracker body skeleton
+Each skeleton is defined here once. A repository's issue templates and the tooling's
+lint are generated from it or checked against it. Lines marked optional appear only
+when they apply; no free sections follow.
+
+**Programme**
 
 ```markdown
-*Goal: one sentence on what done looks like.*
+**Purpose:** [what the family delivers together, one sentence]
+**Decides:** @[person]: [matters]             ← only people other than the lead
+**Scope:** [in] · not: [out]
+**Resumes when:** [condition]                 ← present exactly when Stage is Parked
+**Gates:**
+- #[A] waits on #[B] for [what B produces]    ← each with a native edge
+**Sequencing:** [why this order]              ← optional
+Records: [.qe/](link)
 
 ## Where we stand (verified YYYY-MM-DD)
 
-**Next:** Owner/repo#N — one line of pickup context.
-
-State now: in flight, blocked, needing a person — never how it got here.
-
-## Plan
-
-Work items and their order: the sub-issue list (top = next; completed items
-keep their place). Constraints between items: native dependencies. Phases:
-the milestones below; the table carries intent and exit criterion only —
-never members, status, or dates.
-
-| Phase | Intent | Exit criterion |
-|---|---|---|
-| [Phase 1 — Name](milestone-url) | … | … |
-
-**Gates:** … (only the rationale lives here, once, in the project that waits:
-a phase-level gate is carried as a conjunction of native edges onto the first
-item of the waiting phase, a decision gate as an edge to the `Decision`, and a
-whole-project gate as a tracker-to-tracker edge — see *Constraints are
-dependencies*; an ordering with no
-edges behind it is not a gate and belongs under *Sequencing rationale*)
-
-**Sequencing rationale:** why this order — only what the list cannot say.
-
-## Related work
-
-- [Project name](tracker-url) — one line on the relationship.
-
-## Out of scope / what does not change
-
-…
+**Needs:** #N: [act] · [handle]: [act] (since YYYY-MM-DD)   ← or "none"
 ```
 
-Free sections (Findings, Premises, Notes) may follow — the skeleton is a
-floor, not a ceiling. Revision history lives in comments, per the practice
-conventions maintained in the `qe` skills.
+**Project**
+
+```markdown
+**Goal:** [the outcome, written as if delivered]
+
+**Done when**
+- [observable check]                          ← a few; a phased project lists only what no phase's exit states
+
+**Not doing**
+- [one line]                                  ← optional
+
+**Order:** [sequencing principle]             ← optional
+**Resumes when:** [condition]                 ← present exactly when Stage is Parked
+**Waits on #N:** [what it produces]           ← only a whole-project gate
+Records: [.qe/](link)
+
+## Where we stand (verified YYYY-MM-DD)
+
+**Risk:** [why Health is not On track]        ← present exactly when it is not
+**Needs:** #N: [act] · #N: [act]              ← or "none"
+```
+
+The update comment that announces a change to the block:
+
+```markdown
+**YYYY-MM-DD · [Health value].**
+
+[What changed and why: one or two events, dated and linked; "Corrected: [claim]" for a correction]
+
+Log: [entry](permalink)
+Assisted-by: [tool] ([model])                 ← when drafted by an agent
+```
+
+**Upkeep tracker** (a `Project` at `Stage` Steady)
+
+```markdown
+**Goal:** [what this repository keeps working, for whom]
+**Keeps**
+- [standing check that defines healthy]       ← Health is judged against these
+**Not doing**
+- [one line]
+**Order:** [how unplanned work is ranked]     ← optional
+Records: [.qe/](link)
+
+## Where we stand (verified YYYY-MM-DD)
+
+**Risk:** [why Health is not On track]
+**Needs:** #N: [act]
+```
+
+**Phase**
+
+```markdown
+**Outcome:** [what this phase delivers, for whom]
+**Exit when**
+- [observable check]
+**Waits on #N:** [for what]                   ← only if not obvious from the edge
+```
+
+**Task**
+
+```markdown
+Blocked by: [a blocker that is not an issue, decision or person's act]   ← first line, only if one exists
+**Outcome:** [what changes, for whom, and why]
+**Done when**
+- [observable check]
+**Needs a person:** @[who]: [act]             ← only if any; never a choice
+**Waits on #N:** [for what]                   ← only if not obvious
+```
+
+**Decision**
+
+```markdown
+**Decided YYYY-MM-DD by @[decider]:** [option label, or the ruling's first sentence] · [ruling](URL)   ← line 1, written at ruling
+
+**Question:** [one sentence, answerable by choosing an option]
+**Options**
+- **[label]**: [consequence for what waits]   ← two to four; "(recommended)" only where a source recommends
+**Consult:** @[who]                           ← optional
+**Analysis:** [record or evidence](permalink) ← at most two links
+```
