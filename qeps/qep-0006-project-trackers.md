@@ -370,11 +370,13 @@ runs, under that person's account, carrying the disclosure line; the person answ
 the post, and approval is spent where judgement is made. Under *Organisation-operated
 automation is not an external contribution*: scheduled automation never writes a
 tracker record, status update or ruling, because those are judgements a named person
-answers for and a scheduled run has no one present; and an automated reviewer a binding
-names is such automation, with a named maintainer and a register entry, whose bot
-account marks its reviews in place of the label. Under *Own it*: an agent may fix or
-answer an automated reviewer's findings in a session the person runs, because those
-findings cost no reviewer's attention and the person answers for the reply.
+answers for and a scheduled run has no one present; and an agent that only reviews,
+proposing no change of its own, is such automation, with a named maintainer and a
+register entry, its bot account marking its reviews in place of the label, because a
+reviewer that catches small errors raises quality and acts on nothing. Under *Own it*:
+a review agent's findings may be fixed or answered by a person or by an agent in a
+session the person runs, because the norm protects a human reviewer's attention, and
+a review agent spends none.
 
 ## Adoption
 
