@@ -28,7 +28,8 @@ function stripQuotes(s) {
 }
 
 // Parse the fields we care about from a QEP file's YAML frontmatter.
-// `version` is a plain number (undefined = implicitly v0); `hash` is the stamped
+// `version` is a plain number (undefined = not yet stamped; a merged QEP past Draft
+// is stamped v0 by stamp.mjs); `hash` is the stamped
 // short SHA from the sibling `version-hash` field (undefined when not yet stamped).
 export function parseQep(path) {
   const text = readFileSync(path, 'utf8');
