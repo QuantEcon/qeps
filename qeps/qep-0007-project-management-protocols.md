@@ -4,7 +4,7 @@ title: Project Management Protocols
 author: "@mmcky"
 status: Draft
 type: standard
-related: [6]
+related: [5, 6]
 created: 2026-09-21
 discussion: https://github.com/QuantEcon/qeps/issues/39
 ---
@@ -19,7 +19,7 @@ discussion: https://github.com/QuantEcon/qeps/issues/39
 | **Status**   | Draft                                                                |
 | **Type**     | standard                                                             |
 | **Created**  | 2026-09-21                                                           |
-| **Related**  | [QEP-6](qep-0006-project-trackers.md) — the GitHub binding of the unit this QEP defines |
+| **Related**  | [QEP-6](qep-0006-project-trackers.md) — the GitHub binding of the unit this QEP defines; [QEP-5](qep-0005-code-of-ai-use.md) — the norm a session's own merge answers to |
 | **Discussion** | [QuantEcon/qeps#39](https://github.com/QuantEcon/qeps/issues/39)   |
 
 ## Summary
@@ -140,7 +140,8 @@ is one decision about one directory, and the public-content rule has one tree to
    cannot hold and the platform does not. That is how the repository is built (its
    invariants and traps), the plan behind each tracker homed here, a working note for
    each open item, the reasoning behind decisions, the lessons of each session, and
-   task-scoped instructions. It is written by agents and approved by people.
+   task-scoped instructions. It is written by agents; a person owns what a session
+   merges and approves the rest (*Who accepts a change*).
 2. **What it never holds.** Status, next steps, what is in flight, and rulings: those
    live on the tracker and on decision points, which the binding carries. Copies of
    platform content: titles, bodies, comments, child lists, field values. Product code,
@@ -228,20 +229,27 @@ is one decision about one directory, and the public-content rule has one tree to
    no unfilled placeholders. A sentence an agent inferred rather than read from a
    primary record is marked as inferred.
 10. **Who accepts a change.** A change to the folder is accepted by whoever the
-    lifecycle of what it touches requires, and by nobody else. In a session a person
-    runs, the session merges its own change to `log/` or `work/` as soon as the
-    tooling's check passes and automated review has nothing left open: those files are
-    consumable or die with their item, nobody reads them for approval, and version
-    control is their undo. A change to a living page is merged on a second reader's
-    recommendation, because every later session reads it. A record is accepted by the
-    decider's merge (*Decision records*). A tidy is merged by the owner, whatever it
-    deletes, because it is the one change that removes things. A hand-off stays open
-    until settled (*Hand-over between sessions*). A run with no person present merges
-    nothing. Automated review, where the platform offers it, runs on every change, and
-    each finding is addressed or answered before the merge; what a consumable file is
-    spared is the second reader, never that. Review beyond this is spent where it has
-    shown its worth: on living pages and on standards, and as a sampled audit of what
-    merged without it, never on every log.
+    lifecycle of what it touches requires, and needs no further acceptance. A change
+    that touches more than one lifecycle is accepted as the strictest of them requires;
+    anything outside the folder follows the repository's own rules. In a session a
+    person runs, the session merges a change it wrote that touches nothing but `log/`
+    or `work/` as soon as the tooling's check passes. A log is never evidence for a
+    state claim and its lessons reach a living page only through a tidy; a working
+    file dies with its item; version control is the undo for both. The person who
+    runs the session owns what it merges (QEP-5, *A human is in the loop*), and nobody
+    else is asked to read it. Such a session merges, on the same terms, the log of a
+    run with no person present. A change to a living page merges once a reader other
+    than its author, a person or an agent, has recommended it, because later sessions
+    act on the page as current. A record is accepted as *Decision records* sets out. A
+    tidy is merged by an accountable owner (*Bindings*) of a project whose plan the
+    folder holds, whatever the tidy deletes, because it decides, by a judgement no
+    check confirms, what the folder forgets. A hand-off stays open until settled
+    (*Hand-over between sessions*); once settled, it merges on the recommendation of a
+    reader who neither wrote it nor settled it. A run with no person present merges
+    nothing. Where the binding provides an automated reviewer, no change to the folder
+    merges until that reviewer has reported and each of its findings is fixed or
+    answered with a reason; what a change to `log/` or `work/` is spared is the other
+    reader's recommendation, never that.
 11. **The check.** Each rule in this section is marked below as checked, convention, or
     both. A rule marked checked is one that conforming tooling checks; a rule marked
     convention is kept by review. A standard that marks as checked what no tooling can
@@ -260,7 +268,7 @@ is one decision about one directory, and the public-content rule has one tree to
 | *Hand-over*: working file with a resume section; open hand-offs listed | resume section present; open hand-off changes listed by the tooling | |
 | *Tidy*: triggers, manifest, records and retrospectives never deleted | triggers reported; manifest; deletions outside `log/` and `work/` refused | bounded drop |
 | *Content rules* | ignored paths, placeholders, relative dates | credentials and inference marks, by review |
-| *Who accepts a change* | the check runs before any merge; a merge to `decisions/`, or a tidy, by anyone but the decider or owner is reported | the second reader on living pages; findings of automated review addressed; the sampled audit |
+| *Who accepts a change* | the lifecycles a change touches, so the strictest is known | who merges; the other reader's recommendation; the automated reviewer's findings answered |
 
 ### 5. Decision records
 
@@ -358,8 +366,10 @@ register, whose date is the date the section beneath it was checked; a **dated c
 record** for each status change; a **body** for what structure cannot hold: the goal,
 the state, phase meaning, gate rationale, scope; and a **mark** on agent-authored text
 so that a reader and a consumer can tell it from a person's. A binding never encodes
-sequence in names, and never lets a body restate what a carrier already holds.
-Consumers read the binding's carriers, never the protocol's prose.
+sequence in names, and never lets a body restate what a carrier already holds. A
+binding may also name an **automated reviewer** of changes, on which *Who accepts a
+change* (*The `.qe/` folder*) relies where one exists. Consumers read the binding's
+carriers, never the protocol's prose.
 
 **QEP-6 is the GitHub binding.** Its *Summary* names the carrier of each concept, and
 its sections carry the rules. This QEP names no feature of any platform; QEP-6 defines
@@ -413,11 +423,10 @@ from measurement.
   committed view is a copy of platform state that drifts the moment an item closes, and
   in practice none was ever generated. The index is the one generated page, and it
   describes the folder, not the project.
-- **A reader's review of every change to the folder.** Rejected: a log entry per
-  session, held for a person or a second agent, costs a round trip nobody reads, and the
-  field showed that review spent on low-stakes text is skipped, not done. The check and
-  automated review are the review for consumable files; readers are the review for
-  living ones.
+- **A reader's review of every change to the folder.** Rejected: a log entry or a
+  working file held for a person or a second agent costs a review nobody acts on, and
+  review spent on low-stakes text lapses. The check and the automated reviewer are the
+  review for `log/` and `work/`; readers are the review for living pages.
 
 ## Adoption
 
