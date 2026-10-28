@@ -290,10 +290,11 @@ Where the tracker lives depends on where the work lands:
   **`project-qep{N}` repository** at acceptance — `N` unpadded, as the number is
   displayed everywhere but the filename — created by whoever merges the acceptance PR.
   It is a `project-*` repository under QEP-3: private, goal-scoped, no production code.
-  Its first issue is the tracker; the coordination issues that have no single landing
-  repository, the research behind the decision, and the decision register live there
-  too. A work item lands as an issue in the repository where the work happens and
-  hangs off the tracker as a sub-issue. The tracker is registered in the
+  The tracker is an issue in that repository, known by its role as the sub-issue
+  parent rather than by any number; the coordination issues that have no single
+  landing repository, the research behind the decision, and the decision register
+  live there too. A work item lands as an issue in the repository where the work
+  happens and hangs off the tracker as a sub-issue. The tracker is registered in the
   organization's projects registry — a `status-*` dashboard under QEP-3 — and the
   repository is archived when the tracker closes.
 - **A QEP whose obligations fall only on this repository, that carries none, or whose

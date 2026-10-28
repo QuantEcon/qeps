@@ -54,8 +54,8 @@ Then **merge** the PR; do not close it. Accepted, Rejected, and Withdrawn QEPs a
 merged so the record stays durable — only abandoned or spam drafts are closed.
 
 **If the QEP's adoption requires sequenced work in repositories other than this one**,
-create `QuantEcon/project-qep{N}` (private; `N` unpadded) in the same sitting, open its
-tracker as issue #1, register it in `QuantEcon/status-projects`, and hang the work
+create `QuantEcon/project-qep{N}` (private; `N` unpadded) in the same sitting, open
+the tracker issue there, register it in `QuantEcon/status-projects`, and hang the work
 items off it as sub-issues in the repositories where the work lands. Rule and
 rationale: QEP-1 § Adoption and rollout; instances: `project-qep2`, `project-qep3`,
 `project-qep5`.
