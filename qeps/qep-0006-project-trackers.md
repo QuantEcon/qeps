@@ -364,44 +364,49 @@ priority rows are unchanged.
 ## Amendments to QEP-5
 
 Carried here until acceptance, then applied to QEP-5 as a substantive amendment. The
-Code in brief does not change.
+Code in brief does not change. Each paragraph below names where its text goes.
 
-Under *In brief*, one sentence follows the block: in the Code in brief, review means a
-person's review, and *Own it* says how a review agent's findings are answered.
+After the block under *In brief* (after the closing appendix marker), one sentence:
+where this Code asks you to answer review, it means a person's review; *Own it* says how
+a review agent's findings are answered.
 
-Under *A human is in the loop*, the sentence on agents gains two exceptions. First, an
-update of verified events only, drafted by an agent, may be posted during a session the
-person runs, under that person's account, carrying the disclosure line; the person
-answers for the post, and approval is spent where judgement is made. Second, an agent
-may fix or answer a review agent's finding during a session the person runs, under that
-person's account; a reply that declines a finding is one the person approved, because
-declining is a judgement.
+In *A human is in the loop*, after the sentence ending "without a person approving what
+it does", two exceptions: First, an agent in a session a person runs may post, under
+that person's account and with the disclosure line, a tracker update of verified events
+only, because it holds no judgement. Second, such an agent may fix or answer a review
+agent's finding under that person's account; a reply that leaves a finding even partly
+unfixed gives its reason and waits for the person's approval, because unlike a fix it
+leaves nothing in the change to read.
 
-Under *Organisation-operated automation is not an external contribution*: scheduled
-automation never writes a tracker record, status update or ruling, because those are
-judgements a named person answers for and a scheduled run has no one present. A
-**review agent** is an agent whose only output is review comments, posted under its own
-bot account with no person approving them. It never submits an approving or
-change-requesting review, and a change it suggests lands only when someone applies it
-as their own. A review agent counts as organisation-operated automation, though no
-schedule runs it, because it acts with no person approving each act. It does so when it
-has a named maintainer and an entry in the automation register; lacking either, it is
-an unattended agent. Its bot account marks its reviews in place of the `automated`
-label, because the label marks what automation opens and a review agent opens nothing.
-Its maintainer owns the agent, not its findings: they answer for enabling and
-configuring it, and propose withdrawing it when authors decline more of its findings
-than they fix. *Own it* and *Verify before you claim* bind whoever acts on a finding. A
-review agent a QEP requires is withdrawn by amending that QEP.
+At the end of *Organisation-operated automation is not an external contribution*,
+after "whoever built it": A run with no person present writes no tracker record or
+ruling and declines no finding, because a person must answer for each. A **review
+agent** is an agent whose only output is comment-only reviews, posted under its own bot
+account without a person approving them, however requested; a change it suggests lands
+only when someone applies it as their own. A review agent counts as
+organisation-operated automation, though no schedule runs it, because it acts with no
+person approving each act. It does so when it has a named maintainer and an entry in
+the public register of the organisation's automation; lacking either, it is an
+unattended agent. Its bot account alone satisfies disclosure, in place of the
+`automated` label, because the label marks what automation opens and a review agent
+opens nothing. Unlike other automation, a review agent's maintainer answers for
+enabling and configuring it, not for each finding, because a finding changes nothing
+until someone acts on it; *Own it* and *Verify before you claim* bind whoever acts on
+one. The maintainer proposes to the maintainers withdrawing it, where it is enabled or
+by amending the QEP that requires it, once its findings cost authors more than they
+catch, by the tooling's measure.
 
-Under *Disclose*: an agent's reply to a review agent ends with an `Assisted-by:` line,
-and a suggestion the author applies counts towards the pull request's line.
+In *Disclose*, at the end: an agent's reply to a review agent ends with
+`Assisted-by: <tool> (<model>)` naming that agent, and a pull request whose author
+applies a review agent's suggestion names it in its line.
 
-Under *Own it*: you may fix or answer a review agent's finding yourself, or have an
-agent do so in a session you run. Either way the change stays yours to explain and the
-reply yours to answer for. A finding a human reviewer endorses in a comment of their own
-is theirs, and you answer it yourself. The clause on answering review keeps a person's
-review in a person's hands; a review agent's finding asks no person's attention, and the
-change answering it is still yours to explain.
+In *Own it*, the clause "not by passing a reviewer's comments to an agent" becomes "not
+by passing a person's review comments to an agent", and at the end: You may fix or
+answer a review agent's finding yourself, or have an agent do so in a session you run,
+because answering a review agent spends no reviewer's attention. Either way the change
+stays yours to explain, and a reply that leaves a finding even partly unfixed waits for
+your approval. A finding a human reviewer endorses in a comment of their own is theirs,
+and you answer it yourself.
 
 ## Adoption
 
@@ -438,9 +443,9 @@ change answering it is still yours to explain.
    bans of *The body*, titles, and the budgets the tooling sets.
 5. **Review.** Each repository that keeps a `.qe/` folder requests Copilot code review
    automatically on every pull request and on each new push, so that the review covers
-   the commit that merges. Before a repository requests Copilot's review automatically,
-   Copilot's named maintainer enters it in the automation register; a repository already
-   requesting it conforms once the entry exists.
+   the commit that merges. At acceptance, Copilot code review gets a named maintainer
+   and one entry, covering every repository and every request, in the public register
+   of the organisation's automation, created by that entry if none exists.
 
 ## Appendix A (informative): the six skeletons
 
