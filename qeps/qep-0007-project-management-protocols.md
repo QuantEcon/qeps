@@ -29,8 +29,8 @@ tiers and terms (programme, project, work item, decision point, phase, gate), th
 **records** a project keeps and the single home of each, the `.qe/` folder that holds
 the agent's records for a repository (an index always loaded, everything else read on
 demand, and a tidy that keeps it small), how decisions are recorded and changed, and the
-acceptance test every record must pass — **a fresh agent, given only the records, can
-resume the work.** It states **protocols, not procedures**: the tooling that operates
+two tests every record must pass: **a person can plan from the tracker, and a fresh
+agent can resume from the records.** It states **protocols, not procedures**: the tooling that operates
 them keeps its own procedures, and a platform **binding** maps the protocol's concepts
 onto that platform's carriers. QEP-6 is the GitHub binding.
 
@@ -69,7 +69,7 @@ every record written under it — survives unchanged.
    pending and recorded when made, with the choice and its reasons; work that cannot
    start before the choice is constrained by it.
 3. A **project** is a definition of done, the work items and decision points that
-   serve it in plan order, and the records of §2. Progress is measured over its direct
+   serve it in plan order, and the records of *Records and their homes*. Progress is measured over its direct
    work items and never compared across a change of membership.
 4. A **phase** is a contiguous group of a project's work items with an intent and an
    exit criterion. A **gate** is a real constraint between phases or between projects.
@@ -95,8 +95,8 @@ are re-verified on different days by different sessions, and one of them is wron
 | Goal | the definition of done, one sentence | the tracker, first line | people, at creation |
 | State | where the project stands *now*: what is next, what is in flight, what is blocked, what needs a person | the tracker's stamped status section | the tooling, at every session boundary |
 | History | what happened, session by session, with the files touched and the lessons routed | the tracker's dated update comments; the long form in the repository's `log/`, consumable | the tooling; agents |
-| Decisions | choices made, with their reasons, as of their date | decision points in the plan; decision records in the repository (§5); QEPs across repositories | people |
-| Structure | membership, plan order, constraints, phase membership | the binding's native carriers (§7) | the tooling; by hand |
+| Decisions | choices made, with their reasons, as of their date | decision points in the plan; decision records in the repository (*Decision records*); QEPs across repositories | people |
+| Structure | membership, plan order, constraints, phase membership | the binding's native carriers (*Bindings*) | the tooling; by hand |
 | Phase meaning | each phase's intent and exit criterion | the tracker's phase table | people |
 | Derived views | the index of the folder; next, in flight, blocked and progress | the index, generated; the rest computed on read, never written | the tooling |
 | Working rules | how people and agents work in the repository, as in force now | the root instruction file and the files it points to, each rule citing its record | people, with the decider's words quoted at each change |
