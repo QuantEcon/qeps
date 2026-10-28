@@ -30,9 +30,9 @@ has exactly one native carrier: kind in issue types, membership in sub-issue edg
 order in list position, constraints in blocked-by dependencies, a relation that
 constrains nothing in relates-to links, phases in `Phase` issues, planning values in
 issue fields and the accountable owner in the assignee, freshness in one fixed status
-stamp, each status change in one dated update comment, agent-authored text in its
-disclosure line, and the automated reviewer in Copilot code review on every pull
-request. **Sequence is never encoded in names.** The body is a short charter that changes only with direction, followed by a
+stamp, each status change in one dated update comment, and agent-authored text in its
+disclosure line. The automated reviewer of pull requests is GitHub Copilot code
+review. **Sequence is never encoded in names.** The body is a short charter that changes only with direction, followed by a
 status block rewritten whole at each update; each change to it is announced by one
 dated comment. What is next, what is in flight and how far a project has come are
 derived from structure and never written.
@@ -308,9 +308,10 @@ This QEP governs project trackers, their work items, their comments and programm
 Server, so the ordering rule has no verified mechanism there. Procedures, numbers and
 lints belong to the tooling, which records its numbers, reports against them for one
 cycle before enforcing them, and enforces them at write. The records a project keeps
-beside its tracker are QEP-7's. The automated reviewer that QEP-7's *Who accepts a
-change* relies on is Copilot code review, requested automatically on every pull
-request, and each of its findings is fixed or answered with a reason before the merge.
+beside its tracker are QEP-7's. In a repository that keeps a `.qe/` folder, the
+automated reviewer that QEP-7's *Who accepts a change* relies on is GitHub Copilot
+code review, because it is GitHub's native reviewer, so the binding depends on nothing
+beyond the platform.
 
 ## Alternatives considered
 
@@ -369,7 +370,11 @@ runs, under that person's account, carrying the disclosure line; the person answ
 the post, and approval is spent where judgement is made. Under *Organisation-operated
 automation is not an external contribution*: scheduled automation never writes a
 tracker record, status update or ruling, because those are judgements a named person
-answers for and a scheduled run has no one present.
+answers for and a scheduled run has no one present; and an automated reviewer a binding
+names is such automation, with a named maintainer and a register entry, whose bot
+account marks its reviews in place of the label. Under *Own it*: an agent may fix or
+answer an automated reviewer's findings in a session the person runs, because those
+findings cost no reviewer's attention and the person answers for the reply.
 
 ## Adoption
 
@@ -404,6 +409,9 @@ answers for and a scheduled run has no one present.
    at a time, reads back every write, and posts the update comment only after its
    block reads back. Its lint checks the layout of a body against Appendix A, the
    bans of *The body*, titles, and the budgets the tooling sets.
+5. **Review.** Each repository that keeps a `.qe/` folder requests Copilot code review
+   automatically on every pull request and on each new push, so that the review covers
+   the commit that merges.
 
 ## Appendix A (informative): the six skeletons
 
