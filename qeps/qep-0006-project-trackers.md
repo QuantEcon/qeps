@@ -309,9 +309,9 @@ Server, so the ordering rule has no verified mechanism there. Procedures, number
 lints belong to the tooling, which records its numbers, reports against them for one
 cycle before enforcing them, and enforces them at write. The records a project keeps
 beside its tracker are QEP-7's. In a repository that keeps a `.qe/` folder, the
-automated reviewer that QEP-7's *Who accepts a change* relies on is GitHub Copilot
-code review, because it is GitHub's native reviewer, so the binding depends on nothing
-beyond the platform.
+automated reviewer that QEP-7's *Who accepts a change* relies on, a review agent in
+QEP-5's terms, is GitHub Copilot code review, because it is GitHub's native reviewer,
+so the binding depends on nothing beyond the platform.
 
 ## Alternatives considered
 
