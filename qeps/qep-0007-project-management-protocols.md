@@ -227,7 +227,22 @@ is one decision about one directory, and the public-content rule has one tree to
    content: no credentials, no unpatched-vulnerability specifics, absolute dates only,
    no unfilled placeholders. A sentence an agent inferred rather than read from a
    primary record is marked as inferred.
-10. **The check.** Each rule in this section is marked below as checked, convention, or
+10. **Who accepts a change.** A change to the folder is accepted by whoever the
+    lifecycle of what it touches requires, and by nobody else. In a session a person
+    runs, the session merges its own change to `log/` or `work/` as soon as the
+    tooling's check passes and automated review has nothing left open: those files are
+    consumable or die with their item, nobody reads them for approval, and version
+    control is their undo. A change to a living page is merged on a second reader's
+    recommendation, because every later session reads it. A record is accepted by the
+    decider's merge (*Decision records*). A tidy is merged by the owner, whatever it
+    deletes, because it is the one change that removes things. A hand-off stays open
+    until settled (*Hand-over between sessions*). A run with no person present merges
+    nothing. Automated review, where the platform offers it, runs on every change, and
+    each finding is addressed or answered before the merge; what a consumable file is
+    spared is the second reader, never that. Review beyond this is spent where it has
+    shown its worth: on living pages and on standards, and as a sampled audit of what
+    merged without it, never on every log.
+11. **The check.** Each rule in this section is marked below as checked, convention, or
     both. A rule marked checked is one that conforming tooling checks; a rule marked
     convention is kept by review. A standard that marks as checked what no tooling can
     check is defective, so the table claims only what a tool reading the repository
@@ -245,6 +260,7 @@ is one decision about one directory, and the public-content rule has one tree to
 | *Hand-over*: working file with a resume section; open hand-offs listed | resume section present; open hand-off changes listed by the tooling | |
 | *Tidy*: triggers, manifest, records and retrospectives never deleted | triggers reported; manifest; deletions outside `log/` and `work/` refused | bounded drop |
 | *Content rules* | ignored paths, placeholders, relative dates | credentials and inference marks, by review |
+| *Who accepts a change* | the check runs before any merge; a merge to `decisions/`, or a tidy, by anyone but the decider or owner is reported | the second reader on living pages; findings of automated review addressed; the sampled audit |
 
 ### 5. Decision records
 
@@ -397,6 +413,11 @@ from measurement.
   committed view is a copy of platform state that drifts the moment an item closes, and
   in practice none was ever generated. The index is the one generated page, and it
   describes the folder, not the project.
+- **A reader's review of every change to the folder.** Rejected: a log entry per
+  session, held for a person or a second agent, costs a round trip nobody reads, and the
+  field showed that review spent on low-stakes text is skipped, not done. The check and
+  automated review are the review for consumable files; readers are the review for
+  living ones.
 
 ## Adoption
 
