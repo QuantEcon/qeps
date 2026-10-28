@@ -43,7 +43,8 @@ The practice exists; the convention did not. A 2026-08-23 audit of 99 tracker-sh
 open issues org-wide found 13 title conventions, 92% with no issue type, 60% tracking
 work in body checkboxes or prose rather than sub-issues, status stamps in three forms,
 and no use of native dependencies. Trackers also have machine consumers, which read them
-unattended, and three producer classes: people, the `qe` skills and unattended agents.
+unattended, and three producer classes: people, the `qe` skills and runs with no person
+present.
 
 The first draft of this QEP fixed the structure and left the body free. A month of
 trackers written to it showed what that produces. A 2026-09-28 review of 38 registered
@@ -71,22 +72,20 @@ Membership lives in the sub-issue edges: body checkboxes, plan tables and legacy
 tasklists are never work items.
 
 An issue is a **work item** of a project by QEP-7's membership test (*Tiers and
-terms*): closing it advances the definition of done, and if the goal must be widened to
-justify it, it is not a member. An unparented issue is the normal case, not a gap to be
-filled.
+terms*), and an unparented issue is the normal case.
 
 A project's direct children are work items and `Decision`s. A work item is a **leaf**
 or a **phase**, whose own sub-issues are that phase's leaves. A project's work items
 are of **one grain**: all leaves or all phases, with `Decision`s beside either. Progress
-is a count over direct children, and for a phased project also over the open phase's
+is a count over direct work items, and for a phased project also over the open phase's
 leaves; it is a snapshot over current membership, never compared across a membership
 change. A tracker with no sub-issues has **unmeasured** progress, never zero. A tracker
 whose children are project trackers is a programme (*Programmes*), never typed
 `Project`.
 
-**All started work has a plan home.** A repository with ongoing work keeps one standing
-project at `Stage` Steady, its **upkeep tracker**. An issue joins it when work on it
-starts outside any plan; its owner may also place an unstarted issue there to rank it.
+**The plan home** that QEP-7 requires for started work outside any project (*Tiers and
+terms*) is the repository's **upkeep tracker**: one standing project at `Stage` Steady.
+An issue joins it when work on it starts outside any plan; its owner may also place an unstarted issue there to rank it.
 Every other unstarted issue stays unparented. A closed child of an upkeep tracker
 leaves its list once an update comment cites it, and no percentage is published for
 the tracker, because its list never ends.
@@ -167,17 +166,15 @@ require, parse or infer sequence from names.
 ### 5. Constraints are dependencies
 
 A genuine sequencing constraint is a **native dependency** (blocked-by), never prose,
-and it passes QEP-7's test (*Tiers and terms*): **output, not order**. An edge is
-written where the downstream item cannot start without something the upstream item
-produces; shared files, serial work by one agent and mere preference are sequencing
-rationale, never edges. Dependencies are independent of the parent hierarchy and may
-cross project boundaries.
+and it passes QEP-7's test (*Tiers and terms*): **output, not order**. Dependencies are
+independent of the parent hierarchy and may cross project boundaries.
 
-A gate is an edge **between the issues actually constrained**: leaves, phases or
-trackers. A phase-level gate is one edge between two `Phase` issues; a decision gate is
-an edge from each waiting item to the `Decision`; a whole-project gate is a
-tracker-to-tracker edge, which asserts that nothing in the blocked project may start
-and is therefore the wrong instrument for a gate that holds one phase. Derivation
+An edge sits **between the issues actually constrained**: leaves, phases or trackers.
+A gate (QEP-7, *Tiers and terms*) is a phase-level edge, one edge between two `Phase`
+issues, or a whole-project edge, tracker to tracker, which asserts that nothing in the
+blocked project may start and is therefore the wrong instrument for a gate that holds
+one phase. A decision point's constraint is an edge from each waiting item to the
+`Decision`. Derivation
 honours an ancestor's blockers, so a leaf under a blocked phase is parked without an
 edge of its own.
 
@@ -297,17 +294,17 @@ may update the status by hand, in these forms.
 Agent-drafted text carries QEP-5's disclosure line, which is the mark a reader and a
 consumer filter on. It is posted by the person who approved it, or, for an update of
 verified events only, by the person running the session. An agent never writes a
-ruling; once ruled, it may copy the decider's words into a `Decision`'s first line. An
-unattended run never writes a tracker record: it pushes branches and opens draft
-changes, and its proposals wait for a session a person runs.
+ruling; once ruled, it may copy the decider's words into a `Decision`'s first line. A
+run with no person present never writes a tracker record: it pushes branches and opens
+draft changes, and its proposals wait for a session a person runs.
 
 ### 12. Scope
 
 This QEP governs project trackers, their work items, their comments and programmes on
 **GitHub.com**: the sub-issue reordering endpoint is absent from GitHub Enterprise
 Server, so the ordering rule has no verified mechanism there. Procedures, numbers and
-lints belong to the tooling, which records its numbers, reports against them for one
-cycle before enforcing them, and enforces them at write. The records a project keeps
+lints belong to the tooling, which records its numbers, reports against them before
+enforcing them, and enforces them at write. The records a project keeps
 beside its tracker are QEP-7's. In a repository that keeps a `.qe/` folder, the
 automated reviewer that QEP-7's *Who accepts a change* relies on, a review agent in
 QEP-5's terms, is GitHub Copilot code review, because it is GitHub's native reviewer,
@@ -325,6 +322,8 @@ so the binding depends on nothing beyond the platform.
 - **A `Next:` line in the body.** Rejected: it was the first draft's one resume
   affordance, and in the field it grew to hundreds of words and disagreed with the list
   within days. Next is derivable, and a derived value cannot drift.
+- **Collapsible sections to hide the narrative** in the status block. Rejected: it hides
+  the story instead of moving it, and text-mode readers print it in full.
 - **A pinned status comment.** Rejected: the body is the one surface every reader and
   consumer sees first, a pinned comment is a second register, and who may pin was
   unverified.
