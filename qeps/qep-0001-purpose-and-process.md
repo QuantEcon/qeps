@@ -283,27 +283,29 @@ tooling, and the guarantees any implementation must honour — as obligations, n
 plan. Sequenced execution (who does what, when) lives in a **tracker issue** opened at
 acceptance, never in the QEP.
 
-Where the tracker lives follows from whom the obligations fall on:
+Where the tracker lives depends on where the work lands:
 
-- **A QEP whose Adoption section obligates repositories other than this one** gets a
+- **A QEP whose adoption requires sequenced work in repositories other than this
+  one** — work items to open, order and close across the organization — gets a
   **`project-qep{N}` repository** at acceptance — `N` unpadded, as the number is
   displayed everywhere but the filename — created by whoever merges the acceptance PR.
   It is a `project-*` repository under QEP-3: private, goal-scoped, no production code.
   Its first issue is the tracker; the coordination issues that have no single landing
   repository, the research behind the decision, and the decision register live there
   too. A work item lands as an issue in the repository where the work happens and
-  hangs off the tracker as a sub-issue. The tracker is registered in the projects
-  registry, and the repository is archived when the tracker closes.
-- **A QEP whose obligations fall only on this repository, or that carries none** —
-  most `process` and `informational` QEPs — tracks its execution in an issue here, or
-  needs no tracker at all.
+  hangs off the tracker as a sub-issue. The tracker is registered in the
+  organization's projects registry — a `status-*` dashboard under QEP-3 — and the
+  repository is archived when the tracker closes.
+- **A QEP whose obligations fall only on this repository, that carries none, or whose
+  obligations elsewhere are single edits with nothing to sequence** — most `process`
+  and `informational` QEPs — tracks its execution in an issue here, or needs no
+  tracker at all.
 
 A repository per QEP, rather than one for all governance work, because the documents a
 rollout accumulates — an audit, a design, a month of evidence, a ruling — belong to
 that QEP's goal and end with it; a standing repository would hold every rollout's
-residue with nothing to close. A rollout that predates this rule moves under it: its
-tracker and coordination issues are transferred (the old URLs redirect), and work items
-in other repositories are parented in place.
+residue with nothing to close. The rule applies to every accepted QEP, not only to
+those accepted after it.
 
 ## Alternatives considered
 
@@ -356,7 +358,11 @@ in other repositories are parented in place.
   (which would become a second `meta`) and over this repository (which is the standard,
   not its execution). Leaving pre-rule rollouts in place was
   considered and rejected: a rule with one exception is two rules, and QEP-2's rollout
-  was about to produce the migration reports the rule exists to house.
+  was about to produce the migration reports the rule exists to house. The repository
+  is private because QEP-3 makes every `project-*` repository private; the cost,
+  accepted knowingly, is that a contributor in a public repository sees a work item
+  parented to a tracker they cannot open. The work item itself carries everything the
+  contributor needs; the tracker holds only the sequencing.
 
 ## Adoption
 
@@ -400,8 +406,11 @@ in other repositories are parented in place.
    `qeps/template.md` and `AGENTS.md` follow in the same round.
 5. **(v4) Name the rollout home.** *Adoption and rollout* says where sequenced
    execution lives: a `project-qep{N}` repository, created at acceptance, for a QEP
-   whose Adoption section obligates other repositories; an issue here otherwise. Applied
-   in the same round to QEP-5 (`project-qep5`, new), QEP-2 (`project-qep2`, tracker
-   transferred from `meta`) and QEP-3 (`project-qep3`, its execution items gathered
-   from `meta`). `qeps/template.md` and `AGENTS.md` follow; the `qe` CLI may later
-   scaffold the repository, which changes nothing here.
+   whose adoption requires sequenced work in other repositories; an issue here
+   otherwise. Applied in the same round to QEP-5 (`project-qep5`, new), QEP-2
+   (`project-qep2`, tracker and coordination issues transferred from `meta`, old URLs
+   redirecting, work items parented in place) and QEP-3 (`project-qep3`, its execution
+   items gathered from `meta`). QEP-1 itself falls under the second rule: each of its
+   adoption items is a single edit landed by the PR that records it, so it needs no
+   tracker. `qeps/template.md` and `AGENTS.md` follow; the `qe` CLI may later scaffold
+   the repository, which changes nothing here.
