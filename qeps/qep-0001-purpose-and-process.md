@@ -4,8 +4,7 @@ title: QEP Purpose and Process
 author: "@mmcky"
 status: Accepted
 type: process
-version: 3
-version-hash: f6db66f  # stamped by CI; do not edit
+version: 4
 created: 2026-06-16
 discussion: https://github.com/QuantEcon/meta/issues/325
 ---
@@ -19,7 +18,7 @@ discussion: https://github.com/QuantEcon/meta/issues/325
 | **Author**   | @mmcky                                                 |
 | **Status**   | Accepted                                               |
 | **Type**     | process                                                |
-| **Version**  | 3                                                      |
+| **Version**  | 4                                                      |
 | **Created**  | 2026-06-16                                             |
 | **Discussion** | [QuantEcon/meta#325](https://github.com/QuantEcon/meta/issues/325) |
 
@@ -277,6 +276,38 @@ A *policy* is a normative rule — a `standard` you conform to — so it is not 
 type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
 `informational` if it only records rationale.
 
+### Adoption and rollout
+
+The **Adoption** section states what adopting the decision requires — mechanism,
+tooling, and the guarantees any implementation must honour — as obligations, not a
+plan. Sequenced execution (who does what, when) lives in a **tracker issue** opened at
+acceptance, never in the QEP.
+
+Where the tracker lives depends on where the work lands:
+
+- **A QEP whose adoption requires sequenced work in repositories other than this
+  one** — work items to open, order and close across the organization — gets a
+  **`project-qep{N}` repository** at acceptance — `N` unpadded, as the number is
+  displayed everywhere but the filename — created by whoever merges the acceptance PR.
+  It is a `project-*` repository under QEP-3: private, goal-scoped, no production code.
+  The tracker is an issue in that repository, known by its role as the sub-issue
+  parent rather than by any number; the coordination issues that have no single
+  landing repository, the research behind the decision, and the decision register
+  live there too. A work item lands as an issue in the repository where the work
+  happens and hangs off the tracker as a sub-issue. The tracker is registered in the
+  organization's projects registry — a `status-*` dashboard under QEP-3 — and the
+  repository is archived when the tracker closes.
+- **A QEP whose obligations fall only on this repository, that carries none, or whose
+  obligations elsewhere are single edits with nothing to sequence** — most `process`
+  and `informational` QEPs — tracks its execution in an issue here, or needs no
+  tracker at all.
+
+A repository per QEP, rather than one for all governance work, because the documents a
+rollout accumulates — an audit, a design, a month of evidence, a ruling — belong to
+that QEP's goal and end with it; a standing repository would hold every rollout's
+residue with nothing to close. The rule applies to every accepted QEP, not only to
+those accepted after it.
+
 ## Alternatives considered
 
 - **Location — a `qeps/` directory in `QuantEcon/meta` vs a dedicated repository.**
@@ -319,6 +350,20 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
   establishes by reading the thread. The cost is that nothing is accepted by the passage
   of time; a QEP nobody looks at stays open until someone looks. The check the deadline
   never supplied is the second reader in step 3.
+- **Rollout tracking in `meta`, in this repository, or in a per-QEP project
+  repository.** QEP-2's rollout tracks in `meta` and QEP-5's checklist opened here;
+  neither has anywhere to put a document, and QEP-5's rollout arrived with an audit, a
+  deferred design and a decision to make on evidence. QEP-3 already provides the type —
+  `project-*`, a goal-scoped planning and decision home — so a `project-qep{N}` per
+  QEP with cross-repo obligations was chosen over a standing `project-governance`
+  (which would become a second `meta`) and over this repository (which is the standard,
+  not its execution). Leaving pre-rule rollouts in place was
+  considered and rejected: a rule with one exception is two rules, and QEP-2's rollout
+  was about to produce the migration reports the rule exists to house. The repository
+  is private because QEP-3 makes every `project-*` repository private; the cost,
+  accepted knowingly, is that a contributor in a public repository sees a work item
+  parented to a tracker they cannot open. The work item itself carries everything the
+  contributor needs; the tracker holds only the sequencing.
 
 ## Adoption
 
@@ -360,3 +405,13 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
    *Numbering* states the reservation rule that makes index gaps normal, and the
    pull-request check requires ordered-list markers to ascend in source.
    `qeps/template.md` and `AGENTS.md` follow in the same round.
+5. **(v4) Name the rollout home.** *Adoption and rollout* says where sequenced
+   execution lives: a `project-qep{N}` repository, created at acceptance, for a QEP
+   whose adoption requires sequenced work in other repositories; an issue here
+   otherwise. Applied in the same round to QEP-5 (`project-qep5`, new), QEP-2
+   (`project-qep2`, tracker and coordination issues transferred from `meta`, old URLs
+   redirecting, work items parented in place) and QEP-3 (`project-qep3`, its execution
+   items gathered from `meta`). QEP-1 itself falls under the second rule: each of its
+   adoption items is a single edit landed by the PR that records it, so it needs no
+   tracker. `qeps/template.md` and `AGENTS.md` follow; the `qe` CLI may later scaffold
+   the repository, which changes nothing here.

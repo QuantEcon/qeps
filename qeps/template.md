@@ -48,4 +48,7 @@ much of a QEP's long-term value lives.
 
 What adopting the decision requires: the mechanism, tooling, and the guarantees any
 implementation must honour — written as obligations, not a plan. Sequenced execution
-(who does what, when) belongs in a tracking issue, not the QEP. Omit if not applicable.
+(who does what, when) belongs in the tracker issue opened at acceptance, not the QEP —
+in a `project-qep{N}` repository when adoption requires sequenced work in other
+repositories, in this repository otherwise (QEP-1 § Adoption and rollout). Omit if
+not applicable.
