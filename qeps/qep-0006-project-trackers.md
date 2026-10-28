@@ -370,13 +370,19 @@ runs, under that person's account, carrying the disclosure line; the person answ
 the post, and approval is spent where judgement is made. Under *Organisation-operated
 automation is not an external contribution*: scheduled automation never writes a
 tracker record, status update or ruling, because those are judgements a named person
-answers for and a scheduled run has no one present; and an agent that only reviews,
-proposing no change of its own, is such automation, with a named maintainer and a
-register entry, its bot account marking its reviews in place of the label, because a
-reviewer that catches small errors raises quality and acts on nothing. Under *Own it*:
-a review agent's findings may be fixed or answered by a person or by an agent in a
-session the person runs, because the norm protects a human reviewer's attention, and
-a review agent spends none.
+answers for and a scheduled run has no one present. A **review agent** is an agent
+whose only output is review comments: it approves and blocks nothing, and a change it
+suggests lands only when someone applies it as their own. A review agent counts as
+organisation-operated automation, though no schedule runs it, when it has a named
+maintainer and a register entry; lacking either, it is an unattended agent. Its bot
+account marks its reviews in place of the `automated` label, because the label marks
+what automation opens and a review agent opens nothing. Its maintainer answers for
+enabling and configuring it, and for withdrawing it when its findings cost more than
+they return. Under *A human is in the loop* and *Own it*: you may fix or answer a
+review agent's finding yourself, or have an agent do so in a session you run. A reply
+goes under your account, carries the disclosure line, and is yours to answer for. A
+finding a human reviewer takes up is theirs, and you answer it yourself. The clause on
+answering review protects a human reviewer's attention, and a review agent spends none.
 
 ## Adoption
 
@@ -413,7 +419,8 @@ a review agent spends none.
    bans of *The body*, titles, and the budgets the tooling sets.
 5. **Review.** Each repository that keeps a `.qe/` folder requests Copilot code review
    automatically on every pull request and on each new push, so that the review covers
-   the commit that merges.
+   the commit that merges. Copilot is entered in the automation register with its
+   named maintainer before the first repository turns it on.
 
 ## Appendix A (informative): the six skeletons
 
