@@ -30,8 +30,9 @@ has exactly one native carrier: kind in issue types, membership in sub-issue edg
 order in list position, constraints in blocked-by dependencies, a relation that
 constrains nothing in relates-to links, phases in `Phase` issues, planning values in
 issue fields and the accountable owner in the assignee, freshness in one fixed status
-stamp, each status change in one dated update comment, and agent-authored text in its
-disclosure line. **Sequence is never encoded in names.** The body is a short charter that changes only with direction, followed by a
+stamp, each status change in one dated update comment, agent-authored text in its
+disclosure line, and the automated reviewer in Copilot code review on every pull
+request. **Sequence is never encoded in names.** The body is a short charter that changes only with direction, followed by a
 status block rewritten whole at each update; each change to it is announced by one
 dated comment. What is next, what is in flight and how far a project has come are
 derived from structure and never written.
@@ -307,7 +308,9 @@ This QEP governs project trackers, their work items, their comments and programm
 Server, so the ordering rule has no verified mechanism there. Procedures, numbers and
 lints belong to the tooling, which records its numbers, reports against them for one
 cycle before enforcing them, and enforces them at write. The records a project keeps
-beside its tracker are QEP-7's.
+beside its tracker are QEP-7's. The automated reviewer that QEP-7's *Who accepts a
+change* relies on is Copilot code review, requested automatically on every pull
+request, and each of its findings is fixed or answered with a reason before the merge.
 
 ## Alternatives considered
 
