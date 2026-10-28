@@ -363,26 +363,45 @@ priority rows are unchanged.
 
 ## Amendments to QEP-5
 
-Carried here until acceptance, then applied to QEP-5 as a substantive amendment. Under
-*A human is in the loop*, the sentence on agents gains one exception: an update of
-verified events only, drafted by an agent, may be posted during a session the person
-runs, under that person's account, carrying the disclosure line; the person answers for
-the post, and approval is spent where judgement is made. Under *Organisation-operated
-automation is not an external contribution*: scheduled automation never writes a
-tracker record, status update or ruling, because those are judgements a named person
-answers for and a scheduled run has no one present. A **review agent** is an agent
-whose only output is review comments: it approves and blocks nothing, and a change it
-suggests lands only when someone applies it as their own. A review agent counts as
-organisation-operated automation, though no schedule runs it, when it has a named
-maintainer and a register entry; lacking either, it is an unattended agent. Its bot
-account marks its reviews in place of the `automated` label, because the label marks
-what automation opens and a review agent opens nothing. Its maintainer answers for
-enabling and configuring it, and for withdrawing it when its findings cost more than
-they return. Under *A human is in the loop* and *Own it*: you may fix or answer a
-review agent's finding yourself, or have an agent do so in a session you run. A reply
-goes under your account, carries the disclosure line, and is yours to answer for. A
-finding a human reviewer takes up is theirs, and you answer it yourself. The clause on
-answering review protects a human reviewer's attention, and a review agent spends none.
+Carried here until acceptance, then applied to QEP-5 as a substantive amendment. The
+Code in brief does not change.
+
+Under *In brief*, one sentence follows the block: in the Code in brief, review means a
+person's review, and *Own it* says how a review agent's findings are answered.
+
+Under *A human is in the loop*, the sentence on agents gains two exceptions. First, an
+update of verified events only, drafted by an agent, may be posted during a session the
+person runs, under that person's account, carrying the disclosure line; the person
+answers for the post, and approval is spent where judgement is made. Second, an agent
+may fix or answer a review agent's finding during a session the person runs, under that
+person's account; a reply that declines a finding is one the person approved, because
+declining is a judgement.
+
+Under *Organisation-operated automation is not an external contribution*: scheduled
+automation never writes a tracker record, status update or ruling, because those are
+judgements a named person answers for and a scheduled run has no one present. A
+**review agent** is an agent whose only output is review comments, posted under its own
+bot account with no person approving them. It never submits an approving or
+change-requesting review, and a change it suggests lands only when someone applies it
+as their own. A review agent counts as organisation-operated automation, though no
+schedule runs it, because it acts with no person approving each act. It does so when it
+has a named maintainer and an entry in the automation register; lacking either, it is
+an unattended agent. Its bot account marks its reviews in place of the `automated`
+label, because the label marks what automation opens and a review agent opens nothing.
+Its maintainer owns the agent, not its findings: they answer for enabling and
+configuring it, and propose withdrawing it when authors decline more of its findings
+than they fix. *Own it* and *Verify before you claim* bind whoever acts on a finding. A
+review agent a QEP requires is withdrawn by amending that QEP.
+
+Under *Disclose*: an agent's reply to a review agent ends with an `Assisted-by:` line,
+and a suggestion the author applies counts towards the pull request's line.
+
+Under *Own it*: you may fix or answer a review agent's finding yourself, or have an
+agent do so in a session you run. Either way the change stays yours to explain and the
+reply yours to answer for. A finding a human reviewer endorses in a comment of their own
+is theirs, and you answer it yourself. The clause on answering review keeps a person's
+review in a person's hands; a review agent's finding asks no person's attention, and the
+change answering it is still yours to explain.
 
 ## Adoption
 
@@ -419,8 +438,9 @@ answering review protects a human reviewer's attention, and a review agent spend
    bans of *The body*, titles, and the budgets the tooling sets.
 5. **Review.** Each repository that keeps a `.qe/` folder requests Copilot code review
    automatically on every pull request and on each new push, so that the review covers
-   the commit that merges. Copilot is entered in the automation register with its
-   named maintainer before the first repository turns it on.
+   the commit that merges. Before a repository requests Copilot's review automatically,
+   Copilot's named maintainer enters it in the automation register; a repository already
+   requesting it conforms once the entry exists.
 
 ## Appendix A (informative): the six skeletons
 
