@@ -84,14 +84,11 @@ the **software extension**, applied only to software / tooling repos.
 | `high-priority` | 🟧 `#d93f0b` | Address soon | Published content visibly broken; build blockers. Label only the outliers |
 | `low-priority` | 🟩 `#c2e0c6` | Nice to have, no time pressure | Agreed work that's fine to sit; "someday" ideas |
 
-There is deliberately **no `medium-priority`** — the unlabelled default *is* the
-middle of the scale.
-
 **Cross-cutting — combine with any Type (like priority)**
 
 | Label | Colour | Description | When to use |
 |---|---|---|---|
-| `security` | 🟥 `#ee0701` | Security implications — needs a security-aware review bar | Credentials / tokens, supply-chain surface, workflow permissions. Applied *alongside* the Type label (e.g. `bug` + `security`); makes `org:QuantEcon label:security` a standing query |
+| `security` | 🟥 `#ee0701` | Security implications — needs a security-aware review bar | Credentials / tokens, supply-chain surface, workflow permissions. Applied *alongside* the Type label, as a modifier and not a Type (e.g. `bug` + `security` + `high-priority`); makes `org:QuantEcon label:security` a standing query |
 
 **Community (GitHub-canonical names — spaces are deliberate, see Alternatives)**
 
@@ -104,7 +101,7 @@ middle of the scale.
 
 | Label | Colour | Description | When to use |
 |---|---|---|---|
-| `do-not-merge` | 🟥 `#b60205` | Approved-looking but must not be merged yet | A *voluntary* hold on a mergeable PR: pins, experiments, cross-repo timing |
+| `do-not-merge` | 🟥 `#b60205` | Approved-looking but must not be merged yet | A *voluntary* hold on a mergeable PR, distinct from being blocked: pins, experiments, cross-repo timing |
 
 **Automation — applied by bots, not humans (quiet grey)**
 
@@ -210,10 +207,6 @@ deliberately few:
   Discovery is native too: `has:sub-issue` in the advanced issue search, which
   works org-wide (tooling note: legacy REST search silently ignores the
   qualifier — programmatic discovery must use the advanced search type).
-- **`security` is a cross-cutting modifier, not a Type.** Add it alongside the
-  Type label when an issue has security implications (e.g. `bug` + `security` +
-  `high-priority`) — it signals a different review bar and makes
-  `org:QuantEcon label:security` work as a standing query.
 - **Priority labels mark only the outliers.** Most work sits at the unlabelled
   default; reach for `high-priority` / `low-priority` only when an item is
   genuinely off-centre *for the repo* — a milestone doesn't re-centre the
@@ -231,8 +224,6 @@ deliberately few:
   routine scheduled output diagnoses nothing and carries no diagnostic. What a
   registered automation creates also carries its label from the *Automation
   register*. Humans never hand-apply automation or registered labels.
-- **`do-not-merge` is a voluntary hold,** distinct from being *blocked*: see the
-  status-label change below.
 
 ### The one behavioural change: retire status labels
 
