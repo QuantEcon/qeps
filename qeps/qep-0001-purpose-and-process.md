@@ -29,9 +29,7 @@ decision affecting **more than one QuantEcon repository**, or that **changes how
 team works**. This QEP defines what a QEP is, when one is needed, where QEPs live, how a
 proposal moves from draft to decision, and how an accepted QEP is **maintained over
 time**. It is deliberately lightweight: the aim is a ten-minute read and a clean
-close — not governance for its own sake. As the first proposal, this
-document is also a worked example of the template and the in-place versioning it
-describes.
+close — not governance for its own sake.
 
 ## Motivation
 
@@ -186,30 +184,19 @@ right anchor because a git *tag* tags the whole repository, not one QEP's revisi
   consumer of a machine-readable appendix sees that something changed without diffing
   git.
 
-One-line rule: *editorial = no change to normative content; substantive = any change to
-normative content.* This keeps version numbers meaningful — not inflated by typos —
-while every change stays precisely pinned by the hash and visible in git. The call sits
-with author and reviewer; CI does not classify it.
+This keeps version numbers meaningful — not inflated by typos — while every change
+stays precisely pinned by the hash and visible in git. The call sits with author and
+reviewer; CI does not classify it.
 
 ### History and publication
 
-The change record is **git itself**, surfaced rather than duplicated into a
-hand-maintained changelog (which would drift and clutter the document):
+The change record is **git itself**, not a hand-maintained changelog, which would drift
+and clutter the document. The squash-commit subjects are the changelog entries, and the
+file's commit history and blame on GitHub cover the rest.
 
-- **On the rendered site**, once the QuantEcon theme is adopted, its git-history control
-  shows *Last changed: ⟨date⟩* and expands a dropdown of recent commits for the page, each
-  linked to GitHub ([quantecon-theme.mystmd#83](https://github.com/QuantEcon/quantecon-theme.mystmd/pull/83)).
-  The squash-commit subjects are the changelog entries.
-- **On GitHub** the file's full commit history and blame cover anything beyond the
-  recent window.
-
-Type and version are surfaced two ways:
-
-- the **README index** carries `Type` and `Version` columns, with `Version` showing
-  `v{N}` from `v0` up — repo-controlled, so it renders on any theme;
-- under the **QuantEcon theme** (once adopted), a coloured **`type` pill** always and a
-  **`version` pill** once the QEP leaves Draft — e.g. `standard` · `v2`; `v0` is shown
-  rather than hidden, since it names an anchored revision.
+The **README index** carries `Type` and `Version` columns; it is repo-controlled, so
+it renders whatever theme the site uses. `Version` shows `v{N}` from `v0` up: `v0` is
+shown rather than hidden, since it names an anchored revision.
 
 ### Automation
 
