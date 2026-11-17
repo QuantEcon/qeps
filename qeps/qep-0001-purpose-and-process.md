@@ -4,8 +4,7 @@ title: QEP Purpose and Process
 author: "@mmcky"
 status: Accepted
 type: process
-version: 3
-version-hash: f6db66f  # stamped by CI; do not edit
+version: 4
 created: 2026-06-16
 discussion: https://github.com/QuantEcon/meta/issues/325
 ---
@@ -19,7 +18,7 @@ discussion: https://github.com/QuantEcon/meta/issues/325
 | **Author**   | @mmcky                                                 |
 | **Status**   | Accepted                                               |
 | **Type**     | process                                                |
-| **Version**  | 3                                                      |
+| **Version**  | 4                                                      |
 | **Created**  | 2026-06-16                                             |
 | **Discussion** | [QuantEcon/meta#325](https://github.com/QuantEcon/meta/issues/325) |
 
@@ -235,6 +234,56 @@ The author-side judgement — substantive vs editorial, bumping `version`, the c
 subject — is documented in `AGENTS.md`; CI enforces the mechanical steps that a
 maintainer merging through the GitHub UI would otherwise have to remember.
 
+### Adoption and rollout
+
+A QEP's **Adoption** section states what adopting the decision requires — the
+mechanism, the tooling, and the guarantees any implementation must honour — as
+obligations, not a plan, so that nothing in it can be falsified by work not happening.
+
+Sequenced execution — who does what, and when — lives in a **tracker issue** opened at
+acceptance, never in the QEP, so that completing, reordering or dropping a step never
+requires amending the standard. Where the tracker lives is its owner's choice.
+
+### Writing a QEP
+
+A QEP should be the simplest document that states its decision in full and is easy to
+read. There is no length limit: length is an outcome of these principles, not a target.
+
+- **Rules first.** A reader finds what is required before the history of how it was
+  decided.
+- **Every rule keeps its reason,** in a clause. A rule that explains itself can be
+  applied to cases its author never saw; the incident that prompted it belongs in the
+  commit message.
+- **Each thing is said once.** A QEP does not restate itself between sections, and
+  `AGENTS.md` links to a rule instead of repeating it.
+- **Adoption states obligations,** never a history of versions. Git is the change
+  record.
+- **Alternatives keep the deciding reason** for each option not chosen, and link to the
+  discussion for the rest.
+- **A QEP does not describe what a tool or another repository does.** It states the
+  rule and its reason; a description of an implementation goes stale silently.
+
+### Simplifying an accepted QEP
+
+An accepted QEP may be simplified at any time. Because a shorter text can lose a rule
+without anyone noticing, a simplification is checked by a **fidelity test** before
+review:
+
+1. A reader who has seen only the **original** writes a set of questions that covers
+   every rule, condition, exception and reason in it, with an answer key.
+2. A second reader who has seen only the **revision** answers the questions from it.
+3. The answers are compared with the key.
+
+The simplification passes when no rule and no reason is lost or weakened. Where the
+second reader had to infer something the original stated outright, the revision has
+become harder to read at that point and is corrected. The readers may be people or
+agents, provided neither has seen the other version.
+
+Anything removed on purpose is listed in the pull request, so that a deliberate cut is
+a visible decision and not a side effect. A simplification that passes with no
+normative content removed is **editorial**; one that removes or changes a rule is
+**substantive** (see *Versioning*).
+
 ### Numbering
 
 Numbers are assigned sequentially. An author may propose the next free number when
@@ -301,6 +350,14 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
   QEP would duplicate git, drift from it, and clutter the document; we point at git
   instead, surfaced on the site by the theme's history feature and on GitHub by
   history/blame.
+- **A length limit for QEPs.** Considered with v4 and rejected. Trial simplifications
+  written to a word target contradicted no rule but lost the reason behind most of
+  them, and a second target fared no better; the number measured the wrong thing. The
+  fidelity test checks what matters directly.
+- **A dedicated repository for each QEP's rollout.** Considered with v4 and rejected as
+  a rule. A rollout's tracker is an issue, and its evidence and decisions have homes of
+  their own, so most rollouts need no repository; mandating one invited an accumulation
+  of working records. An owner may still choose one where a rollout is large.
 - **An implicit v0 (absent `version`), anchored only from v1.** The v1–v2 design:
   absence itself said "never substantively changed", and one-off QEPs carried no stamp.
   Dropped in v3 because the asymmetry pushed a special case into every consumer
@@ -322,41 +379,14 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
 
 ## Adoption
 
-1. **(v0) Establish the process.** Merge this QEP to set the process; re-record the
-   label-set decision
-   ([QuantEcon/meta#324](https://github.com/QuantEcon/meta/issues/324)) as a
-   `standard`-type QEP; add a short "How we make cross-repo decisions" entry to the team
-   manual pointing at `QuantEcon/qeps`, and have Core Maintainers watch the repository so
-   proposal deadlines are seen.
-2. **(v1) Adopt in-place versioning.** Add the `version` field and its `version-hash`
-   anchor, the substantive/editorial rule, the amend-in-place + squash-merge + commit-subject
-   conventions, the `standard`/`process`/`informational` `type` taxonomy, and git
-   (surfaced on the site) as the change record. Supporting changes: update
-   `qeps/template.md`; add `Type`/`Version` columns to the README index; add the
-   post-merge stamp + README-sync action and the pull-request check; document the
-   author-side steps in `AGENTS.md`; and set the repository to squash-merge only.
-   Adopting this mechanism is QEP-1's own first substantive amendment, so QEP-1
-   becomes **v1**.
-3. **(v2) Rename this section: `Rollout` becomes `Adoption`.** The section states
-   what adopting a QEP requires — mechanism, tooling, and the guarantees any
-   implementation must honour — as obligations rather than a plan, so nothing in it
-   can be falsified by work not happening; sequenced execution (who does what, when)
-   belongs in a tracking issue. Applied first by QEP-2, whose acceptance PR carries
-   this amendment.
-4. **(v3) Stamp `version` from v0; drop the decision deadline; generate the README
-   index.** Every QEP that records an outcome carries `version` and `version-hash` from
-   the merge that records it, so tooling reads one contract instead of treating an
-   absent `version` as an implicit v0 with no anchor — the asymmetry surfaced by QEP-2's
-   machine-readable appendix. Supporting changes: the post-merge stamp action writes
-   `version: 0` where missing; already-merged QEPs past Draft are backfilled, each
-   stamped with the most recent commit that touched it; the pull-request check's
-   new-QEP rule becomes "unversioned in the PR, `v0` at merge"; the README index and
-   the theme's version pill show `v0` rather than `–`
-   ([#22](https://github.com/QuantEcon/qeps/issues/22) tracks them). The decision
-   deadline goes: acceptance is *no objection outstanding* plus an approving review from
-   a Core Maintainer other than the author, and `Roles` follows. The README index is
-   generated post-merge from each QEP's frontmatter, ordered by number, so a PR carries
-   no row of its own and two QEP PRs cannot collide on one line of one table;
-   *Numbering* states the reservation rule that makes index gaps normal, and the
-   pull-request check requires ordered-list markers to ascend in source.
-   `qeps/template.md` and `AGENTS.md` follow in the same round.
+Adopting this process requires the following, each of which is in place.
+
+- **The team manual** points to `QuantEcon/qeps` as where cross-repository decisions are
+  made, and Core Maintainers watch the repository so that proposals are seen.
+- **The repository is set to squash-merge only.**
+- **Two CI workflows** carry out the mechanical steps in *Automation*: the post-merge
+  stamp and index generation, and the pull-request check.
+- **`qeps/template.md` and `AGENTS.md` follow this QEP.** The template carries the
+  section shape and the *Writing a QEP* principles; `AGENTS.md` carries the author-side
+  steps, including how to run the fidelity test.
+- **Every merged QEP past Draft carries `version` and `version-hash`.**

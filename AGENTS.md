@@ -114,6 +114,24 @@ hash; never hand-write it (a commit cannot contain its own hash).
 - Substantive → `QEP-N vM: <summary>` (e.g. `QEP-2 v1: add release-blocker label`).
 - Editorial → `QEP-N: <summary>`.
 
+## Simplifying a QEP: run the fidelity test
+
+A QEP has no length limit; it should be the simplest text that loses nothing
+(QEP-1 § Writing a QEP). Before a simplification goes to review, run the fidelity test
+(QEP-1 § Simplifying an accepted QEP) with three readers who each start fresh:
+
+1. **Question writer** — sees only the original. Writes about thirty questions covering
+   every rule, condition, exception and reason, plus a few the document does not
+   answer, with an answer key that quotes the original.
+2. **Answerer** — sees only the revision and the questions, never the key. Answers each
+   from the text alone, saying "not stated" where it is not.
+3. **Grader** — sees only the key and the answers. Marks each as a match, partial, lost
+   or wrong.
+
+Fix every partial or lost answer by restoring what was cut, then run the test again
+with fresh readers. List anything removed on purpose in the pull request. Agents may
+play all three parts, provided each starts without the others' context.
+
 ## Squash-merge only
 
 Every QEP PR is **squash-merged** so one amendment is one commit and a QEP's history

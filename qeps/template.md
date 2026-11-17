@@ -9,6 +9,8 @@ discussion: <link to the QEP discussion issue or thread>
 ---
 
 <!-- Number unpadded, e.g. 7 — the filename zero-pads it to four digits: qeps/qep-0007-short-slug.md -->
+<!-- Writing: rules first; every rule keeps its reason in a clause; say each thing
+     once; no length limit. See QEP-1 (Writing a QEP). -->
 <!-- Omit `version`: CI stamps `version: 0` and a sibling `version-hash` field at
      the merge that records the QEP's outcome, and re-stamps the hash on every later
      merge. The first substantive amendment bumps `version` to 1 and adds a Version
@@ -41,11 +43,12 @@ that becomes binding once the QEP is Accepted.
 
 ## Alternatives considered
 
-The main options you weighed and why they were not chosen. This section is where
-much of a QEP's long-term value lives.
+The main options you weighed, each with the reason that decided against it, and a
+link to the discussion for the rest.
 
 ## Adoption
 
 What adopting the decision requires: the mechanism, tooling, and the guarantees any
 implementation must honour — written as obligations, not a plan. Sequenced execution
-(who does what, when) belongs in a tracking issue, not the QEP. Omit if not applicable.
+(who does what, when) belongs in a tracker issue opened at acceptance, not the QEP
+(QEP-1 § Adoption and rollout). Omit if not applicable.
