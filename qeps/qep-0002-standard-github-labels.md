@@ -4,8 +4,7 @@ title: Standard GitHub Label Set and Labelling Policy
 author: "@mmcky"
 status: Accepted
 type: standard
-version: 1
-version-hash: 8cdca64  # stamped by CI; do not edit
+version: 2
 created: 2026-06-17
 discussion: https://github.com/QuantEcon/meta/issues/324
 ---
@@ -19,7 +18,7 @@ discussion: https://github.com/QuantEcon/meta/issues/324
 | **Author**   | @mmcky                                                             |
 | **Status**   | Accepted                                                           |
 | **Type**     | standard                                                           |
-| **Version**  | 1                                                                  |
+| **Version**  | 2                                                                  |
 | **Created**  | 2026-06-17                                                         |
 | **Discussion** | [QuantEcon/meta#324](https://github.com/QuantEcon/meta/issues/324) |
 
@@ -123,6 +122,34 @@ label-applying automation yet, these four sit **installed but dormant** — a
 conformant state, not a misconfiguration: the labels are the org-wide
 vocabulary contract, and they activate when the automation arrives.
 
+**Automation register — labels an automation owns, outside the standard set**
+
+| Label | Colour | Automation | Maintainer | Read by |
+|---|---|---|---|---|
+| `action-translation` | ⬜ `#e5e5e5` | [QuantEcon/action-translation](https://github.com/QuantEcon/action-translation) — translation sync | @mmcky | the translation rollup in the organisation's activity reports |
+| `status-report` | ⬜ `#d5d5d5` | [QuantEcon/reports-activity](https://github.com/QuantEcon/reports-activity) — weekly status reports | @mmcky | the report clean-up, which finds its own issues by this label |
+
+`automated` says that a machine made something; it cannot say *which* machine. An
+automation that must find its own output, or be found by a report, needs a label of
+its own, and that label is registered here.
+
+- **Registering needs a named maintainer and something that reads the label.** A
+  label nothing reads is not registered, which stops the list growing by one label per
+  automation.
+- **What a registered automation creates carries `automated` and its registered
+  label.** The label marks which automation created an issue or pull request, not
+  which ones later touched it: one artefact, one registered label.
+- **A registered label is not part of the standard set.** Its automation provisions
+  it, and only where that automation operates. It takes a grey from the automation
+  band, allocated as above.
+- **Conforming tooling never creates, renames, recolours or removes a registered
+  label.** Labels are routing keys, and nothing errors when one disappears: a
+  migration that removed one would break its automation silently.
+- **This is also the public register of the organisation's automation** that
+  [QEP-5](qep-0005-code-of-ai-use.md) requires. An automation with no label of its
+  own is listed with a dash in the Label column.
+- **Adding, changing or removing an entry is a substantive amendment** of this QEP.
+
 **Meta — closing outcomes**
 
 | Label | Colour | Description | When to use |
@@ -201,8 +228,9 @@ deliberately few:
 - **Automation labels are machine vocabulary.** Every bot-opened issue or PR
   carries `automated`, plus **at most one** diagnostic (`broken-links`,
   `build-failure`, `dependencies`) describing what the automation found —
-  routine scheduled output diagnoses nothing and carries no diagnostic. Humans
-  never hand-apply automation labels.
+  routine scheduled output diagnoses nothing and carries no diagnostic. What a
+  registered automation creates also carries its label from the *Automation
+  register*. Humans never hand-apply automation or registered labels.
 - **`do-not-merge` is a voluntary hold,** distinct from being *blocked*: see the
   status-label change below.
 
@@ -257,7 +285,9 @@ per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
   because both labels already exist, the issues are **re-tagged before** the
   local label is removed. Nothing is deleted out from under an issue that
   carries it. A local label the standard does not cover is **kept and recorded
-  as unmapped** rather than forced into a wrong Type — see *Adoption*.
+  as unmapped** rather than forced into a wrong Type — see *Adoption*. A label in
+  the *Automation register* is the one exception to "nothing else": it is
+  conformant wherever its automation operates, and a migration leaves it alone.
 
 ### Machine-readable appendix
 
@@ -269,7 +299,8 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
 `version`, and `version-hash` (a commit hash) pins both files at once.
 
 - **The yml is canonical for the machine-consumed fields** — name, colour,
-  description, group, scope, and who applies it. The tables above are the human
+  description, group, scope, and who applies it — and for the automation register:
+  each automation, its maintainer, and its label and colour. The tables above are the human
   spec: rationale, colour semantics, and when-to-use guidance.
 - **CI keeps the two in lockstep.** The `qep-checks` workflow fails any pull
   request where the tables and the yml disagree, so drift is a red ✗, not a
@@ -302,9 +333,14 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
 - **A closed bot vocabulary (`automated` + exactly one diagnostic).** Rejected:
   routine scheduled output diagnoses nothing, so a mandatory diagnostic forces
   a false `build-failure` and poisons it as a standing query — the quantifier
-  is **at most one**. Labels automations use to *coordinate* (origin labels,
-  task namespaces) evolve with their tooling and belong to a dedicated
-  automation-registry QEP, not to enumeration here.
+  is **at most one**. A label an automation needs in order to find its own output
+  is not a diagnostic: it is entered in the *Automation register*.
+- **A separate QEP for an automation registry.** Drafted
+  ([#8](https://github.com/QuantEcon/qeps/pull/8)) and folded in here instead: it
+  protected two labels, and the protection belongs in the document that defines what
+  a migration removes, read from the same yml. Its label prefixes, under which an
+  automation would own every label, are left out: nothing reads a prefixed label
+  yet, and the rule is better written from the first real case.
 - **Make `security` a Type label, or leave it repo-local.** Rejected: security
   findings are orthogonal to Type — a pwn-request pattern recommended in a
   README reads as `documentation`/`bug`,

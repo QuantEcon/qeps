@@ -13,6 +13,12 @@
 #         automation | meta | lecture | software) ·
 #         scope (core | lecture | software) ·
 #         applied-by: bot (automation labels only; default is human)
+#
+# The `automations:` list at the end is the automation register: one entry per
+# automation, with its maintainer and, where it has one, the label it owns.
+# A registered label is NOT part of the standard set above: its automation
+# provisions it, and conforming tooling never creates, renames, recolours or
+# removes it.
 
 labels:
   # Type — what kind of work is this? (one per issue, set at triage)
@@ -146,3 +152,16 @@ labels:
     description: Behaviour-preserving restructuring of product source
     group: software
     scope: software
+
+# Automation register — labels an automation owns, outside the standard set.
+# Fields: automation (owner/repo) · maintainer (GitHub login) ·
+#         label and color (optional: an automation may own no label)
+automations:
+  - automation: QuantEcon/action-translation
+    maintainer: mmcky
+    label: action-translation
+    color: e5e5e5
+  - automation: QuantEcon/reports-activity
+    maintainer: mmcky
+    label: status-report
+    color: d5d5d5
