@@ -53,6 +53,10 @@ not edit it. This applies to every terminal outcome — **Accepted**, **Rejected
 Then **merge** the PR; do not close it. Accepted, Rejected, and Withdrawn QEPs are all
 merged so the record stays durable — only abandoned or spam drafts are closed.
 
+**If the accepted QEP's adoption involves sequenced work**, whoever merges opens the
+tracker issue in the same sitting and links it from the acceptance PR (QEP-1 §
+Adoption and rollout). A QEP with nothing to sequence needs no tracker.
+
 Before merging, confirm the QEP number is final and not colliding with another open PR,
 and that the filename is zero-padded to four digits.
 
