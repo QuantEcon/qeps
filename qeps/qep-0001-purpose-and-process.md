@@ -229,7 +229,10 @@ obligations, not a plan, so that nothing in it can be falsified by work not happ
 
 Sequenced execution — who does what, and when — lives in a **tracker issue** opened at
 acceptance, never in the QEP, so that completing, reordering or dropping a step never
-requires amending the standard. Where the tracker lives is its owner's choice.
+requires amending the standard. Whoever merges the pull request that records the
+acceptance opens it, so that the step has an owner; where the tracker lives is its
+owner's choice. A QEP whose adoption leaves nothing to sequence — it carries no
+obligations, or each is a single edit — needs no tracker.
 
 ### Writing a QEP
 
