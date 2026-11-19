@@ -137,8 +137,9 @@ its own, and that label is registered here.
   label.** The label marks which automation created an issue or pull request, not
   which ones later touched it: one artefact, one registered label.
 - **A registered label is not part of the standard set.** Its automation provisions
-  it, and only where that automation operates. It takes a grey from the automation
-  band, allocated as above.
+  it, and only where that automation operates, before the label is first applied:
+  applying a label that does not exist creates it with an arbitrary colour and no
+  description. It takes a grey from the automation band, allocated as above.
 - **Conforming tooling never creates, renames, recolours or removes a registered
   label.** Labels are routing keys, and nothing errors when one disappears: a
   migration that removed one would break its automation silently.
@@ -223,7 +224,11 @@ deliberately few:
   `build-failure`, `dependencies`) describing what the automation found —
   routine scheduled output diagnoses nothing and carries no diagnostic. What a
   registered automation creates also carries its label from the *Automation
-  register*. Humans never hand-apply automation or registered labels.
+  register*. Humans never hand-apply automation or registered labels. These rules
+  bind the automations the organisation operates. A third-party bot that labels its
+  own output, as Dependabot does with `dependencies`, is outside them, because nobody
+  here can configure it beyond the label it applies; for such a bot this QEP defines
+  only that label's name, colour and description.
 
 ### The one behavioural change: retire status labels
 
