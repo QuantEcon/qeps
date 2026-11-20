@@ -164,8 +164,10 @@ dependencies inside one plan are visible in one list.
 An issue body follows the shape for its type in *Appendix: the three shapes*, and
 contains nothing else. A person should be able to read it without scrolling.
 
-As guidelines, a `Project` body is about 150 words, a `Decision` about 200 and a `Task`
-about 300. Tooling may warn above these and never blocks.
+There is no word limit. A body holds what its shape allows and no more. Tooling may
+warn when a body contains text that has a home elsewhere, such as a dated account of
+what merged, a checklist, or a restated sub-issue list. It warns on content, never on
+length, and it never blocks.
 
 Tracker bodies used to fill up with other kinds of text. Each has a home elsewhere:
 
@@ -179,7 +181,7 @@ Tracker bodies used to fill up with other kinds of text. Each has a home elsewhe
 | Steps, context and acceptance for one task | that `Task` |
 | Related work | relates-to links |
 
-When a body runs over its guideline:
+When a body grows long:
 
 - **A `Decision`** keeps the question and options in the body, and moves its analysis
   to its first comment or to a file under `research/`.
@@ -228,7 +230,7 @@ knowledge has one home instead:
 
 | Content | Home | Rule |
 |---|---|---|
-| Agent instructions | one root `AGENTS.md`; any other tool's instruction file is a one-line pointer to it | Rules in force now, and nothing else: no history and no citations of past decisions. Aim for about 600 words. |
+| Agent instructions | one root `AGENTS.md`; any other tool's instruction file is a one-line pointer to it | Rules in force now, each with its reason, and nothing else: no history and no citations of past decisions. |
 | Product documentation | `docs/` | Describes what exists now. Rewritten in place. |
 | Evidence | `research/YYYY-MM-DD-topic/`, or attached to the release or pull request it supports | Dated and frozen: audits, reviews, measurements. Read on request, never as instructions. |
 | Plans, state, what is next | the tracker and its sub-issues | No plan, roadmap, state or next-steps file. |
@@ -237,8 +239,15 @@ knowledge has one home instead:
 | Handover between sessions | `.qe/HANDOVER.md` on the work branch | See *Handover*. |
 
 The reason for the table is that an agent cannot tell a stale note from a rule in
-force. Three rules follow:
+force. Five rules follow:
 
+- **A rule states its reason beside it,** in a clause and without a citation. A reader
+  who knows why a rule exists can apply it to a case nobody foresaw, and can tell when
+  it no longer applies. A reason kept in a separate record is lost when that record
+  goes.
+- **`AGENTS.md` stands alone.** A rule there is complete as written and does not depend
+  on a definition in another file. It may link to `docs/` for detail a reader can do
+  without, never for the rule itself.
 - **What the code must always do is a test,** not a note. A safety rule that no test,
   check or branch rule enforces stays written in `AGENTS.md`, and gains a check where
   one is cheap.
@@ -255,7 +264,7 @@ that branch. It travels with the branch, so a session on another machine can pic
 work up without access to anything else.
 
 - **It holds** the task, what is done, what is under way, what failed and the next
-  step, in about 200 words. It may also be a work order for another machine, with its
+  step, briefly. It may also be a work order for another machine, with its
   scripts beside it in `.qe/`.
 - **It is overwritten each session,** never appended, so it describes the present.
 - **It never reaches the default branch, and a check enforces that.** A rule to tidy
@@ -302,7 +311,8 @@ landing pull request.
 - **Decision records kept in the repository.** Rejected: nothing flags a record when it
   becomes obsolete, and by design it was never deleted, so constraints only
   accumulated. A decision that must hold is enforced by a test or stated in
-  `AGENTS.md`; its reasoning stays with the `Decision` and the commit.
+  `AGENTS.md`, with its reason beside it; the fuller reasoning stays with the
+  `Decision` and the commit.
 - **Planning values as issue fields.** Rejected: the values were already declared in a
   reviewed registry that every consumer reads, and a second home was left empty in
   practice. The cost is that stage and priority are not visible on the issue itself.
@@ -310,10 +320,11 @@ landing pull request.
   says which projects form a programme, so a type would state the same fact twice.
 - **A platform-neutral protocol with a separate document binding it to GitHub.**
   Rejected: it defined every concept twice, and there is no plan to change platform.
-- **Hard word limits on issue bodies.** Rejected: a limit invites moving text into a
-  first comment, and some bodies are legitimately long. Leaving length free was also
-  rejected: it is how the median tracker reached 977 words. The guidelines warn and
-  never block.
+- **Word limits, or word guidelines, on issue bodies.** Rejected: a number cuts a task
+  that needs its length and invites moving text into a first comment. Long bodies are
+  long mostly because of dated narrative, not because of their steps or acceptance
+  checks, so a warning on that content targets the cause. Leaving bodies unconstrained
+  was also rejected: it is how the median tracker reached 977 words.
 - **A status comment on every change, or a pinned status comment.** Rejected: with the
   status block reduced to two lines there is little to announce, and a pinned comment
   is a second place to read status.
@@ -331,7 +342,8 @@ This appendix is normative. A line marked optional appears only when it applies.
 **Done when**
 - [observable check]                          ← two to five
 
-**Not doing:** [one line]                     ← optional
+**Not doing**                                 ← optional
+- [what is out of scope]: [why]
 
 ## Where we stand (verified YYYY-MM-DD)
 **Risk:** [why the project is off track]      ← only when it is
@@ -377,7 +389,8 @@ adopted from a reporter keeps the reporter's text.
 - Each lecture repository builds from the shared environment file.
 - No repository pins a package the shared file already pins.
 
-**Not doing:** Upgrading packages beyond the shared baseline.
+**Not doing**
+- Upgrading packages beyond the shared baseline: each series decides that for itself.
 
 ## Where we stand (verified 2026-11-20)
 **Needs:** #12 choose the baseline Python version
