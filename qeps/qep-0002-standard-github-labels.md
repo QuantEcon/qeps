@@ -117,39 +117,29 @@ middle of the scale.
 
 Automation labels take a grey in the band `#ededed`–`#bdbdbd`; a new automation
 label takes the next value in the band not already used by *any* label — the
-meta grey `duplicate` `#cfd3d7` also sits inside it. In a repo with no
+meta grey `duplicate` `#cfd3d7` also sits inside it, and `#e5e5e5` is reserved for
+the labels an automation manages (below). In a repo with no
 label-applying automation yet, these four sit **installed but dormant** — a
 conformant state, not a misconfiguration: the labels are the org-wide
 vocabulary contract, and they activate when the automation arrives.
 
-**Automation register — labels an automation owns, outside the standard set**
+**Labels an automation manages — outside the standard set (one grey, `#e5e5e5`)**
 
-| Label | Colour | Automation | Maintainer | Read by |
-|---|---|---|---|---|
-| `action-translation` | ⬜ `#e5e5e5` | [QuantEcon/action-translation](https://github.com/QuantEcon/action-translation) — translation sync | @mmcky | the translation rollup in the organisation's activity reports |
-| `status-report` | ⬜ `#d5d5d5` | [QuantEcon/reports-activity](https://github.com/QuantEcon/reports-activity) — weekly status reports | @mmcky | the report clean-up, which finds its own issues by this label |
+An automation may create and read labels for its own operation: a trigger, for
+example, which a person applies to ask the automation to act. Such a label is not part
+of the standard set. It belongs to its automation, which names it, documents it, and
+creates it where it operates before it is first used, because applying a label that
+does not exist creates it with an arbitrary colour and no description.
 
-`automated` says that a machine made something; it cannot say *which* machine. An
-automation that must find its own output, or be found by a report, needs a label of
-its own, and that label is registered here.
+So that people and tooling can recognise one:
 
-- **Registering needs a named maintainer and something that reads the label.** A
-  label nothing reads is not registered, which stops the list growing by one label per
-  automation.
-- **What a registered automation creates carries `automated` and its registered
-  label.** The label marks which automation created an issue or pull request, not
-  which ones later touched it: one artefact, one registered label.
-- **A registered label is not part of the standard set.** Its automation provisions
-  it, and only where that automation operates, before the label is first applied:
-  applying a label that does not exist creates it with an arbitrary colour and no
-  description. It takes a grey from the automation band, allocated as above.
-- **Conforming tooling never creates, renames, recolours or removes a registered
-  label.** Labels are routing keys, and nothing errors when one disappears: a
-  migration that removed one would break its automation silently.
-- **This is also the public register of the organisation's automation** that
-  [QEP-5](qep-0005-code-of-ai-use.md) requires. An automation with no label of its
-  own is listed with a dash in the Label column.
-- **Adding, changing or removing an entry is a substantive amendment** of this QEP.
+- **It takes the one family colour, `#e5e5e5`.** Grey is the colour of machine
+  vocabulary and asks for no attention, and no standard label uses this value.
+- **Its description names the automation that owns it,** so that someone who meets an
+  unfamiliar label knows where to ask.
+- **Conforming tooling never creates, renames, recolours or removes a label in that
+  colour.** Nothing errors when a label disappears, so a clean-up that removed one
+  would break its automation silently.
 
 **Meta — closing outcomes**
 
@@ -229,10 +219,11 @@ deliberately few:
 - **Automation labels are machine vocabulary.** Every bot-opened issue or PR
   carries `automated`, plus **at most one** diagnostic (`broken-links`,
   `build-failure`, `dependencies`) describing what the automation found —
-  routine scheduled output diagnoses nothing and carries no diagnostic. What a
-  registered automation creates also carries its label from the *Automation
-  register*. Humans never hand-apply automation or registered labels. These rules
-  bind the automations the organisation operates. A third-party bot that labels its
+  routine scheduled output diagnoses nothing and carries no diagnostic. It also
+  states its source in one line of its description, `Automated-by: owner/repo`,
+  so that a reader knows which automation to go to, and the automation can find
+  its own output without a label of its own. Humans never hand-apply these four
+  labels. These rules bind the automations the organisation operates. A third-party bot that labels its
   own output, as Dependabot does with `dependencies`, is outside them, because nobody
   here can configure it beyond the label it applies; for such a bot this QEP defines
   only that label's name, colour and description.
@@ -289,9 +280,8 @@ per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
   which carries every existing issue and PR tag; where a rename is blocked
   because both labels already exist, the issues are **re-tagged before** the
   local label is removed. Nothing is deleted out from under an issue that
-  carries it. A label in the *Automation register* is the one exception to
-  "nothing else": it is conformant wherever its automation operates, and a
-  migration leaves it alone.
+  carries it. A label an automation manages (see *Labels an automation manages*)
+  is the one exception to "nothing else": a migration leaves it alone.
 - **A label the standard does not cover is removed if unused and kept if it
   carries tags,** rather than forced into a wrong Type. Tags on closed issues
   and merged pull requests count, because GitHub strips a deleted label from
@@ -314,9 +304,8 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
 `version`, and `version-hash` (a commit hash) pins both files at once.
 
 - **The yml is canonical for the machine-consumed fields** — name, colour,
-  description, group, scope, and who applies it — and for the automation register:
-  each automation, its maintainer, and its label and colour. The tables above are the human
-  spec: rationale, colour semantics, and when-to-use guidance.
+  description, group, scope, and who applies it — and for the colour of the
+  labels an automation manages. The tables above are the human spec: rationale, colour semantics, and when-to-use guidance.
 - **CI keeps the two in lockstep.** The `qep-checks` workflow fails any pull
   request where the tables and the yml disagree, so drift is a red ✗, not a
   judgement call.
@@ -348,14 +337,12 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
 - **A closed bot vocabulary (`automated` + exactly one diagnostic).** Rejected:
   routine scheduled output diagnoses nothing, so a mandatory diagnostic forces
   a false `build-failure` and poisons it as a standing query — the quantifier
-  is **at most one**. A label an automation needs in order to find its own output
-  is not a diagnostic: it is entered in the *Automation register*.
-- **A separate QEP for an automation registry.** Drafted
-  ([#8](https://github.com/QuantEcon/qeps/pull/8)) and folded in here instead: it
-  protected two labels, and the protection belongs in the document that defines what
-  a migration removes, read from the same yml. Its label prefixes, under which an
-  automation would own every label, are left out: nothing reads a prefixed label
-  yet, and the rule is better written from the first real case.
+  is **at most one**.
+- **A register of the labels automations own,** in this QEP or one of its own.
+  Rejected: a register puts instances in a standard, so every new
+  automation, rename or change of maintainer becomes an amendment. A family colour
+  and a description on the label do the same job with nothing to maintain, and an
+  automation that only needs to find its own output states its source in text.
 - **Make `security` a Type label, or leave it repo-local.** Rejected: security
   findings are orthogonal to Type — a pwn-request pattern recommended in a
   README reads as `documentation`/`bug`,
