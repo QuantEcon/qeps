@@ -4,8 +4,7 @@ title: Repository Naming and Types
 author: "@mmcky"
 status: Accepted
 type: standard
-version: 0
-version-hash: d7b1f24  # stamped by CI; do not edit
+version: 1
 created: 2026-07-10
 discussion: https://github.com/QuantEcon/qeps/pull/7
 ---
@@ -19,6 +18,7 @@ discussion: https://github.com/QuantEcon/qeps/pull/7
 | **Author**   | @mmcky                               |
 | **Status**   | Accepted                             |
 | **Type**     | standard                             |
+| **Version**  | 1                                    |
 | **Created**  | 2026-07-10                           |
 | **Discussion** | [QuantEcon/qeps#7](https://github.com/QuantEcon/qeps/pull/7) |
 
@@ -72,9 +72,19 @@ renames routine, and the conventions that tooling already depends on citable.
    | Suffix | Meaning | Example |
    |---|---|---|
    | `.notebooks` | notebook companion of a lecture series | `lecture-dp.notebooks` |
+   | `.myst` | the MyST edition of a work whose primary repository is in another format: its content as MyST Markdown, built into a web edition | `book-econometric-theory.myst` (for `book-econometric-theory`) |
    | `.companion` | public companion site of a book; the base names the work, which may span several volume repositories | `book-networks.companion`, `book-dp.companion` (for `book-dp1`, `book-dp2`) |
    | `.{lang}` | translated edition (lowercase IETF tag) | `lecture-python-programming.zh-cn`, `lecture-python-programming.fa` |
    | `.{ecosystem}` | edition or package built for a named ecosystem; a published package keeps the ecosystem's own suffix and casing (§3) | `QuantEcon.py`, `QuantEcon.jl`, `quantecon-theme.mystmd`, `myst-markdown.nvim` |
+
+   `.myst` marks a second format, not MyST content as such. A work whose primary
+   repository is already MyST takes the bare name — a lecture series is
+   `lecture-dp`, not `lecture-dp.myst` — because that repository is the work, not a
+   variant of it, and the suffix then tells a reader that another source exists.
+
+   `.myst` and `.mystmd` are different suffixes. `.myst` names a work's content
+   written in MyST; `.mystmd` names software built for the `mystmd` tool, such as a
+   theme (`quantecon-theme.mystmd`), under `.{ecosystem}`.
 
    The `.{lang}` suffix is machine-consumed: `action-translation` locates translated
    editions by this pattern, so any change to it must be coordinated with that
@@ -99,7 +109,7 @@ renames routine, and the conventions that tooling already depends on citable.
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
 | `lecture-{topic}` | official lecture series (+ `.notebooks`, `.{lang}` variants) | public | living |
-| `book-{name}` | textbook project (+ `.companion` site) | private | living |
+| `book-{name}` | textbook project (+ `.myst` web edition, `.companion` site) | private | living |
 | `quantecon-book-{name}` | companion software package for a book | public | living |
 
 **Teaching**
