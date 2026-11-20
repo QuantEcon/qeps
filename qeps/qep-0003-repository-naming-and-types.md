@@ -253,8 +253,4 @@ would.
   fact; an audit is an event even when it recurs. The living thing is the ledger:
   `compliance-*`.
   ([discussion](https://github.com/QuantEcon/qeps/pull/7#issuecomment-5421261197))
-- **Keeping the dotted type forms** (`audit.{yyyy}-{mm}.{topic}`, `benchmark.{topic}`)
-  **for new repos.** Rejected: dots are the variant-suffix marker, and reserving them
-  keeps names machine-parseable. Existing dotted names are renamed opportunistically
-  under the *Migration and archival policy*; the families are small and rarely minted, so the switch costs little.
 
