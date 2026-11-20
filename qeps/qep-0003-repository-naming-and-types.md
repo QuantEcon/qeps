@@ -179,6 +179,9 @@ Boundary rules:
 | `audit-{yyyy}-{mm}-{topic}` | dated point-in-time audit | public (typically) | frozen once published; archived once absorbed into a `compliance-*` ledger (see boundary rules) |
 | `benchmark-{topic}` | benchmark dataset / evaluation harness | public | living |
 
+A new family is added to this registry by amending this QEP in place, not by a new
+QEP, so that the registry stays the one list of types.
+
 ### 3. Exemptions — names that are load-bearing elsewhere
 
 - **Published software packages take their ecosystem name, unprefixed** — the
@@ -226,8 +229,8 @@ would.
 - **A `workflow-*` type, and registering `reports-*`.** Rejected: `workflow-` names
   the mechanism rather than the role — every repository has `.github/workflows/`, so
   "contains workflows" distinguishes nothing — and `reports-*` would legitimize a
-  single-member family. Both incumbents rename into the `reporter-*`/`task-*` pair
-  (see Adoption). Candidate names colliding with the org's
+  single-member family. Both incumbents rename into the `reporter-*`/`task-*` pair.
+  Candidate names colliding with the org's
   mathematical and economic vocabulary (`operator-`, `agent-`) or naming a cadence,
   mechanism or trigger (`routine-`, `bot-`, `cron-`, `job-`) were rejected; full
   record in the
@@ -255,31 +258,3 @@ would.
   keeps names machine-parseable. Existing dotted names are renamed opportunistically
   under the *Migration and archival policy*; the families are small and rarely minted, so the switch costs little.
 
-## Adoption
-
-Acceptance fixes the grammar, registry, exemptions, and migration policy above as the
-QuantEcon standard. On acceptance:
-
-- The team manual's repository-conventions page cites QEP-3 as the naming authority
-  and aligns its tables with this registry; operational program homes point back here
-  so namespace decisions are not re-made locally.
-- The open lecture-rename proposals
-  ([meta#333](https://github.com/QuantEcon/meta/issues/333),
-  [meta#334](https://github.com/QuantEcon/meta/issues/334)) proceed as the first
-  opportunistic renames under the *Migration and archival policy*, with `continuous_time_mcs` joining the batch
-  ([meta#382](https://github.com/QuantEcon/meta/issues/382)).
-- Concluded teaching-event repositories are archived in one pass — the trigger under
-  this QEP is *the event concluded*, widening the *inactive-two-years* inventory in
-  [meta#267](https://github.com/QuantEcon/meta/issues/267) — and thereafter by an
-  annual sweep, itself a `task-*` candidate.
-- The automation renames `reports-activity` → `reporter-activity` and
-  `workflow-backups` → `task-backups` ride on active maintenance, as the *Migration and archival policy* requires
-  ([meta#383](https://github.com/QuantEcon/meta/issues/383)).
-- `compliance-lecture-style` is assembled from `audit.2026-05.style-guide`, which is
-  then archived — the first instance of "renames never transmute types".
-- Future families (`research-*`, `paper-*` are visible in the long tail) are added to
-  the registry by amending this QEP in place (version bump per QEP-1), not by new
-  QEPs.
-
-The sequenced execution checklist belongs in a tracking issue, not in this document,
-so completing, reordering, or dropping a step never requires amending the standard.
