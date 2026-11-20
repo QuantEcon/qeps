@@ -4,6 +4,8 @@ title: Automation Registry and Label Coordination
 author: "@mmcky"
 status: Withdrawn
 type: standard
+version: 0
+version-hash: 506d7df  # stamped by CI; do not edit
 created: 2026-07-23
 discussion: https://github.com/QuantEcon/qeps/pull/8
 related: [2]
