@@ -179,9 +179,6 @@ Boundary rules:
 | `audit-{yyyy}-{mm}-{topic}` | dated point-in-time audit | public (typically) | frozen once published; archived once absorbed into a `compliance-*` ledger (see boundary rules) |
 | `benchmark-{topic}` | benchmark dataset / evaluation harness | public | living |
 
-A new family is added to this registry by amending this QEP in place, not by a new
-QEP, so that the registry stays the one list of types.
-
 ### 3. Exemptions — names that are load-bearing elsewhere
 
 - **Published software packages take their ecosystem name, unprefixed** — the
