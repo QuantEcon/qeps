@@ -46,5 +46,6 @@ and any rule for how existing things migrate.
 
 ## Alternatives considered
 
-The main options you weighed, each with the reason that decided against it, and a
-link to the discussion for the rest.
+Optional. Only an option someone could reasonably propose again, with the reason that
+decided against it, where that reason is not already stated beside a rule. Omit the
+section if there is none.
