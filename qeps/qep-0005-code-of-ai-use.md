@@ -344,7 +344,6 @@ Full discussion: [QuantEcon/qeps#12](https://github.com/QuantEcon/qeps/issues/12
 
 ## Disclosure
 
-This QEP was drafted with AI assistance, under the norms it sets out. The author read,
-revised and owns every line, and answers review on it.
-
-`Assisted-by: Claude Code (Claude Fable 5.1)`
+This QEP was drafted and amended with AI assistance, under the norms it sets out. Each
+change carries its own `Assisted-by:` line in the pull request that made it. The author
+read, revised and owns every line, and answers review on it.
