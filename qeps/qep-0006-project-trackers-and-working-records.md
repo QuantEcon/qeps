@@ -100,8 +100,14 @@ reporter's text, and need not be retyped.
   from the list, because a closed sub-issue counts as done.
 - **An issue belongs to a project only if the goal cannot be met without it.** An issue
   outside every project is normal and needs no parent.
-- **What is next is never written down.** It is the first open sub-issue with nothing
-  blocking it. A written "next" line goes stale the first time the list is reordered.
+- **What is ready is never written down.** Every open sub-issue with nothing open
+  blocking it is ready, and ready items may be worked at the same time. List order is
+  priority, not a queue: whoever is free takes the first ready item that nobody has
+  claimed. A written "next" line goes stale the first time the list is reordered.
+- **An item in flight shows who has it.** Before starting, a person assigns
+  themselves; a session that shares an account opens a draft pull request that names
+  the task and step. An item with an assignee or an open linked pull request is taken.
+  A claim that has gone quiet may be taken over after a comment on the item.
 - **Sequence is never encoded in a title.** Re-ordering moves an item and never renames
   it. Titles state outcomes.
 
@@ -115,6 +121,10 @@ other produces: a ruling, a document, a release. Touching the same files, or a
 preferred order, is not a constraint. Two items that are merely related get a
 relates-to link.
 
+Items that touch the same files still run in parallel, and the later pull request
+rebases. Where a rebase cannot resolve the overlap, as with generated or binary files,
+the later item waits, and says what it waits for.
+
 ### Steps
 
 A `Task` is one outcome, and an outcome may take several pull requests. Each is a
@@ -122,8 +132,10 @@ A `Task` is one outcome, and an outcome may take several pull requests. Each is 
 
 - **One step is one pull request,** which names the task and the step.
 - **Which steps are done is never written in the body.** It is read from the pull
-  requests linked to the task, in the same way that what is next is read from the
+  requests linked to the task, in the same way that what is ready is read from the
   sub-issue list.
+- **Steps run in order unless a step says otherwise.** A step is under way while its
+  pull request is open, and done when it merges.
 - **A step that must wait says what it waits for.** Where it waits on another item,
   that is a dependency on the task.
 
@@ -133,11 +145,24 @@ work itself.
 
 ### Phases
 
-A project uses phases only when its flat list of sub-issues stops reading as a plan.
+Most projects need no phases. A short list with dependencies is already a plan, and a
+check that would end a phase belongs in the tracker's done-when.
 
-A **phase is a `Task` that has its own sub-issues.** Its title names the phase's
-outcome, and its body states the check that ends it. No separate type is needed,
-because tooling can tell a phase from a single task by whether it has sub-issues.
+A project uses phases only when its list is too long to read as a plan, and its groups
+each end in a check that no single item states.
+
+- **A phase is a `Task` that has its own sub-issues.** Its title names the phase's
+  outcome and its done-when is the check that ends it, so the check is written once and
+  membership is the parent link. No separate type is needed.
+- **Only a phase has sub-issues.** A task's pull requests are steps in its body, and a
+  phase never holds another phase, so that a task with sub-issues always means a phase.
+- **Phases are not described in the tracker body, and milestones do not mark them.** A
+  table in the body says which phases exist but not what each holds, and it drifts when
+  the list is reordered. A milestone cannot span repositories.
+- **A wait is a dependency on the item that produces what is waited for.** Where
+  everything in a phase waits, the dependency is on the phase, and it holds every item
+  under it. Tooling treats an item as blocked when it or its phase is blocked.
+- **What is ready is read through a phase** to the items inside it.
 
 ### Decisions
 
@@ -207,6 +232,7 @@ Tracker bodies used to fill up with other kinds of text. Each has a home elsewhe
 | What merged or was ruled, and when | the pull requests, the issue timeline, the `Decision` |
 | Background, findings, analysis | `docs/` or `research/` in a repository (see *Working records*); the body may link to it |
 | Steps, context and acceptance for one task | that `Task` |
+| Phases, gates and the reasons for the order | phase tasks, dependencies, and `docs/` or `research/` |
 | Related work | relates-to links |
 
 When a body grows long:
@@ -295,6 +321,7 @@ work up without access to anything else.
   step, briefly. It may also be a work order for another machine, with its
   scripts beside it in `.qe/`.
 - **It is overwritten each session,** never appended, so it describes the present.
+- **One session works a branch at a time,** so the file has one writer.
 - **It never reaches the default branch, and a check enforces that.** A rule to tidy
   working records by hand was already in place, and no repository followed it.
 - **Results that must last** move to `research/` before the merge.
@@ -347,6 +374,13 @@ landing pull request.
 - **One task for each pull request.** Rejected: it was tried on one project, as 63
   tasks with 70 dependency links, and was regrouped as a process heavier than the work.
   A task is an outcome, and its pull requests are steps within it.
+- **Phases as a table in the tracker body, or as milestones.** Rejected: the table was
+  the common practice, but it never says which items a phase holds, tooling cannot tell
+  which phase is current, and most tables sat over lists short enough to need no
+  phases. A milestone cannot span repositories or block anything.
+- **Working one item at a time, in list order.** Rejected: most projects have several
+  items ready at once and several people or sessions working. Order is priority, and a
+  claim shows what is taken.
 - **A `Programme` issue type.** Rejected: none was in use, and the registry already
   says which projects form a programme, so a type would state the same fact twice.
 - **A platform-neutral protocol with a separate document binding it to GitHub.**
