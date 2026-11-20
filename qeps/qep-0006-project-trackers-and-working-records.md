@@ -205,7 +205,7 @@ Tracker bodies used to fill up with other kinds of text. Each has a home elsewhe
 | What is next, in flight or blocked | derived from the list, its dependencies and linked pull requests |
 | Progress counts, stage, priority, dates, owner | the sub-issue list, the registry, the assignee |
 | What merged or was ruled, and when | the pull requests, the issue timeline, the `Decision` |
-| Background, findings, analysis | `docs/` or `research/` in a repository (see *Working records*) |
+| Background, findings, analysis | `docs/` or `research/` in a repository (see *Working records*); the body may link to it |
 | Steps, context and acceptance for one task | that `Task` |
 | Related work | relates-to links |
 
@@ -371,10 +371,12 @@ This appendix is normative. A line marked optional appears only when it applies.
 **Goal:** [the outcome, one sentence]
 
 **Done when**
-- [observable check]                          ← two to five
+- [observable check]
 
 **Not doing**                                 ← optional
 - [what is out of scope]: [why]
+
+**Background:** [link to `docs/` or `research/`]   ← optional
 
 ## Where we stand (verified YYYY-MM-DD)
 **Risk:** [why the project is off track]      ← only when it is
