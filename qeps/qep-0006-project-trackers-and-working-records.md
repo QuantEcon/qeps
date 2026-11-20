@@ -312,29 +312,36 @@ knowledge has one home instead:
 
 | Content | Home | Rule |
 |---|---|---|
-| Agent instructions | one root `AGENTS.md`; any other tool's instruction file is a one-line pointer to it | Rules in force now, each with its reason, and nothing else: no history and no citations of past decisions. |
+| Agent instructions that every session needs | one root `AGENTS.md`; any other tool's instruction file is a one-line pointer to it | The rules that apply whatever the task, each with its reason, and what to read before each kind of work. No history and no citations of past decisions. |
+| Rules for one kind of work | one document for that work, under `docs/`, linked from `AGENTS.md` | Read before that work starts. Binds as if it were written in `AGENTS.md`. |
 | Product documentation | `docs/` | Describes what exists now, and what is being built where it names the task that builds it. Rewritten in place. |
 | Evidence | `research/YYYY-MM-DD-topic/`, or attached to the release or pull request it supports | Dated and frozen: audits, reviews, measurements. Read on request, never as instructions. |
 | Plans, state, what is next | the tracker and its sub-issues | No plan, roadmap, state or next-steps file. |
 | Ideas not yet scheduled | an issue with no parent, or nothing | No backlog file. |
 | Decisions | the `Decision`, and the commit or code comment that applies it | No decision register. |
 | Handover between sessions | the pull request's description, or `.qe/HANDOVER.md` on the work branch | See *Handover*. |
+| Configuration a tool reads about the repository | `.qe/` | Reviewed like any other file. See below. |
 
 The reason for the table is that an agent cannot tell a stale note from a rule in
-force. Six rules follow:
+force. These rules follow:
 
 - **A rule states its reason beside it,** in a clause and without a citation. A reader
   who knows why a rule exists can apply it to a case nobody foresaw, and can tell when
   it no longer applies. A reason kept in a separate record is lost when that record
   goes. A reason is taken from its source and never reconstructed; one that cannot be
   found is marked as unknown.
-- **`AGENTS.md` stands alone.** A rule there is complete as written and does not depend
-  on a definition in another file. It may link to `docs/` for detail a reader can do
-  without, never for the rule itself. Where a definition is needed in order to obey a
-  rule, its one home is `AGENTS.md`, and other files point to it.
-- **Which rules a repository keeps is for its owner to decide.** Conforming does not
-  shorten `AGENTS.md`: stating each rule's reason costs about what removing history
-  saves.
+- **`AGENTS.md` holds only what every session needs.** A rule stays there only if it
+  applies whatever the task. It is loaded into every session, so each rule in it costs
+  attention in sessions it does not concern, and a long file is read less closely.
+- **A rule for one kind of work lives in one document for that work,** with its reason,
+  and binds exactly as if it were written in `AGENTS.md`.
+- **`AGENTS.md` says when to read each linked document, by action:** "before you merge a
+  pull request, read …". A list of documents by subject leaves a session to guess when
+  each one matters.
+- **A linked document makes sense alone.** A rule is complete where it is stated, with
+  any definition it needs beside it, and does not point "above" or "below" to text in
+  another file.
+- **Which rules a repository keeps is for its owner to decide.**
 - **What the code must always do is a test,** not a note. A safety rule that no test,
   check or branch rule enforces stays written in `AGENTS.md`, and gains a check where
   one is cheap.
@@ -342,6 +349,13 @@ force. Six rules follow:
   message of the commit that made it.
 - **Earlier notes and decisions are context, not constraints.** Where the code or the
   task points to a better choice, an agent proposes it.
+
+### Configuration in `.qe/`
+
+`.qe/` on a default branch may hold configuration that tooling reads about that
+repository, reviewed like any other file. It never holds plans, state, logs, decision
+records or a cache. The test is whether a tool reads the file as input: a note written
+for the next session is a working record, and a file a tool parses is configuration.
 
 ### Handover
 
@@ -412,6 +426,10 @@ landing pull request.
 - **One task for each pull request.** Rejected: it was tried on one project, as 63
   tasks with 70 dependency links, and was regrouped as a process heavier than the work.
   A task is an outcome, and its pull requests are steps within it.
+- **Every rule in `AGENTS.md`.** Rejected: the file is loaded into every session
+  whatever the task. In one repository, moving each activity's rules to a linked
+  document cut it from 5,250 words to 1,435, and sessions given the short file found and
+  followed the linked rules as reliably as sessions given the long one.
 - **Phases as a table in the tracker body, or as milestones.** Rejected: the table was
   the common practice, but it never says which items a phase holds, tooling cannot tell
   which phase is current, and most tables sat over lists short enough to need no
