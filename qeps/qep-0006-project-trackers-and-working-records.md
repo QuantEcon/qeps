@@ -89,15 +89,18 @@ How an issue closes depends on what it is:
 ### A project is one tracker issue
 
 A **project** is one issue of type `Project`. Its **work items are its sub-issues**,
-which may live in any repository.
+which may live in any repository. Work that a project's goal needs is tracked by that
+project, even when its code lives in another project's repository, so that each item
+has one tracker.
 
 A sub-issue of a project is a work item whatever its type. `Task` is the type for work
 written for the project. An issue the project adopts from a reporter keeps the
 reporter's text, and need not be retyped.
 
 - **The sub-issue list is the plan,** kept in plan order. Completed items keep their
-  place, so the list still reads as the plan. An item dropped from the plan is removed
-  from the list, because a closed sub-issue counts as done.
+  place, so the list still reads as the plan. An item the goal no longer needs, dropped
+  or parked, is removed from the list and named under *Not doing* with its reason,
+  because a closed sub-issue counts as done and an open one reads as ready.
 - **An issue belongs to a project only if the goal cannot be met without it.** An issue
   outside every project is normal and needs no parent.
 - **What is ready is never written down.** Every open sub-issue with nothing open
@@ -118,8 +121,8 @@ dependency, never in prose, so that people and tooling read the same link.
 
 A dependency exists only where the waiting item cannot start without something the
 other produces: a ruling, a document, a release. Touching the same files, or a
-preferred order, is not a constraint. Two items that are merely related get a
-relates-to link.
+preferred order, is not a constraint. Two items that are merely related mention each
+other in their text; GitHub has no link for it.
 
 Items that touch the same files still run in parallel, and the later pull request
 rebases. Where a rebase cannot resolve the overlap, as with generated or binary files,
@@ -130,14 +133,29 @@ the later item waits, and says what it waits for.
 A `Task` is one outcome, and an outcome may take several pull requests. Each is a
 **step**, listed in the task's body with what it delivers and the check that ends it.
 
-- **One step is one pull request,** which names the task and the step.
-- **Which steps are done is never written in the body.** It is read from the pull
-  requests linked to the task, in the same way that what is ready is read from the
-  sub-issue list.
+- **One step is one pull request.** Its title starts with the task and the step, as in
+  `cli#37 S1: …`, and its description mentions the task without a closing keyword. A
+  closing keyword would close the task while steps remain, so GitHub's own link from a
+  pull request to an issue cannot be used here.
+- **Which steps are done is never written in the body.** It is read from the task's
+  pull requests, found by that title, in the same way that what is ready is read from
+  the sub-issue list.
+- **A step carries its own check.** The task's done-when holds only what no single step
+  proves.
+- **A step may name the files it may touch,** where that is what limits its scope.
 - **Steps run in order unless a step says otherwise.** A step is under way while its
   pull request is open, and done when it merges.
-- **A step that must wait says what it waits for.** Where it waits on another item,
-  that is a dependency on the task.
+- **A step that must wait says what it waits for,** in its own line, naming the item
+  and the step it waits on. A wait usually holds one step and not the whole task, and
+  a dependency would show the task as blocked while another of its steps is ready.
+- **A dependency is used only where everything left in the task waits.** A task with
+  one step always uses one. Dependency links are task-grained, and that has a cost on
+  both sides: a wait kept in a step does not show on the tracker, and a link clears
+  only when the whole blocking task closes. A wait for an event that is not an item
+  closing, such as a release, is written in the step.
+- **A choice found while working is listed in the step's pull request,** for the
+  decider to rule on, and is written into the task once ruled. A session does not
+  settle it by guessing.
 
 A step is not made into a task of its own to keep bodies short. One task for each pull
 request multiplies issues and dependencies until tracking them is more work than the
@@ -196,7 +214,8 @@ projects, recording for each its tracker, stage, priority, dates and programme.
 A **programme** is a named group of projects, declared in that registry and not as an
 issue type. A programme may have one ordinary, untyped issue as its front door; the
 registry identifies it. The front door's sub-issues are the member trackers, and any
-`Decision` that more than one of them waits on. It holds no work items.
+`Decision` that more than one of them waits on. It holds no work items, and its body
+follows the front door shape.
 
 Projects whose tasks routinely block one another are **combined into one project**
 instead of being coordinated across trackers, because dependencies inside one plan are
@@ -217,8 +236,11 @@ visible in one list.
 
 ### The body
 
-An issue body follows the shape for its type in *Appendix: the three shapes*, and
+An issue body follows the shape for its type in *Appendix: the shapes*, and
 contains nothing else. A person should be able to read it without scrolling.
+
+A project's done-when carries every check that ends it. A body is made short by
+removing what has a home elsewhere, never by cutting checks.
 
 There is no word limit. A body holds what its shape allows and no more. Tooling may
 warn when a body contains text that has a home elsewhere, such as a dated account of
@@ -236,7 +258,7 @@ Tracker bodies used to fill up with other kinds of text. Each has a home elsewhe
 | Background, findings, analysis | `docs/` or `research/` in a repository (see *Working records*); the body may link to it |
 | Steps, context and acceptance for one task | that `Task` |
 | Phases, gates and the reasons for the order | phase tasks, dependencies, and `docs/` or `research/` |
-| Related work | relates-to links |
+| Related work | `docs/`, or the *Background* line |
 
 When a body grows long:
 
@@ -257,11 +279,14 @@ reads the date:
 Under it are at most two lines:
 
 - **`Risk:`** why the project is off track. Present only when it is.
-- **`Needs:`** what the project waits on from a person, as an issue reference and a few
-  words, or "none".
+- **`Needs from a person:`** what the project waits on from a person, as an issue
+  reference, who, and a few words, or "none". Several entries are written one to a
+  line. It is not the list of blocked items, which the dependencies show.
 
 These are the only two facts about a project's state that cannot be worked out from
-its sub-issues.
+its sub-issues. The body may also carry one line, `Registry:`, linking to the project's
+registry entry, so that a reader can find its stage, priority and dates. The owner is
+the assignee, which the page shows.
 
 The date changes only when the owner has re-checked the block. A tracker whose
 sub-issues are moving needs no new date.
@@ -270,7 +295,7 @@ sub-issues are moving needs no new date.
 
 Comment when a person needs to read something.
 
-One comment is required. When `Risk` appears or changes, or `Needs` newly names a
+One comment is required. When `Risk` appears or changes, or `Needs from a person` newly names a
 person, post one short comment that mentions whoever must act. An edit to a body
 notifies nobody.
 
@@ -288,23 +313,28 @@ knowledge has one home instead:
 | Content | Home | Rule |
 |---|---|---|
 | Agent instructions | one root `AGENTS.md`; any other tool's instruction file is a one-line pointer to it | Rules in force now, each with its reason, and nothing else: no history and no citations of past decisions. |
-| Product documentation | `docs/` | Describes what exists now. Rewritten in place. |
+| Product documentation | `docs/` | Describes what exists now, and what is being built where it names the task that builds it. Rewritten in place. |
 | Evidence | `research/YYYY-MM-DD-topic/`, or attached to the release or pull request it supports | Dated and frozen: audits, reviews, measurements. Read on request, never as instructions. |
 | Plans, state, what is next | the tracker and its sub-issues | No plan, roadmap, state or next-steps file. |
 | Ideas not yet scheduled | an issue with no parent, or nothing | No backlog file. |
 | Decisions | the `Decision`, and the commit or code comment that applies it | No decision register. |
-| Handover between sessions | `.qe/HANDOVER.md` on the work branch | See *Handover*. |
+| Handover between sessions | the pull request's description, or `.qe/HANDOVER.md` on the work branch | See *Handover*. |
 
 The reason for the table is that an agent cannot tell a stale note from a rule in
-force. Five rules follow:
+force. Six rules follow:
 
 - **A rule states its reason beside it,** in a clause and without a citation. A reader
   who knows why a rule exists can apply it to a case nobody foresaw, and can tell when
   it no longer applies. A reason kept in a separate record is lost when that record
-  goes.
+  goes. A reason is taken from its source and never reconstructed; one that cannot be
+  found is marked as unknown.
 - **`AGENTS.md` stands alone.** A rule there is complete as written and does not depend
   on a definition in another file. It may link to `docs/` for detail a reader can do
-  without, never for the rule itself.
+  without, never for the rule itself. Where a definition is needed in order to obey a
+  rule, its one home is `AGENTS.md`, and other files point to it.
+- **Which rules a repository keeps is for its owner to decide.** Conforming does not
+  shorten `AGENTS.md`: stating each rule's reason costs about what removing history
+  saves.
 - **What the code must always do is a test,** not a note. A safety rule that no test,
   check or branch rule enforces stays written in `AGENTS.md`, and gains a check where
   one is cheap.
@@ -315,24 +345,29 @@ force. Five rules follow:
 
 ### Handover
 
-A session that stops with work unfinished may leave one file, `.qe/HANDOVER.md`, on the
-branch it was working on. The file is committed scratch space for the next session on
-that branch. It travels with the branch, so a session on another machine can pick the
-work up without access to anything else.
+A session that stops with work unfinished leaves a handover for the next session. It has
+one home:
+
+- **Where the work has a pull request, its description is the handover.** A description
+  cannot reach the default branch, and a second copy in a file drifts from it.
+- **Where the work has a branch and no pull request, or must travel without GitHub, it
+  is one file, `.qe/HANDOVER.md`, on that branch.** The file travels with the branch, so
+  a session on another machine can pick the work up without access to anything else. It
+  never reaches the default branch, and a check enforces that: a rule to tidy working
+  records by hand was already in place, and no repository followed it.
+- **Work that has no branch** hands over in a comment on its `Task` or `Decision`.
+
+Wherever it lives:
 
 - **It holds** the task, what is done, what is under way, what failed and the next
-  step, briefly. It may also be a work order for another machine, with its
-  scripts beside it in `.qe/`.
+  step, briefly. A file may also be a work order for another machine, with its scripts
+  beside it in `.qe/`.
 - **It is overwritten each session,** never appended, so it describes the present.
-- **One session works a branch at a time,** so the file has one writer.
-- **It never reaches the default branch, and a check enforces that.** A rule to tidy
-  working records by hand was already in place, and no repository followed it.
+- **One session works a branch at a time,** so the handover has one writer.
 - **Results that must last** move to `research/` before the merge.
-- **It does not track the project.** What is next for the project is the tracker's to
+- **It does not track the project.** What is ready for the project is the tracker's to
   say.
 - **The next session verifies it against the code** before relying on it.
-
-Work that has no branch hands over in a comment on its `Task` or `Decision`.
 
 ## Amendments to QEP-2
 
@@ -347,7 +382,7 @@ landing pull request.
    do the work.
 3. **The one behavioural change.** Replace the sentence beginning "A blocker that is not
    an issue": a wait on a choice is a blocked-by dependency on its `Decision`; a wait on
-   a person is the tracker's `Needs:` line; a "Blocked by: …" first line in a body is
+   a person is the tracker's `Needs from a person:` line; a "Blocked by: …" first line in a body is
    used only for a wait that is neither.
 4. **What we deliberately don't label.** Replace the row for project / grouping
    labels, which points to Milestones: a campaign or a recurring programme of work is a
@@ -397,7 +432,7 @@ landing pull request.
   status block reduced to two lines there is little to announce, and a pinned comment
   is a second place to read status.
 
-## Appendix: the three shapes
+## Appendix: the shapes
 
 This appendix is normative. A line marked optional appears only when it applies.
 
@@ -408,16 +443,28 @@ This appendix is normative. A line marked optional appears only when it applies.
 **Goal:** [the outcome, one sentence]
 
 **Done when**
-- [observable check]
+- [observable check]                          ← every check that ends the project
 
 **Not doing**                                 ← optional
 - [what is out of scope]: [why]
 
 **Background:** [link to `docs/` or `research/`]   ← optional
+**Registry:** [link to the project's registry entry]   ← optional
 
 ## Where we stand (verified YYYY-MM-DD)
 **Risk:** [why the project is off track]      ← only when it is
-**Needs:** #N [act], or none
+**Needs from a person:** #N [who] [act], or none
+```
+<!-- /qep-appendix -->
+
+**Front door**
+
+<!-- qep-appendix: shape-front-door -->
+```markdown
+[What the programme is, one sentence.] Its member trackers are the sub-issues of
+this issue.
+
+**Background:** [link to `docs/` or `research/`]   ← optional
 ```
 <!-- /qep-appendix -->
 
@@ -447,6 +494,7 @@ This appendix is normative. A line marked optional appears only when it applies.
 
 **Steps**                                     ← optional
 - **S1** [what this pull request delivers]: [the check that ends it]
+  [files it may touch, and what it waits for]   ← optional
 
 **Open choice:** [the options, and a recommendation]   ← optional
 ```
@@ -468,5 +516,5 @@ issue adopted from a reporter keeps the reporter's text.
 - Upgrading packages beyond the shared baseline: each series decides that for itself.
 
 ## Where we stand (verified 2026-11-20)
-**Needs:** #12 choose the baseline Python version
+**Needs from a person:** #12 @owner to choose the baseline Python version
 ```
