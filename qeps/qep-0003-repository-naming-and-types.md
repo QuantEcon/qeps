@@ -87,15 +87,6 @@ renames routine, and the conventions that tooling already depends on citable.
    written in MyST; `.mystmd` names software built for the `mystmd` tool, such as a
    theme (`quantecon-theme.mystmd`), under `.{ecosystem}`.
 
-   `.myst` marks a second format, not MyST content as such. A work whose primary
-   repository is already MyST takes the bare name — a lecture series is
-   `lecture-dp`, not `lecture-dp.myst` — because that repository is the work, not a
-   variant of it, and the suffix then tells a reader that another source exists.
-
-   `.myst` and `.mystmd` are different suffixes. `.myst` names a work's content
-   written in MyST; `.mystmd` names software built for the `mystmd` tool, such as a
-   theme (`quantecon-theme.mystmd`), under `.{ecosystem}`.
-
    The `.{lang}` suffix is machine-consumed: `action-translation` locates translated
    editions by this pattern, so any change to it must be coordinated with that
    tooling.
