@@ -1,6 +1,6 @@
 # Machine-readable appendix to QEP-2 — the normative label schema.
 #
-# This file is the single source of truth for tooling (`qe gh labels sync`).
+# This file is the single source of truth for tooling.
 # Every field is normative and versioned with the QEP: changing this file is a
 # substantive amendment under QEP-1 and bumps QEP-2's `version`. CI checks that
 # it stays in lockstep with the tables in qep-0002-standard-github-labels.md.

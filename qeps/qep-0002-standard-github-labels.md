@@ -57,13 +57,16 @@ things:
 ### The label set
 
 Labels are grouped by purpose. **Colour carries meaning where it helps:**
-priority is a heat scale (hot red → cool green), grey marks **low-salience
-state** — machine output or a closing outcome, rather than triage signal —
-with the automation and meta families distinguished by text, not hue, and
-type and community labels keep conventional GitHub colours. Every label is
-**core** — meaningful on any repository — except the two that form the
-**lecture extension**, applied only to lecture repos, and the one that forms
-the **software extension**, applied only to software / tooling repos.
+
+- **Priority is a heat scale,** from hot red to cool green.
+- **Grey marks low-salience state** — machine output or a closing outcome, not
+  a triage signal. The automation and meta families are told apart by their
+  text, not their hue.
+- **Type and community labels keep conventional GitHub colours.**
+
+Every label is **core** — meaningful on any repository — except the two that
+form the **lecture extension**, applied only to lecture repos, and the one that
+forms the **software extension**, applied only to software / tooling repos.
 
 **Type — what kind of work is this? (one per issue, set at triage)**
 
@@ -112,23 +115,27 @@ the **software extension**, applied only to software / tooling repos.
 | `build-failure` | ⬜ `#cccccc` | Execution, build, or warnings failure | Applied by scheduled build / warnings checks to the issues they open. A failing check on a PR needs no label — the red ✗ is the signal |
 | `dependencies` | ⬜ `#bdbdbd` | Dependency or environment update (pip, conda, actions) | The single Dependabot label (replaces `github_actions` / `conda`) |
 
-Automation labels take a grey in the band `#ededed`–`#bdbdbd`; a new automation
-label takes the next value in the band not already used by *any* label — the
-meta grey `duplicate` `#cfd3d7` also sits inside it, and `#e5e5e5` is reserved for
-the labels an automation manages (below). In a repo with no
-label-applying automation yet, these four sit **installed but dormant** — a
-conformant state, not a misconfiguration: the labels are the org-wide
-vocabulary contract, and they activate when the automation arrives.
+Automation labels take a grey in the band `#ededed`–`#bdbdbd`. A new automation
+label takes the next value in the band that no label already uses: the meta
+grey `duplicate` `#cfd3d7` sits inside the band, and `#e5e5e5` is reserved for
+the labels an automation manages (below).
+
+In a repo with no label-applying automation yet, these four sit **installed but
+dormant**. That is a conformant state, not a misconfiguration: the labels are
+the org-wide vocabulary contract, and they activate when the automation
+arrives.
 
 **Labels an automation manages — outside the standard set (one grey, `#e5e5e5`)**
 
-An automation may create and read labels for its own operation: a trigger, for
-example, which a person applies to ask the automation to act. Such a label is not part
-of the standard set. It belongs to its automation, which names it, documents it, and
-creates it where it operates before it is first used, because applying a label that
-does not exist creates it with an arbitrary colour and no description.
+An automation may create and read labels for its own operation. The usual case
+is a trigger: a label a person applies to ask the automation to act.
 
-So that people and tooling can recognise one:
+Such a label is not part of the standard set. It belongs to its automation,
+which names it and documents it. The automation also creates it, wherever it
+operates, before the label is first used, because applying a label that does
+not exist creates one with an arbitrary colour and no description.
+
+Three things make such a label recognisable to people and to tooling:
 
 - **It takes the one family colour, `#e5e5e5`.** Grey is the colour of machine
   vocabulary and asks for no attention, and no standard label uses this value.
@@ -211,15 +218,18 @@ deliberately few:
   issue, or escalate to a QEP if it crosses repos or changes team workflow.
 - **Automation labels are machine vocabulary.** Every bot-opened issue or PR
   carries `automated`, plus **at most one** diagnostic (`broken-links`,
-  `build-failure`, `dependencies`) describing what the automation found —
-  routine scheduled output diagnoses nothing and carries no diagnostic. It also
-  states its source in one line of its description, `Automated-by: owner/repo`,
-  so that a reader knows which automation to go to, and the automation can find
-  its own output without a label of its own. Humans never hand-apply these four
-  labels. These rules bind the automations the organisation operates. A third-party bot that labels its
-  own output, as Dependabot does with `dependencies`, is outside them, because nobody
-  here can configure it beyond the label it applies; for such a bot this QEP defines
-  only that label's name, colour and description.
+  `build-failure`, `dependencies`) describing what the automation found.
+  Routine scheduled output diagnoses nothing and carries no diagnostic. Humans
+  never hand-apply these four labels.
+- **An automation states its source.** Every issue or PR it opens includes the
+  line `Automated-by: owner/repo`, naming the repository that produced it. A
+  reader then knows which automation to go to, and the automation can find its
+  own output without a label of its own.
+- **These rules bind the automations the organisation operates.** A third-party
+  bot that labels its own output, as Dependabot does with `dependencies`, is
+  outside them, because nobody here can configure it beyond the label it
+  applies. For such a bot this QEP defines only that label's name, colour and
+  description.
 
 ### The one behavioural change: retire status labels
 
@@ -245,13 +255,14 @@ PR that *looks* mergeable (even approved) but must be held.
 
 ### What we deliberately don't label
 
-`medium-priority` → no label (unlabelled is the middle) · project / grouping
-labels (a recurring program like `reading-group-*`, a one-shot campaign like a
-tech-debt audit) → **Milestones** · umbrella / tracking issues →
-native **sub-issues** (the parent carries no Type, see the policy above) ·
-per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
-`infrastructure` or `maintenance`
-(test work is not its own Type) · PR lifecycle → native GitHub, as above.
+| Not a label | Use instead |
+|---|---|
+| `medium-priority` | no label: unlabelled is the middle |
+| project / grouping labels (a recurring program like `reading-group-*`, a one-shot campaign like a tech-debt audit) | **Milestones** |
+| umbrella / tracking issues | native **sub-issues**; the parent carries no Type (see the policy above) |
+| per-tool diagnostic labels (`colab`, …) | `build-failure` |
+| `testing` | `infrastructure` or `maintenance`; test work is not its own Type |
+| PR lifecycle | native GitHub, as above |
 
 ### Scope
 
@@ -271,19 +282,20 @@ per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
   which carries every existing issue and PR tag; where a rename is blocked
   because both labels already exist, the issues are **re-tagged before** the
   local label is removed. Nothing is deleted out from under an issue that
-  carries it. A label an automation manages (see *Labels an automation manages*)
-  is the one exception to "nothing else": a migration leaves it alone.
+  carries it.
+- **The one exception is a label an automation manages** (see *Labels an
+  automation manages*): a migration leaves it alone.
 - **A label the standard does not cover is removed if unused and kept if it
   carries tags,** rather than forced into a wrong Type. Tags on closed issues
   and merged pull requests count, because GitHub strips a deleted label from
   those too, so deleting a label always costs history. A kept label is a
-  quarantine, not an exception: it stays open until an amendment covers it, its
-  issues are re-tagged to a standard label, or someone decides the tags are not
-  worth keeping. Tooling never removes a label that carries tags; only a person
-  does.
-- **The same label left uncovered in several repositories is a gap in the set,**
-  closed by amending this QEP. The bar is recurrence: one repository's oddity is
-  a local exception.
+  quarantine, not an exception. It stays flagged until one of three things
+  happens: an amendment covers it, its issues are re-tagged to a standard
+  label, or someone decides the tags are not worth keeping. Tooling never
+  removes a label that carries tags; only a person does.
+- **The same label left uncovered in several repositories is a gap in the
+  set,** and a case for adding it. The bar is recurrence: one repository's
+  oddity is a local exception.
 
 ### Machine-readable appendix
 
@@ -296,15 +308,15 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
 
 - **The yml is canonical for the machine-consumed fields** — name, colour,
   description, group, scope, and who applies it — and for the colour of the
-  labels an automation manages. The tables above are the human spec: rationale, colour semantics, and when-to-use guidance.
+  labels an automation manages. The tables above are the human spec:
+  rationale, colour semantics, and when-to-use guidance.
 - **CI keeps the two in lockstep.** The `qep-checks` workflow fails any pull
   request where the tables and the yml disagree, so drift is a red ✗, not a
   judgement call.
 - **The yml carries only the standard itself.** Rename maps for historical
-  variants, retired-label handling, and the migration report are operational
-  concerns of the tool implementing this QEP (`qe gh labels sync` in
-  [`QuantEcon/cli`](https://github.com/QuantEcon/cli)), which reads the yml
-  from this repository rather than carrying its own copy.
+  variants and the handling of retired labels belong to whatever tool
+  implements this QEP. That tool reads the yml from this repository rather
+  than carrying its own copy.
 
 ## Alternatives considered
 
