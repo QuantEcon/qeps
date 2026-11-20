@@ -4,8 +4,8 @@ title: Standard GitHub Label Set and Labelling Policy
 author: "@mmcky"
 status: Accepted
 type: standard
-version: 1
-version-hash: 8cdca64  # stamped by CI; do not edit
+version: 2
+version-hash: d101c43  # stamped by CI; do not edit
 created: 2026-06-17
 discussion: https://github.com/QuantEcon/meta/issues/324
 ---
@@ -19,7 +19,7 @@ discussion: https://github.com/QuantEcon/meta/issues/324
 | **Author**   | @mmcky                                                             |
 | **Status**   | Accepted                                                           |
 | **Type**     | standard                                                           |
-| **Version**  | 1                                                                  |
+| **Version**  | 2                                                                  |
 | **Created**  | 2026-06-17                                                         |
 | **Discussion** | [QuantEcon/meta#324](https://github.com/QuantEcon/meta/issues/324) |
 
@@ -58,13 +58,16 @@ things:
 ### The label set
 
 Labels are grouped by purpose. **Colour carries meaning where it helps:**
-priority is a heat scale (hot red → cool green), grey marks **low-salience
-state** — machine output or a closing outcome, rather than triage signal —
-with the automation and meta families distinguished by text, not hue, and
-type and community labels keep conventional GitHub colours. Every label is
-**core** — meaningful on any repository — except the two that form the
-**lecture extension**, applied only to lecture repos, and the one that forms
-the **software extension**, applied only to software / tooling repos.
+
+- **Priority is a heat scale,** from hot red to cool green.
+- **Grey marks low-salience state** — machine output or a closing outcome, not
+  a triage signal. The automation and meta families are told apart by their
+  text, not their hue.
+- **Type and community labels keep conventional GitHub colours.**
+
+Every label is **core** — meaningful on any repository — except the two that
+form the **lecture extension**, applied only to lecture repos, and the one that
+forms the **software extension**, applied only to software / tooling repos.
 
 **Type — what kind of work is this? (one per issue, set at triage)**
 
@@ -85,14 +88,11 @@ the **software extension**, applied only to software / tooling repos.
 | `high-priority` | 🟧 `#d93f0b` | Address soon | Published content visibly broken; build blockers. Label only the outliers |
 | `low-priority` | 🟩 `#c2e0c6` | Nice to have, no time pressure | Agreed work that's fine to sit; "someday" ideas |
 
-There is deliberately **no `medium-priority`** — the unlabelled default *is* the
-middle of the scale.
-
 **Cross-cutting — combine with any Type (like priority)**
 
 | Label | Colour | Description | When to use |
 |---|---|---|---|
-| `security` | 🟥 `#ee0701` | Security implications — needs a security-aware review bar | Credentials / tokens, supply-chain surface, workflow permissions. Applied *alongside* the Type label (e.g. `bug` + `security`); makes `org:QuantEcon label:security` a standing query |
+| `security` | 🟥 `#ee0701` | Security implications — needs a security-aware review bar | Credentials / tokens, supply-chain surface, workflow permissions. Applied *alongside* the Type label, as a modifier and not a Type (e.g. `bug` + `security` + `high-priority`); makes `org:QuantEcon label:security` a standing query |
 
 **Community (GitHub-canonical names — spaces are deliberate, see Alternatives)**
 
@@ -105,7 +105,7 @@ middle of the scale.
 
 | Label | Colour | Description | When to use |
 |---|---|---|---|
-| `do-not-merge` | 🟥 `#b60205` | Approved-looking but must not be merged yet | A *voluntary* hold on a mergeable PR: pins, experiments, cross-repo timing |
+| `do-not-merge` | 🟥 `#b60205` | Approved-looking but must not be merged yet | A *voluntary* hold on a mergeable PR, distinct from being blocked: pins, experiments, cross-repo timing |
 
 **Automation — applied by bots, not humans (quiet grey)**
 
@@ -116,12 +116,35 @@ middle of the scale.
 | `build-failure` | ⬜ `#cccccc` | Execution, build, or warnings failure | Applied by scheduled build / warnings checks to the issues they open. A failing check on a PR needs no label — the red ✗ is the signal |
 | `dependencies` | ⬜ `#bdbdbd` | Dependency or environment update (pip, conda, actions) | The single Dependabot label (replaces `github_actions` / `conda`) |
 
-Automation labels take a grey in the band `#ededed`–`#bdbdbd`; a new automation
-label takes the next value in the band not already used by *any* label — the
-meta grey `duplicate` `#cfd3d7` also sits inside it. In a repo with no
-label-applying automation yet, these four sit **installed but dormant** — a
-conformant state, not a misconfiguration: the labels are the org-wide
-vocabulary contract, and they activate when the automation arrives.
+Automation labels take a grey in the band `#ededed`–`#bdbdbd`. A new automation
+label takes the next value in the band that no label already uses: the meta
+grey `duplicate` `#cfd3d7` sits inside the band, and `#e5e5e5` is reserved for
+the labels an automation manages (below).
+
+In a repo with no label-applying automation yet, these four sit **installed but
+dormant**. That is a conformant state, not a misconfiguration: the labels are
+the org-wide vocabulary contract, and they activate when the automation
+arrives.
+
+**Labels an automation manages — outside the standard set (one grey, `#e5e5e5`)**
+
+An automation may create and read labels for its own operation. The usual case
+is a trigger: a label a person applies to ask the automation to act.
+
+Such a label is not part of the standard set. It belongs to its automation,
+which names it and documents it. The automation also creates it, wherever it
+operates, before the label is first used, because applying a label that does
+not exist creates one with an arbitrary colour and no description.
+
+Three things make such a label recognisable to people and to tooling:
+
+- **It takes the one family colour, `#e5e5e5`.** Grey is the colour of machine
+  vocabulary and asks for no attention, and no standard label uses this value.
+- **Its description names the automation that owns it,** so that someone who meets an
+  unfamiliar label knows where to ask.
+- **Conforming tooling never creates, renames, recolours or removes a label in that
+  colour.** Nothing errors when a label disappears, so a clean-up that removed one
+  would break its automation silently.
 
 **Meta — closing outcomes**
 
@@ -183,10 +206,6 @@ deliberately few:
   Discovery is native too: `has:sub-issue` in the advanced issue search, which
   works org-wide (tooling note: legacy REST search silently ignores the
   qualifier — programmatic discovery must use the advanced search type).
-- **`security` is a cross-cutting modifier, not a Type.** Add it alongside the
-  Type label when an issue has security implications (e.g. `bug` + `security` +
-  `high-priority`) — it signals a different review bar and makes
-  `org:QuantEcon label:security` work as a standing query.
 - **Priority labels mark only the outliers.** Most work sits at the unlabelled
   default; reach for `high-priority` / `low-priority` only when an item is
   genuinely off-centre *for the repo* — a milestone doesn't re-centre the
@@ -200,16 +219,24 @@ deliberately few:
   issue, or escalate to a QEP if it crosses repos or changes team workflow.
 - **Automation labels are machine vocabulary.** Every bot-opened issue or PR
   carries `automated`, plus **at most one** diagnostic (`broken-links`,
-  `build-failure`, `dependencies`) describing what the automation found —
-  routine scheduled output diagnoses nothing and carries no diagnostic. Humans
-  never hand-apply automation labels.
-- **`do-not-merge` is a voluntary hold,** distinct from being *blocked*: see the
-  status-label change below.
+  `build-failure`, `dependencies`) describing what the automation found.
+  Routine scheduled output diagnoses nothing and carries no diagnostic. Humans
+  never hand-apply these four labels.
+- **An automation states its source.** Every issue or PR it opens includes the
+  line `Automated-by: owner/repo`, naming the repository that produced it. A
+  reader then knows which automation to go to, and the automation can find its
+  own output without a label of its own.
+- **These rules bind the automations the organisation operates.** A third-party
+  bot that labels its own output, as Dependabot does with `dependencies`, is
+  outside them, because nobody here can configure it beyond the label it
+  applies. For such a bot this QEP defines only that label's name, colour and
+  description.
 
 ### The one behavioural change: retire status labels
 
 Pull-request lifecycle state moves entirely onto **native GitHub features** and
-off labels:
+off labels, because native state stays in step on its own and the status labels
+were routinely stale:
 
 | Old label | Replaced by |
 |---|---|
@@ -230,13 +257,14 @@ PR that *looks* mergeable (even approved) but must be held.
 
 ### What we deliberately don't label
 
-`medium-priority` → no label (unlabelled is the middle) · project / grouping
-labels (a recurring program like `reading-group-*`, a one-shot campaign like a
-tech-debt audit) → **Milestones** · umbrella / tracking issues →
-native **sub-issues** (the parent carries no Type, see the policy above) ·
-per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
-`infrastructure` or `maintenance`
-(test work is not its own Type) · PR lifecycle → native GitHub, as above.
+| Not a label | Use instead |
+|---|---|
+| `medium-priority` | no label: unlabelled is the middle |
+| project / grouping labels (a recurring program like `reading-group-*`, a one-shot campaign like a tech-debt audit) | **Milestones** |
+| umbrella / tracking issues | native **sub-issues**; the parent carries no Type (see the policy above) |
+| per-tool diagnostic labels (`colab`, …) | `build-failure` |
+| `testing` | `infrastructure` or `maintenance`; test work is not its own Type |
+| PR lifecycle | native GitHub, as above |
 
 ### Scope
 
@@ -256,8 +284,20 @@ per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
   which carries every existing issue and PR tag; where a rename is blocked
   because both labels already exist, the issues are **re-tagged before** the
   local label is removed. Nothing is deleted out from under an issue that
-  carries it. A local label the standard does not cover is **kept and recorded
-  as unmapped** rather than forced into a wrong Type — see *Adoption*.
+  carries it.
+- **The one exception is a label an automation manages** (see *Labels an
+  automation manages*): a migration leaves it alone.
+- **A label the standard does not cover is removed if unused and kept if it
+  carries tags,** rather than forced into a wrong Type. Tags on closed issues
+  and merged pull requests count, because GitHub strips a deleted label from
+  those too, so deleting a label always costs history. A kept label is a
+  quarantine, not an exception. It stays flagged until one of three things
+  happens: an amendment covers it, its issues are re-tagged to a standard
+  label, or someone decides the tags are not worth keeping. Tooling never
+  removes a label that carries tags; only a person does.
+- **The same label left uncovered in several repositories is a gap in the
+  set,** and a case for adding it. The bar is recurrence: one repository's
+  oddity is a local exception.
 
 ### Machine-readable appendix
 
@@ -269,16 +309,16 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
 `version`, and `version-hash` (a commit hash) pins both files at once.
 
 - **The yml is canonical for the machine-consumed fields** — name, colour,
-  description, group, scope, and who applies it. The tables above are the human
-  spec: rationale, colour semantics, and when-to-use guidance.
+  description, group, scope, and who applies it — and for the colour of the
+  labels an automation manages. The tables above are the human spec:
+  rationale, colour semantics, and when-to-use guidance.
 - **CI keeps the two in lockstep.** The `qep-checks` workflow fails any pull
   request where the tables and the yml disagree, so drift is a red ✗, not a
   judgement call.
 - **The yml carries only the standard itself.** Rename maps for historical
-  variants, retired-label handling, and the migration report are operational
-  concerns of the tool implementing this QEP (`qe gh labels sync` in
-  [`QuantEcon/cli`](https://github.com/QuantEcon/cli)), which reads the yml
-  from this repository rather than carrying its own copy.
+  variants and the handling of retired labels belong to whatever tool
+  implements this QEP. That tool reads the yml from this repository rather
+  than carrying its own copy.
 
 ## Alternatives considered
 
@@ -299,12 +339,11 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   refactoring is a standing work-type, a quarter of a typical technical-debt
   milestone — sharpen it to the extension label `refactor`, mirroring
   `new-lecture` for lectures.
-- **A closed bot vocabulary (`automated` + exactly one diagnostic).** Rejected:
-  routine scheduled output diagnoses nothing, so a mandatory diagnostic forces
-  a false `build-failure` and poisons it as a standing query — the quantifier
-  is **at most one**. Labels automations use to *coordinate* (origin labels,
-  task namespaces) evolve with their tooling and belong to a dedicated
-  automation-registry QEP, not to enumeration here.
+- **A register of the labels automations own,** in this QEP or one of its own.
+  Rejected: a register puts instances in a standard, so every new
+  automation, rename or change of maintainer becomes an amendment. A family colour
+  and a description on the label do the same job with nothing to maintain, and an
+  automation that only needs to find its own output states its source in text.
 - **Make `security` a Type label, or leave it repo-local.** Rejected: security
   findings are orthogonal to Type — a pwn-request pattern recommended in a
   README reads as `documentation`/`bug`,
@@ -325,56 +364,4 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   functional gain. The hyphenated `good-first-issue` is a repo *topic*, a
   different namespace. Every label QuantEcon *owns* stays hyphenated; these two
   belong to GitHub.
-- **Keep status labels (`in-work` / `ready` / `review`).** Rejected: native
-  Draft / Ready-for-review / review-request state already expresses PR
-  lifecycle, keeps it in sync automatically, and removes labels that were
-  routinely stale. Retiring them has no impact on the activity reports, which
-  never read them.
-- **Recolour `documentation` to stay in the blue family.** Rejected: blue is
-  reserved for "new content to publish" (`enhancement`, `new-lecture`);
-  `documentation` is a tier-2, about-the-repo concern, so it moves to tan
-  `#b08968` to read as distinct at a glance.
 
-## Adoption
-
-Acceptance fixes the names, colours, descriptions, and policy above as the
-QuantEcon standard. Applying the set to a repo is done with tooling that reads
-the co-located [`qep-0002-labels.yml`](qep-0002-labels.yml) from this
-repository (see *Machine-readable appendix*) — `qe gh labels sync` in
-[`QuantEcon/cli`](https://github.com/QuantEcon/cli) — and is a **migration**,
-not an addition: known variants are renamed in place so issue and PR history is
-preserved (see *Scope*). Adoption is **pilot-first**: validate on a single
-lecture repo before widening to the remaining lecture repos and then the
-software / tooling repos. The org-level default label set for new repositories
-is the core 19 (a manual settings change — there is no public API for org
-defaults).
-
-Syncing a repo emits a **migration report**: one row per non-standard label, its
-usage count, and its disposition — *renamed to `X`* · *re-tagged (12 →
-`infrastructure`, 9 → `maintenance`), removed* · *replaced by a milestone* ·
-*removed (unused)* · *kept, unmapped*. The report is the repo's audit trail and
-the standard's evidence base. A label the standard does not cover is **removed
-if unused** and **kept if it carries tags** — removing it would strip triage
-signal from live issues with nothing to replace it. A kept-unmapped label is a
-**quarantine, not an exception**: it reappears on every subsequent report until
-it is resolved, by an amendment that covers it, by re-tagging its issues to a
-standard label, or by a decision that the tags are not worth keeping. The tool
-never removes a label that carries tags; only a human decision does. Carrying
-tags counts **closed** items too: GitHub strips a deleted label retroactively
-from closed issues and merged PRs, so deleting a label always costs history.
-A retired label whose remaining tags are all on closed items — the status
-label `ready` on merged PRs, say — is a decision to make knowingly: delete and
-accept the stripped history, or keep the label as deprecated.
-
-A label recorded as **unmapped across several repos** is a gap in the set, and
-closing it is a normal in-place amendment under
-[QEP-1](qep-0001-purpose-and-process.md), which bumps this QEP's `version`. The
-bar is **recurrence** — one repo's oddity is a local exception, the same label
-unmapped in four repos is a missing label. Tooling produces the evidence;
-proposing the amendment stays a human judgement.
-
-The sequenced execution checklist — the CLI integration, the pilot target,
-widening order, org defaults, closing the earlier unification attempts
-(meta#178, meta#290) — belongs in a **tracking issue** (a sub-issue parent,
-per the labelling policy above), not in this document, so completing,
-reordering, or dropping a step never requires amending the standard.
