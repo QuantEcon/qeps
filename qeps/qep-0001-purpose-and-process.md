@@ -245,8 +245,9 @@ The work of rolling a QEP out — who does what, and when — lives in a **track
 with its work items as sub-issues, never in the QEP, so that completing, reordering or
 dropping a step never requires amending the standard. Whoever merges the pull request
 that records the acceptance opens it, so that the step has an owner. Where it lives is
-its owner's choice, and may be a repository of its own. A QEP whose acceptance leaves
-nothing to sequence needs no tracker.
+its owner's choice. Most rollouts need only the issue; one large enough to need a
+repository of its own names it `project-qep{N}`. A QEP whose acceptance leaves nothing
+to sequence needs no tracker.
 
 The test for any sentence: if it would still bind once the rollout had finished, it is
 a rule and belongs in the Proposal; if it says only who does what and when, it belongs
