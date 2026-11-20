@@ -19,6 +19,7 @@ need a QEP.
 | [QEP-3](qeps/qep-0003-repository-naming-and-types.md) | Repository Naming and Types | standard | Accepted | v1 |
 | [QEP-4](qeps/qep-0004-automation-registry-and-label-coordination.md) | Automation Registry and Label Coordination | standard | Withdrawn | v0 |
 | [QEP-5](qeps/qep-0005-code-of-ai-use.md) | Code of AI Use | standard | Accepted | v2 |
+| [QEP-7](qeps/qep-0007-project-management-protocols.md) | Project Management Protocols | standard | Withdrawn | v0 |
 
 QEPs that set an ongoing rule are **maintained in place**: a substantive amendment bumps
 the QEP's `version` (shown above) under the same review process, rather than superseding

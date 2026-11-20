@@ -4,6 +4,8 @@ title: Project Management Protocols
 author: "@mmcky"
 status: Withdrawn
 type: standard
+version: 0
+version-hash: d175897  # stamped by CI; do not edit
 created: 2026-09-21
 discussion: https://github.com/QuantEcon/qeps/pull/40
 ---
