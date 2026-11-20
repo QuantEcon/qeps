@@ -24,13 +24,21 @@ discussion: https://github.com/QuantEcon/qeps/issues/12
 
 ## Summary
 
-QuantEcon adopts a **Code of AI Use**. AI-assisted contributions are welcome; a human
-must be in the loop, choosing the task, reading the result, submitting it and answering
-review; and every pull request states its AI involvement in one machine-readable line.
-The Code is policy, not infrastructure: it binds every contributor from acceptance, and
-volume is handled with GitHub's native controls. The problem it answers is **cost**, not
-safety. A contributor registry and a pull-request gate are deliberately not part of this
-decision.
+QuantEcon adopts a **Code of AI Use**. AI-assisted contributions are welcome, on two
+conditions:
+
+- **A human is in the loop.** A person chooses the task, reads the result, submits it
+  and answers review on it.
+- **AI involvement is disclosed.** Every pull request states it in one machine-readable
+  line.
+
+The problem the Code answers is **cost**, not safety: a submission nobody has read costs
+maintainers more to review than it returns to the project.
+
+The Code is policy, not infrastructure. Its norms bind every contributor from
+acceptance, and the volume of submissions is handled with GitHub's own controls, not
+with anything we build. A contributor registry and a pull-request gate were drafted and
+are deliberately not part of this decision.
 
 ## Motivation
 
