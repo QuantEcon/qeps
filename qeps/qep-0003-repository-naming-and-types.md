@@ -5,6 +5,7 @@ author: "@mmcky"
 status: Accepted
 type: standard
 version: 1
+version-hash: bc387ab  # stamped by CI; do not edit
 created: 2026-07-10
 discussion: https://github.com/QuantEcon/qeps/pull/7
 ---
@@ -76,6 +77,15 @@ renames routine, and the conventions that tooling already depends on citable.
    | `.companion` | public companion site of a book; the base names the work, which may span several volume repositories | `book-networks.companion`, `book-dp.companion` (for `book-dp1`, `book-dp2`) |
    | `.{lang}` | translated edition (lowercase IETF tag) | `lecture-python-programming.zh-cn`, `lecture-python-programming.fa` |
    | `.{ecosystem}` | edition or package built for a named ecosystem; a published package keeps the ecosystem's own suffix and casing (*Exemptions*) | `QuantEcon.py`, `QuantEcon.jl`, `quantecon-theme.mystmd`, `myst-markdown.nvim` |
+
+   `.myst` marks a second format, not MyST content as such. A work whose primary
+   repository is already MyST takes the bare name — a lecture series is
+   `lecture-dp`, not `lecture-dp.myst` — because that repository is the work, not a
+   variant of it, and the suffix then tells a reader that another source exists.
+
+   `.myst` and `.mystmd` are different suffixes. `.myst` names a work's content
+   written in MyST; `.mystmd` names software built for the `mystmd` tool, such as a
+   theme (`quantecon-theme.mystmd`), under `.{ecosystem}`.
 
    `.myst` marks a second format, not MyST content as such. A work whose primary
    repository is already MyST takes the bare name — a lecture series is
