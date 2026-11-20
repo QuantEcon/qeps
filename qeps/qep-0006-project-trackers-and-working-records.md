@@ -239,6 +239,10 @@ visible in one list.
 An issue body follows the shape for its type in *Appendix: the shapes*, and
 contains nothing else. A person should be able to read it without scrolling.
 
+A project's goal says what the project serves as well as what it delivers: the outcome,
+then what depends on it. A reader can plan from a short page, and cannot tell from one
+what the work is for unless the goal says so.
+
 A project's done-when carries every check that ends it. A body is made short by
 removing what has a home elsewhere, never by cutting checks.
 
@@ -463,7 +467,7 @@ This appendix is normative. A line marked optional appears only when it applies.
 
 <!-- qep-appendix: shape-project -->
 ```markdown
-**Goal:** [the outcome, one sentence]
+**Goal:** [the outcome], so that [what depends on it]
 
 **Done when**
 - [observable check]                          ← every check that ends the project
@@ -484,8 +488,8 @@ This appendix is normative. A line marked optional appears only when it applies.
 
 <!-- qep-appendix: shape-front-door -->
 ```markdown
-[What the programme is, one sentence.] Its member trackers are the sub-issues of
-this issue.
+[What the programme is, one sentence.] [How its member projects fit together, one
+sentence.] Its member trackers are the sub-issues of this issue.
 
 **Background:** [link to `docs/` or `research/`]   ← optional
 ```
@@ -529,7 +533,7 @@ issue adopted from a reporter keeps the reporter's text.
 **An example.** A `Project` body in full, for illustration only:
 
 ```markdown
-**Goal:** Every lecture series builds on the shared environment.
+**Goal:** Every lecture series builds on the shared environment, so that a package upgrade is made once and reaches all of them.
 
 **Done when**
 - Each lecture repository builds from the shared environment file.
