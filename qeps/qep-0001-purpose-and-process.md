@@ -28,8 +28,8 @@ A **QuantEcon Enhancement Proposal (QEP)** is a short, durable document that rec
 decision affecting **more than one QuantEcon repository**, or that **changes how the
 team works**. This QEP defines what a QEP is, when one is needed, where QEPs live, how a
 proposal moves from draft to decision, and how an accepted QEP is **maintained over
-time**. It is deliberately lightweight: the aim is a clean close, not governance
-for its own sake.
+time**. The process is deliberately light: its purpose is to bring a discussion to a
+recorded decision, not to add governance for its own sake.
 
 ## Motivation
 
