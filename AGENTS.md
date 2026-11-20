@@ -53,6 +53,10 @@ not edit it. This applies to every terminal outcome — **Accepted**, **Rejected
 Then **merge** the PR; do not close it. Accepted, Rejected, and Withdrawn QEPs are all
 merged so the record stays durable — only abandoned or spam drafts are closed.
 
+**If rolling the accepted QEP out involves sequenced work**, whoever merges opens the
+tracker issue in the same sitting and links it from the acceptance PR (QEP-1 §
+Rollout). A QEP with nothing to sequence needs no tracker.
+
 Before merging, confirm the QEP number is final and not colliding with another open PR,
 and that the filename is zero-padded to four digits.
 
@@ -113,6 +117,25 @@ hash; never hand-write it (a commit cannot contain its own hash).
 
 - Substantive → `QEP-N vM: <summary>` (e.g. `QEP-2 v1: add release-blocker label`).
 - Editorial → `QEP-N: <summary>`.
+
+## Checking a large editorial rewrite: the fidelity test
+
+An editorial change may not alter normative content (QEP-1 § Versioning). For a typo
+that is plain from the diff. For a rewrite of a section or more it is not, because a
+shorter text can drop a rule or its reason without anyone noticing. One way to check,
+with three readers who each start fresh:
+
+1. **Question writer** — sees only the original. Writes about thirty questions covering
+   every rule, condition, exception and reason, plus a few the document does not
+   answer, with an answer key that quotes the original.
+2. **Answerer** — sees only the revision and the questions, never the key. Answers each
+   from the text alone, saying "not stated" where it is not.
+3. **Grader** — sees only the key and the answers. Marks each as a match, partial, lost
+   or wrong.
+
+Restore what a partial or lost answer shows was cut, and list anything removed on
+purpose in the pull request. Agents may play all three parts, provided each starts
+without the others' context.
 
 ## Squash-merge only
 
