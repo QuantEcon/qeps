@@ -4,8 +4,7 @@ title: QEP Purpose and Process
 author: "@mmcky"
 status: Accepted
 type: process
-version: 3
-version-hash: f6db66f  # stamped by CI; do not edit
+version: 4
 created: 2026-06-16
 discussion: https://github.com/QuantEcon/meta/issues/325
 ---
@@ -19,7 +18,7 @@ discussion: https://github.com/QuantEcon/meta/issues/325
 | **Author**   | @mmcky                                                 |
 | **Status**   | Accepted                                               |
 | **Type**     | process                                                |
-| **Version**  | 3                                                      |
+| **Version**  | 4                                                      |
 | **Created**  | 2026-06-16                                             |
 | **Discussion** | [QuantEcon/meta#325](https://github.com/QuantEcon/meta/issues/325) |
 
@@ -29,8 +28,8 @@ A **QuantEcon Enhancement Proposal (QEP)** is a short, durable document that rec
 decision affecting **more than one QuantEcon repository**, or that **changes how the
 team works**. This QEP defines what a QEP is, when one is needed, where QEPs live, how a
 proposal moves from draft to decision, and how an accepted QEP is **maintained over
-time**. It is deliberately lightweight: the aim is a ten-minute read and a clean
-close — not governance for its own sake. As the first proposal, this
+time**. The process is deliberately light: its purpose is to bring a discussion to a
+recorded decision, not to add governance for its own sake. As the first proposal, this
 document is also a worked example of the template and the in-place versioning it
 describes.
 
@@ -235,6 +234,47 @@ The author-side judgement — substantive vs editorial, bumping `version`, the c
 subject — is documented in `AGENTS.md`; CI enforces the mechanical steps that a
 maintainer merging through the GitHub UI would otherwise have to remember.
 
+### Rollout
+
+A QEP states a standard, not how it is rolled out, so it has no adoption or rollout
+section. Everything that binds — including what conforming requires, and any rule for
+how existing things migrate — is stated in the **Proposal**, where a reader looking for
+the rule will find it.
+
+The work of rolling a QEP out — who does what, and when — lives in a **tracker issue**
+with its work items as sub-issues, never in the QEP, so that completing, reordering or
+dropping a step never requires amending the standard. Whoever merges the pull request
+that records the acceptance opens it, so that the step has an owner. Where it lives is
+its owner's choice. Most rollouts need only the issue; one large enough to need a
+repository of its own names it `project-qep{N}`. A QEP whose acceptance leaves nothing
+to sequence needs no tracker.
+
+The test for any sentence: if it would still bind once the rollout had finished, it is
+a rule and belongs in the Proposal; if it says only who does what and when, it belongs
+in the tracker.
+
+### Writing a QEP
+
+A QEP should be the simplest document that states its decision in full and is easy to
+read. There is no length limit: text cut to a word target keeps its rules and loses the
+reasons behind them, so length is an outcome of these principles, not a target.
+
+- **Rules first.** A reader finds what is required before the history of how it was
+  decided.
+- **Every rule keeps its reason,** in a clause. A rule that explains itself can be
+  applied to cases its author never saw; the incident that prompted it belongs in the
+  commit message.
+- **Each thing is said once.** A QEP does not restate itself between sections, and
+  `AGENTS.md` links to a rule instead of repeating it.
+- **A QEP records the standard as it is,** not how it came to be: it carries no history
+  of versions. Git is the change record.
+- **Alternatives considered is optional.** It lists only an option someone could
+  reasonably propose again, with the reason that decided against it, where that reason
+  is not already stated beside a rule. The discussion holds the rest.
+- **A QEP is the source of truth for a guideline, not a rollout or a project.** It
+  states the rule and its reason; how and when a repository or a tool comes to meet it
+  is theirs to plan, and a record of that work goes stale silently.
+
 ### Numbering
 
 Numbers are assigned sequentially. An author may propose the next free number when
@@ -262,8 +302,8 @@ light as the decisions it records.
 Each QEP is a Markdown file with YAML frontmatter (`qep`, `title`, `author`, `status`,
 `type`, `created`, `discussion` — plus the CI-stamped `version` and `version-hash`, which
 sit just after `type` from the merge that records the QEP's outcome) followed by the
-sections in [`qeps/template.md`](../qeps/template.md): **Summary, Motivation, Proposal,
-Alternatives considered, Adoption**. The `type` field describes the **kind of content**
+sections in [`qeps/template.md`](../qeps/template.md): **Summary, Motivation, Proposal**, and
+optionally **Alternatives considered**. The `type` field describes the **kind of content**
 the QEP carries:
 
 - **`standard`** — a normative spec or rule you conform to (a label schema, a style
@@ -279,84 +319,20 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
 
 ## Alternatives considered
 
-- **Location — a `qeps/` directory in `QuantEcon/meta` vs a dedicated repository.**
-  A dedicated `QuantEcon/qeps` was chosen so the repo stays focused, renders cleanly to
-  its own GitHub Pages site, and has an issue register tuned for QEP discussion that
-  feeds into PRs without general-tracker noise. Infrastructure cost is low and a future
-  migration (which would not carry PR/issue discussion history) is avoided. The main
-  trade-off — remembering the repo exists — is handled by documenting QEPs in the team
-  manual. Discussed in [QuantEcon/meta#325](https://github.com/QuantEcon/meta/issues/325).
-- **Name — QEP vs QuEP/QUEP.** "QEP" (QuantEcon Enhancement Proposal) was preferred for
-  brevity and its close fit with PEP/MEP.
-- **Heavier PEP-style machinery** (sponsors, PEP-delegates, an editor role, a
-  `Draft → Accepted → Final` split) was rejected as disproportionate for a team of a
-  handful of maintainers. The Django DEP and MEP processes — small-team enhancement
-  processes on a comparable scale — informed the lightweight shape adopted here.
-- **A `Living` or `Active` status vs versioning.** PEP marks
-  continuously-maintained documents `Active`; we instead carry living-ness on a
-  `version` and leave `status` to mean only *was this agreed?* This keeps the status set
-  small and sidesteps the collision with MyST's MEPs, where `Active` means *frozen for
-  voting* — the opposite sense.
-- **A hand-maintained changelog vs git.** A changelog section inside each
-  QEP would duplicate git, drift from it, and clutter the document; we point at git
-  instead, surfaced on the site by the theme's history feature and on GitHub by
-  history/blame.
-- **An implicit v0 (absent `version`), anchored only from v1.** The v1–v2 design:
-  absence itself said "never substantively changed", and one-off QEPs carried no stamp.
-  Dropped in v3 because the asymmetry pushed a special case into every consumer
-  ("absent means v0 — choose your own anchor") and left the machine-readable appendix
-  of an accepted-but-unamended standard with no recorded revision at all: QEP-2 shipped
-  normative tooling input with nothing to cite ([#22](https://github.com/QuantEcon/qeps/issues/22)).
-  Uniform stamping from v0 costs a pill and a bot commit; the implicit v0 cost
-  correctness, in prose that described pinning which did not yet exist.
-- **A recorded decision deadline, with lazy consensus resolving at it.** The v1–v2
-  design: the author set a comment window and recorded a decision date in the PR
-  description, and the Core Maintainers decided at it. Dropped in v3 because nothing
-  enforced it and the team did not keep it
-  ([#26](https://github.com/QuantEcon/qeps/issues/26)). Enforcing it in CI was
-  considered and declined: the deadline's function — a moment at which lazy consensus
-  resolves — is served as well by *no objection outstanding*, which a reviewer
-  establishes by reading the thread. The cost is that nothing is accepted by the passage
-  of time; a QEP nobody looks at stays open until someone looks. The check the deadline
-  never supplied is the second reader in step 3.
-
-## Adoption
-
-1. **(v0) Establish the process.** Merge this QEP to set the process; re-record the
-   label-set decision
-   ([QuantEcon/meta#324](https://github.com/QuantEcon/meta/issues/324)) as a
-   `standard`-type QEP; add a short "How we make cross-repo decisions" entry to the team
-   manual pointing at `QuantEcon/qeps`, and have Core Maintainers watch the repository so
-   proposal deadlines are seen.
-2. **(v1) Adopt in-place versioning.** Add the `version` field and its `version-hash`
-   anchor, the substantive/editorial rule, the amend-in-place + squash-merge + commit-subject
-   conventions, the `standard`/`process`/`informational` `type` taxonomy, and git
-   (surfaced on the site) as the change record. Supporting changes: update
-   `qeps/template.md`; add `Type`/`Version` columns to the README index; add the
-   post-merge stamp + README-sync action and the pull-request check; document the
-   author-side steps in `AGENTS.md`; and set the repository to squash-merge only.
-   Adopting this mechanism is QEP-1's own first substantive amendment, so QEP-1
-   becomes **v1**.
-3. **(v2) Rename this section: `Rollout` becomes `Adoption`.** The section states
-   what adopting a QEP requires — mechanism, tooling, and the guarantees any
-   implementation must honour — as obligations rather than a plan, so nothing in it
-   can be falsified by work not happening; sequenced execution (who does what, when)
-   belongs in a tracking issue. Applied first by QEP-2, whose acceptance PR carries
-   this amendment.
-4. **(v3) Stamp `version` from v0; drop the decision deadline; generate the README
-   index.** Every QEP that records an outcome carries `version` and `version-hash` from
-   the merge that records it, so tooling reads one contract instead of treating an
-   absent `version` as an implicit v0 with no anchor — the asymmetry surfaced by QEP-2's
-   machine-readable appendix. Supporting changes: the post-merge stamp action writes
-   `version: 0` where missing; already-merged QEPs past Draft are backfilled, each
-   stamped with the most recent commit that touched it; the pull-request check's
-   new-QEP rule becomes "unversioned in the PR, `v0` at merge"; the README index and
-   the theme's version pill show `v0` rather than `–`
-   ([#22](https://github.com/QuantEcon/qeps/issues/22) tracks them). The decision
-   deadline goes: acceptance is *no objection outstanding* plus an approving review from
-   a Core Maintainer other than the author, and `Roles` follows. The README index is
-   generated post-merge from each QEP's frontmatter, ordered by number, so a PR carries
-   no row of its own and two QEP PRs cannot collide on one line of one table;
-   *Numbering* states the reservation rule that makes index gaps normal, and the
-   pull-request check requires ordered-list markers to ascend in source.
-   `qeps/template.md` and `AGENTS.md` follow in the same round.
+- **Heavier PEP-style machinery** — sponsors, delegates, an editor role, a
+  `Draft → Accepted → Final` split. Rejected as disproportionate for a handful of
+  maintainers; the Django DEP and MEP processes, which run at a comparable scale,
+  informed the lighter shape adopted here.
+- **A `Living` or `Active` status in place of versioning.** Rejected: `status` stays
+  small if it answers only *was this agreed?*, with living-ness carried on `version`.
+  `Active` also collides with MyST's MEPs, where it means *frozen for voting*.
+- **Leaving `version` absent until the first amendment.** Rejected: absence pushed a
+  special case into every consumer, and left the machine-readable appendix of an
+  accepted, unamended standard with no revision to cite.
+- **A decision deadline, with lazy consensus resolving at it.** Rejected: nothing
+  enforced one and the team did not keep it, and *no objection outstanding*, which a
+  reviewer establishes by reading the thread, does the same job. The cost is that
+  nothing is accepted by the passage of time: a QEP nobody looks at stays open.
+- **A dedicated repository for each QEP's rollout.** Rejected as a rule: a rollout's
+  evidence and decisions have homes of their own, and mandating a repository invited
+  an accumulation of working records.

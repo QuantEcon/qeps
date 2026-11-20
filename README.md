@@ -24,7 +24,7 @@ the QEP's `version` (shown above) under the same review process, rather than sup
 the whole document — see **QEP-1**. The index table is **generated** from each QEP's
 frontmatter after merge — do not hand-edit it; `version-hash` is stamped at the same time.
 `Version` shows `v{N}` from `v0` up; a `–` marks a QEP the stamp has not reached yet
-(see QEP-1's *Adoption*).
+(see QEP-1's *Automation*).
 
 ## Proposing a QEP
 
