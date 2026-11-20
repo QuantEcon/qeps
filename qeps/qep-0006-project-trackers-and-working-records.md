@@ -207,6 +207,9 @@ visible in one list.
 - **Stage, priority and dates are declared once, in the organisation's projects
   registry,** and not on the issue, so that each value has one reviewed home and no
   two readers can see different ones.
+- **A phase's target date, where one is needed, is declared there too,** against the
+  phase's task. The registry never lists which items a phase holds; that is the parent
+  link.
 - **Health, meaning whether a project is on track, is observed from its activity and
   never declared,** because a value set by hand goes stale without anyone noticing.
 - **The owner of a project is the tracker's assignee.** A project tracker has exactly
