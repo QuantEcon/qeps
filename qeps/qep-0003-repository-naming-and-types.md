@@ -5,7 +5,7 @@ author: "@mmcky"
 status: Accepted
 type: standard
 version: 1
-version-hash: bc387ab  # stamped by CI; do not edit
+version-hash: 78750de  # stamped by CI; do not edit
 created: 2026-07-10
 discussion: https://github.com/QuantEcon/qeps/pull/7
 ---
