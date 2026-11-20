@@ -5,6 +5,7 @@ author: "@mmcky"
 status: Accepted
 type: standard
 version: 1
+version-hash: cd9cf98  # stamped by CI; do not edit
 created: 2026-08-14
 discussion: https://github.com/QuantEcon/qeps/issues/12
 ---
