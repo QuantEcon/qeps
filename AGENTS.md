@@ -70,7 +70,7 @@ Copy [`qeps/template.md`](qeps/template.md) to `qeps/qep-XXXX-slug.md`, fill it 
 **Status: Draft** and a discussion link, and open a PR. **Do not add a README index
 row** — it is generated from the frontmatter when the PR merges. Omit the `version`
 field: CI stamps `version: 0` and `version-hash` at the merge that records the outcome
-(QEP-1 v3; the stamp change is tracked in #22). See QEP-1 for the full process.
+(QEP-1 § Versioning). See QEP-1 for the full process.
 
 ## Amending an accepted QEP
 
