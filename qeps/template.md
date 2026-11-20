@@ -10,7 +10,8 @@ discussion: <link to the QEP discussion issue or thread>
 
 <!-- Number unpadded, e.g. 7 — the filename zero-pads it to four digits: qeps/qep-0007-short-slug.md -->
 <!-- Writing: rules first; every rule keeps its reason in a clause; say each thing
-     once; state the rule, not how to implement it; no length limit. There is no
+     once; a QEP is the source of truth for a guideline, not a rollout or a project;
+     no length limit. There is no
      Adoption section: what binds goes in the Proposal, and rollout goes in a tracker
      issue. See QEP-1 (Writing a QEP, Rollout). -->
 <!-- Omit `version`: CI stamps `version: 0` and a sibling `version-hash` field at
