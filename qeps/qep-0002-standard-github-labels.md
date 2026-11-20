@@ -243,7 +243,8 @@ deliberately few:
 ### The one behavioural change: retire status labels
 
 Pull-request lifecycle state moves entirely onto **native GitHub features** and
-off labels:
+off labels, because native state stays in step on its own and the status labels
+were routinely stale:
 
 | Old label | Replaced by |
 |---|---|
@@ -346,10 +347,6 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   refactoring is a standing work-type, a quarter of a typical technical-debt
   milestone — sharpen it to the extension label `refactor`, mirroring
   `new-lecture` for lectures.
-- **A closed bot vocabulary (`automated` + exactly one diagnostic).** Rejected:
-  routine scheduled output diagnoses nothing, so a mandatory diagnostic forces
-  a false `build-failure` and poisons it as a standing query — the quantifier
-  is **at most one**.
 - **A register of the labels automations own,** in this QEP or one of its own.
   Rejected: a register puts instances in a standard, so every new
   automation, rename or change of maintainer becomes an amendment. A family colour
@@ -375,13 +372,4 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   functional gain. The hyphenated `good-first-issue` is a repo *topic*, a
   different namespace. Every label QuantEcon *owns* stays hyphenated; these two
   belong to GitHub.
-- **Keep status labels (`in-work` / `ready` / `review`).** Rejected: native
-  Draft / Ready-for-review / review-request state already expresses PR
-  lifecycle, keeps it in sync automatically, and removes labels that were
-  routinely stale. Retiring them has no impact on the activity reports, which
-  never read them.
-- **Recolour `documentation` to stay in the blue family.** Rejected: blue is
-  reserved for "new content to publish" (`enhancement`, `new-lecture`);
-  `documentation` is a tier-2, about-the-repo concern, so it moves to tan
-  `#b08968` to read as distinct at a glance.
 
