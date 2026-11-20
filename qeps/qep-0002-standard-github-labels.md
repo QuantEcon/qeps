@@ -280,10 +280,20 @@ per-tool diagnostic labels (`colab`, …) → `build-failure` · `testing` →
   which carries every existing issue and PR tag; where a rename is blocked
   because both labels already exist, the issues are **re-tagged before** the
   local label is removed. Nothing is deleted out from under an issue that
-  carries it. A local label the standard does not cover is **kept and recorded
-  as unmapped** rather than forced into a wrong Type — see *Adoption*. A label in
-  the *Automation register* is the one exception to "nothing else": it is
-  conformant wherever its automation operates, and a migration leaves it alone.
+  carries it. A label in the *Automation register* is the one exception to
+  "nothing else": it is conformant wherever its automation operates, and a
+  migration leaves it alone.
+- **A label the standard does not cover is removed if unused and kept if it
+  carries tags,** rather than forced into a wrong Type. Tags on closed issues
+  and merged pull requests count, because GitHub strips a deleted label from
+  those too, so deleting a label always costs history. A kept label is a
+  quarantine, not an exception: it stays open until an amendment covers it, its
+  issues are re-tagged to a standard label, or someone decides the tags are not
+  worth keeping. Tooling never removes a label that carries tags; only a person
+  does.
+- **The same label left uncovered in several repositories is a gap in the set,**
+  closed by amending this QEP. The bar is recurrence: one repository's oddity is
+  a local exception.
 
 ### Machine-readable appendix
 
@@ -367,46 +377,3 @@ machine-readable appendix is a **substantive amendment** that bumps this QEP's
   `documentation` is a tier-2, about-the-repo concern, so it moves to tan
   `#b08968` to read as distinct at a glance.
 
-## Adoption
-
-Acceptance fixes the names, colours, descriptions, and policy above as the
-QuantEcon standard. Applying the set to a repo is done with tooling that reads
-the co-located [`qep-0002-labels.yml`](qep-0002-labels.yml) from this
-repository (see *Machine-readable appendix*) — `qe gh labels sync` in
-[`QuantEcon/cli`](https://github.com/QuantEcon/cli) — and is a **migration**,
-not an addition: known variants are renamed in place so issue and PR history is
-preserved (see *Scope*). Adoption is **pilot-first**: validate on a single
-lecture repo before widening to the remaining lecture repos and then the
-software / tooling repos. The org-level default label set for new repositories
-is the core 19 (a manual settings change — there is no public API for org
-defaults).
-
-Syncing a repo emits a **migration report**: one row per non-standard label, its
-usage count, and its disposition — *renamed to `X`* · *re-tagged (12 →
-`infrastructure`, 9 → `maintenance`), removed* · *replaced by a milestone* ·
-*removed (unused)* · *kept, unmapped*. The report is the repo's audit trail and
-the standard's evidence base. A label the standard does not cover is **removed
-if unused** and **kept if it carries tags** — removing it would strip triage
-signal from live issues with nothing to replace it. A kept-unmapped label is a
-**quarantine, not an exception**: it reappears on every subsequent report until
-it is resolved, by an amendment that covers it, by re-tagging its issues to a
-standard label, or by a decision that the tags are not worth keeping. The tool
-never removes a label that carries tags; only a human decision does. Carrying
-tags counts **closed** items too: GitHub strips a deleted label retroactively
-from closed issues and merged PRs, so deleting a label always costs history.
-A retired label whose remaining tags are all on closed items — the status
-label `ready` on merged PRs, say — is a decision to make knowingly: delete and
-accept the stripped history, or keep the label as deprecated.
-
-A label recorded as **unmapped across several repos** is a gap in the set, and
-closing it is a normal in-place amendment under
-[QEP-1](qep-0001-purpose-and-process.md), which bumps this QEP's `version`. The
-bar is **recurrence** — one repo's oddity is a local exception, the same label
-unmapped in four repos is a missing label. Tooling produces the evidence;
-proposing the amendment stays a human judgement.
-
-The sequenced execution checklist — the CLI integration, the pilot target,
-widening order, org defaults, closing the earlier unification attempts
-(meta#178, meta#290) — belongs in a **tracking issue** (a sub-issue parent,
-per the labelling policy above), not in this document, so completing,
-reordering, or dropping a step never requires amending the standard.
