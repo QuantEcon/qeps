@@ -295,30 +295,6 @@ landing pull request.
   status block reduced to two lines there is little to announce, and a pinned comment
   is a second place to read status.
 
-## Adoption
-
-Acceptance fixes the tracker shape and the homes for working records above as the
-QuantEcon standard. What follows is what adopting it requires.
-
-1. **A backup is taken and verified before anything is changed:** an export of every
-   typed issue with its body, comments, sub-issue order and dependencies, and a marker
-   in each repository's history from which removed files can be restored. Restoring one
-   tracker from the backup alone is tested first.
-2. **New trackers, decisions and tasks** follow the three shapes from acceptance.
-3. **Existing project trackers** are brought to the shape. Every item in a body's plan
-   is confirmed to be a sub-issue before the body is replaced, because that is the one
-   step where work can be lost from view. Removed narrative is deleted, not moved.
-4. **Each project tracker has one assignee.**
-5. **Existing repositories** are brought to the *Working records* table. A file that
-   tooling reads is removed only after the tooling stops reading it. A safety rule
-   exists as a test, or as a line in `AGENTS.md`, before the record that stated it is
-   deleted.
-6. **Tooling that writes or checks trackers** conforms to the three shapes, treats the
-   word guidelines as warnings, and reads planning values from the registry.
-
-The sequenced execution of these steps belongs in a tracker issue, not in this
-document.
-
 ## Appendix: the three shapes
 
 This appendix is normative. A line marked optional appears only when it applies.
