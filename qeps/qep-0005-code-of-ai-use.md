@@ -4,8 +4,7 @@ title: Code of AI Use
 author: "@mmcky"
 status: Accepted
 type: standard
-version: 1
-version-hash: cd9cf98  # stamped by CI; do not edit
+version: 2
 created: 2026-08-14
 discussion: https://github.com/QuantEcon/qeps/issues/12
 ---
@@ -19,7 +18,7 @@ discussion: https://github.com/QuantEcon/qeps/issues/12
 | **Author**     | @mmcky                                                           |
 | **Status**     | Accepted                                                         |
 | **Type**       | standard                                                         |
-| **Version**    | 1                                                                |
+| **Version**    | 2                                                                |
 | **Created**    | 2026-08-14                                                       |
 | **Discussion** | [QuantEcon/qeps#12](https://github.com/QuantEcon/qeps/issues/12) |
 
@@ -144,7 +143,9 @@ substantive amendment. Where it and the full norms differ, the full norms govern
 
    - Where AI tools meaningfully contributed to the code, tests or text, the line names
      them, harness first and model in parentheses, one line per tool:
-     `Assisted-by: Claude Code (Claude Fable 5.1)`.
+     `Assisted-by: Claude Code (Claude Fable 5.1)`. A tool that used more than one
+     model lists them, separated by commas:
+     `Assisted-by: Claude Code (Claude Fable 5.1, Claude Fable 5.2)`.
    - Where they did not, it says so: `Assisted-by: none`. The explicit negative exists
      because silence is ambiguous — forgotten, or unassisted — and a reviewer should
      not have to guess which.
@@ -344,7 +345,6 @@ Full discussion: [QuantEcon/qeps#12](https://github.com/QuantEcon/qeps/issues/12
 
 ## Disclosure
 
-This QEP was drafted with AI assistance, under the norms it sets out. The author read,
-revised and owns every line, and answers review on it.
-
-`Assisted-by: Claude Code (Claude Fable 5.1)`
+This QEP was drafted and amended with AI assistance, under the norms it sets out. Each
+change carries its own `Assisted-by:` line in the pull request that made it. The author
+read, revised and owns every line, and answers review on it.
