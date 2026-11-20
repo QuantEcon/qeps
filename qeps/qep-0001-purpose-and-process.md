@@ -271,9 +271,9 @@ reasons behind them, so length is an outcome of these principles, not a target.
 - **Alternatives considered is optional.** It lists only an option someone could
   reasonably propose again, with the reason that decided against it, where that reason
   is not already stated beside a rule. The discussion holds the rest.
-- **A QEP states the rule, not how to implement it.** How a repository or a tool meets
-  a rule is theirs to decide, and a description of an implementation goes stale
-  silently.
+- **A QEP is the source of truth for a guideline, not a rollout or a project.** It
+  states the rule and its reason; how and when a repository or a tool comes to meet it
+  is theirs to plan, and a record of that work goes stale silently.
 
 ### Numbering
 
