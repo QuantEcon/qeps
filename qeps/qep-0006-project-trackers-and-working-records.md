@@ -126,9 +126,12 @@ stated in the pull request that applies it.
 
 ### Programmes, and combining projects
 
-A **programme** is a named group of projects, declared in the organisation's projects
-registry and not as an issue type. A programme may have one ordinary, untyped issue as
-its front door, whose sub-issues are the member trackers; the registry identifies it.
+The organisation keeps one **projects registry**: a single reviewed list of its
+projects, recording for each its tracker, stage, priority, dates and programme.
+
+A **programme** is a named group of projects, declared in that registry and not as an
+issue type. A programme may have one ordinary, untyped issue as its front door, whose
+sub-issues are the member trackers; the registry identifies it.
 
 Projects whose tasks routinely block one another, or that share decisions, are
 **combined into one project** instead of being coordinated across trackers, because
@@ -192,7 +195,8 @@ Comment when a person needs to read something. One case is required: when `Risk`
 appears or changes, or `Needs` newly names a person, post one short comment that
 mentions whoever must act, because an edit to a body notifies nobody.
 
-A thread never carries session reports, revision logs or pasted bodies.
+A thread never carries session reports, revision logs or pasted bodies. The one
+exception is a handover for work that has no branch (see *Handover*).
 
 ### Working records
 
