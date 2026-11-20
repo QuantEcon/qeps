@@ -4,7 +4,7 @@ title: Project Trackers and Working Records
 author: "@mmcky"
 status: Draft
 type: standard
-related: [2, 5]
+related: [2]
 created: 2026-11-17
 discussion: https://github.com/QuantEcon/qeps/pull/18
 ---
@@ -19,7 +19,7 @@ discussion: https://github.com/QuantEcon/qeps/pull/18
 | **Status**   | Draft                                                              |
 | **Type**     | standard                                                           |
 | **Created**  | 2026-11-17                                                         |
-| **Related**  | [QEP-2](qep-0002-standard-github-labels.md) — labels classify the content of an issue, types its role; [QEP-5](qep-0005-code-of-ai-use.md) — the disclosure line on agent-written text |
+| **Related**  | [QEP-2](qep-0002-standard-github-labels.md) — labels classify the content of an issue, types its role |
 | **Discussion** | [QuantEcon/qeps#18](https://github.com/QuantEcon/qeps/pull/18) — the earlier draft and its review |
 
 ## Summary
@@ -137,8 +137,8 @@ dependencies inside one plan are visible in one list.
 ### Planning values
 
 - **Stage, priority and dates are declared once, in the organisation's projects
-  registry,** and not on the issue. The registry is reviewed and is what every consumer
-  reads.
+  registry,** and not on the issue, so that each value has one reviewed home and no
+  two readers can see different ones.
 - **Health is observed from activity, never declared,** because a hand-set value goes
   stale silently.
 - **The owner of a project is the tracker's assignee.** A project tracker has exactly
@@ -147,7 +147,7 @@ dependencies inside one plan are visible in one list.
 ### The body
 
 An issue body follows the shape for its type in *Appendix: the three shapes*, and
-nothing follows the shape. A person should be able to read it without scrolling. As
+contains nothing else. A person should be able to read it without scrolling. As
 guidelines, a `Project` body is about 150 words, a `Decision` 200 and a `Task` 300;
 tooling may warn above these and never blocks.
 
@@ -192,8 +192,7 @@ Comment when a person needs to read something. One case is required: when `Risk`
 appears or changes, or `Needs` newly names a person, post one short comment that
 mentions whoever must act, because an edit to a body notifies nobody.
 
-A thread never carries session reports, revision logs or pasted bodies. Text an agent
-writes carries [QEP-5](qep-0005-code-of-ai-use.md)'s disclosure line.
+A thread never carries session reports, revision logs or pasted bodies.
 
 ### Working records
 
@@ -232,9 +231,8 @@ without access to anything else.
   step, in about 200 words. It may also be a work order for another machine, with its
   scripts beside it in `.qe/`.
 - **It is overwritten each session,** never appended, so it describes the present.
-- **It never reaches the default branch.** The pull request deletes `.qe/` before
-  merge, and a check of its own, named for what it tests, fails while `.qe/` is
-  present, so that an uncleared handover never reads as a failing test.
+- **It never reaches the default branch, and a check enforces that.** A rule to tidy
+  working records by hand was already in place, and no repository followed it.
 - **Results that must last** move to `research/` before the merge.
 - **It does not track the project.** What is next for the project is the tracker's to
   say.
@@ -257,9 +255,9 @@ landing pull request.
    an issue": a wait on a choice is a blocked-by dependency on its `Decision`; a wait on
    a person is the tracker's `Needs:` line; a "Blocked by: …" first line in a body is
    used only for a wait that is neither.
-4. **What we deliberately don't label.** Replace "project / grouping labels … →
-   Milestones": a campaign or a recurring programme of work is a `Project`; milestones
-   group a repository's releases.
+4. **What we deliberately don't label.** Replace the row for project / grouping
+   labels, which points to Milestones: a campaign or a recurring programme of work is a
+   `Project`; milestones group a repository's releases.
 
 ## Alternatives considered
 
@@ -268,13 +266,12 @@ landing pull request.
   write, and it grew without limit while tracker bodies filled with narrative to
   compensate. Agents now read issues, sub-issue order and dependencies directly, so one
   record serves both readers.
-- **Keep a records folder and prune it on a schedule.** Rejected: pruning was already
-  the rule, and no repository examined had ever done it. A folder that cannot exist on
-  the default branch needs no pruning.
-- **A small permanent notes folder on the default branch.** Rejected: its only contents
-  would be notes that agents read as rules, and it would need a check to stay small.
-  The one need it met, handover between sessions and machines, is met by a file that
-  lives on the work branch.
+- **Keep a records folder on the default branch,** pruned on a schedule or held small
+  and permanent. Rejected: pruning was already the rule, and no repository examined
+  had ever done it; a small folder would hold only notes that agents read as rules,
+  and would need a check to stay small. A folder that cannot exist on the default
+  branch needs no pruning, and the one need it met, handover between sessions and
+  machines, is met by a file that lives on the work branch.
 - **Decision records kept in the repository.** Rejected: a record cannot fail when it
   becomes obsolete, and by design it was never deleted, so constraints only
   accumulated. A decision that must hold is enforced by a test or stated in
@@ -282,9 +279,8 @@ landing pull request.
 - **Planning values as issue fields.** Rejected: the values were already declared in a
   reviewed registry that every consumer reads, and a second home was left empty in
   practice. The cost is that stage and priority are not visible on the issue itself.
-- **`Programme` and `Phase` issue types.** Rejected: neither was in use, the registry
-  already says which projects form a programme, and a `Task` with sub-issues does what
-  a phase needs.
+- **A `Programme` issue type.** Rejected: none was in use, and the registry already
+  says which projects form a programme, so a type would state the same fact twice.
 - **A platform-neutral protocol with a separate document binding it to GitHub.**
   Rejected: it defined every concept twice, and there is no plan to change platform.
 - **Hard word limits on issue bodies.** Rejected: a limit invites moving text into a
@@ -301,6 +297,7 @@ This appendix is normative. A line marked optional appears only when it applies.
 
 **Project**
 
+<!-- qep-appendix: shape-project -->
 ```markdown
 **Goal:** [the outcome, one sentence]
 
@@ -313,9 +310,11 @@ This appendix is normative. A line marked optional appears only when it applies.
 **Risk:** [why the project is off track]      ← only when it is
 **Needs:** #N [act], or none
 ```
+<!-- /qep-appendix -->
 
 **Decision**
 
+<!-- qep-appendix: shape-decision -->
 ```markdown
 **Question:** [one sentence, answerable by choosing an option]
 
@@ -326,15 +325,18 @@ This appendix is normative. A line marked optional appears only when it applies.
 **Why now:** [what waits on this]             ← optional
 **Needed by:** YYYY-MM-DD
 ```
+<!-- /qep-appendix -->
 
 **Task**
 
+<!-- qep-appendix: shape-task -->
 ```markdown
 **Outcome:** [what changes, and for whom]
 
 **Done when**
 - [observable check]
 ```
+<!-- /qep-appendix -->
 
 Steps, context and how to verify are optional in a `Task` and kept brief. An issue
 adopted from a reporter keeps the reporter's text.
