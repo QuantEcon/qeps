@@ -72,10 +72,15 @@ renames routine, and the conventions that tooling already depends on citable.
    | Suffix | Meaning | Example |
    |---|---|---|
    | `.notebooks` | notebook companion of a lecture series | `lecture-dp.notebooks` |
-   | `.myst` | the MyST edition of a work: its content as MyST Markdown, built into a web edition | `lecture-python.myst`, `book-econometric-theory.myst` |
+   | `.myst` | the MyST edition of a work whose primary repository is in another format: its content as MyST Markdown, built into a web edition | `book-econometric-theory.myst` (for `book-econometric-theory`) |
    | `.companion` | public companion site of a book; the base names the work, which may span several volume repositories | `book-networks.companion`, `book-dp.companion` (for `book-dp1`, `book-dp2`) |
    | `.{lang}` | translated edition (lowercase IETF tag) | `lecture-python-programming.zh-cn`, `lecture-python-programming.fa` |
    | `.{ecosystem}` | edition or package built for a named ecosystem; a published package keeps the ecosystem's own suffix and casing (*Exemptions*) | `QuantEcon.py`, `QuantEcon.jl`, `quantecon-theme.mystmd`, `myst-markdown.nvim` |
+
+   `.myst` marks a second format, not MyST content as such. A work whose primary
+   repository is already MyST takes the bare name — a lecture series is
+   `lecture-dp`, not `lecture-dp.myst` — because that repository is the work, not a
+   variant of it, and the suffix then tells a reader that another source exists.
 
    `.myst` and `.mystmd` are different suffixes. `.myst` names a work's content
    written in MyST; `.mystmd` names software built for the `mystmd` tool, such as a
@@ -104,7 +109,7 @@ renames routine, and the conventions that tooling already depends on citable.
 
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
-| `lecture-{topic}` | official lecture series (+ `.myst`, `.notebooks`, `.{lang}` variants) | public | living |
+| `lecture-{topic}` | official lecture series (+ `.notebooks`, `.{lang}` variants) | public | living |
 | `book-{name}` | textbook project (+ `.myst` web edition, `.companion` site) | private | living |
 | `quantecon-book-{name}` | companion software package for a book | public | living |
 
