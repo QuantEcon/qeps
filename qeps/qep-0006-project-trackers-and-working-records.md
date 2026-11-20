@@ -76,20 +76,24 @@ issue is about: a work item that fixes a defect is a `Task` with the `bug` label
 | Type | Role | Closed when |
 |---|---|---|
 | `Project` | a project's tracker | its done-when checks are met |
-| `Task` | a unit of work | the work has shipped |
+| `Task` | one outcome, written for a project | the work has shipped |
 | `Decision` | a choice the plan waits on | the choice is recorded, or the question is moot |
 
-How an issue closes depends on its type:
+How an issue closes depends on what it is:
 
-- **A `Task` with no sub-issues may close automatically,** when a pull request or
-  commit that references it merges.
-- **A `Project`, a `Decision`, and a `Task` that has sub-issues are closed by a
-  person,** because a merge cannot tell whether a goal has been met.
+- **A work item with no sub-issues and no steps may close automatically,** when a pull
+  request or commit that references it merges.
+- **A `Project`, a `Decision`, and any work item that has sub-issues or steps are
+  closed by a person,** because a merge cannot tell whether a goal has been met.
 
 ### A project is one tracker issue
 
 A **project** is one issue of type `Project`. Its **work items are its sub-issues**,
 which may live in any repository.
+
+A sub-issue of a project is a work item whatever its type. `Task` is the type for work
+written for the project. An issue the project adopts from a reporter keeps the
+reporter's text, and need not be retyped.
 
 - **The sub-issue list is the plan,** kept in plan order. Completed items keep their
   place, so the list still reads as the plan. An item dropped from the plan is removed
@@ -110,6 +114,22 @@ A dependency exists only where the waiting item cannot start without something t
 other produces: a ruling, a document, a release. Touching the same files, or a
 preferred order, is not a constraint. Two items that are merely related get a
 relates-to link.
+
+### Steps
+
+A `Task` is one outcome, and an outcome may take several pull requests. Each is a
+**step**, listed in the task's body with what it delivers and the check that ends it.
+
+- **One step is one pull request,** which names the task and the step.
+- **Which steps are done is never written in the body.** It is read from the pull
+  requests linked to the task, in the same way that what is next is read from the
+  sub-issue list.
+- **A step that must wait says what it waits for.** Where it waits on another item,
+  that is a dependency on the task.
+
+A step is not made into a task of its own to keep bodies short. One task for each pull
+request multiplies issues and dependencies until tracking them is more work than the
+work itself.
 
 ### Phases
 
@@ -133,8 +153,15 @@ than the person doing the work must make.
 - **A reversal is a new `Decision`,** so the earlier ruling stays readable as it was
   made.
 
-A choice that is cheap to reverse and made within one session needs no `Decision`; it is
-stated in the pull request that applies it.
+Two kinds of choice need no `Decision`:
+
+- **A choice that is cheap to reverse and made within one session** is stated in the
+  pull request that applies it.
+- **A choice that nothing waits on yet** may be written as an **open choice** in the
+  task where it will first matter, with its options and a recommendation. It is raised
+  with the decider when that task is picked up, and it becomes a `Decision` only if
+  work has to wait for it. Opening an issue for every foreseeable choice buries the
+  ones that block work.
 
 ### Programmes, and combining projects
 
@@ -142,12 +169,13 @@ The organisation keeps one **projects registry**: a single reviewed list of its
 projects, recording for each its tracker, stage, priority, dates and programme.
 
 A **programme** is a named group of projects, declared in that registry and not as an
-issue type. A programme may have one ordinary, untyped issue as its front door, whose
-sub-issues are the member trackers; the registry identifies it.
+issue type. A programme may have one ordinary, untyped issue as its front door; the
+registry identifies it. The front door's sub-issues are the member trackers, and any
+`Decision` that more than one of them waits on. It holds no work items.
 
-Projects whose tasks routinely block one another, or that share decisions, are
-**combined into one project** instead of being coordinated across trackers, because
-dependencies inside one plan are visible in one list.
+Projects whose tasks routinely block one another are **combined into one project**
+instead of being coordinated across trackers, because dependencies inside one plan are
+visible in one list.
 
 ### Planning values
 
@@ -185,8 +213,8 @@ When a body grows long:
 
 - **A `Decision`** keeps the question and options in the body, and moves its analysis
   to its first comment or to a file under `research/`.
-- **A `Task`** is usually two tasks, or carries background that belongs under `docs/`
-  or `research/`.
+- **A `Task`** moves its background to `docs/` or `research/`. It is not split to
+  make it shorter (see *Steps*).
 
 ### The status block
 
@@ -316,6 +344,9 @@ landing pull request.
 - **Planning values as issue fields.** Rejected: the values were already declared in a
   reviewed registry that every consumer reads, and a second home was left empty in
   practice. The cost is that stage and priority are not visible on the issue itself.
+- **One task for each pull request.** Rejected: it was tried on one project, as 63
+  tasks with 70 dependency links, and was regrouped as a process heavier than the work.
+  A task is an outcome, and its pull requests are steps within it.
 - **A `Programme` issue type.** Rejected: none was in use, and the registry already
   says which projects form a programme, so a type would state the same fact twice.
 - **A platform-neutral protocol with a separate document binding it to GitHub.**
@@ -374,11 +405,16 @@ This appendix is normative. A line marked optional appears only when it applies.
 
 **Done when**
 - [observable check]
+
+**Steps**                                     ← optional
+- **S1** [what this pull request delivers]: [the check that ends it]
+
+**Open choice:** [the options, and a recommendation]   ← optional
 ```
 <!-- /qep-appendix -->
 
-Steps, context and how to verify are optional in a `Task` and kept brief. An issue
-adopted from a reporter keeps the reporter's text.
+How to verify, and who must act, may be added to a `Task` where they are needed. An
+issue adopted from a reporter keeps the reporter's text.
 
 **An example.** A `Project` body in full, for illustration only:
 
