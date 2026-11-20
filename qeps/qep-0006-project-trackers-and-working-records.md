@@ -24,12 +24,16 @@ discussion: https://github.com/QuantEcon/qeps/pull/18
 
 ## Summary
 
-A project is one tracker issue whose sub-issues are its plan. The tracker is the single
-record of what is planned and what is next, read by people and by agents alike, and
-short enough to take in at a glance. A repository keeps no second record beside it: no
-plan files, decision registers or session logs. Each kind of working knowledge has one
-home, and the only notes an agent leaves behind are a handover file that lives on a work
-branch and never reaches the default branch.
+This QEP sets out how a project is tracked and where a repository keeps its working
+knowledge. It rests on one idea: every fact has one home.
+
+- **A project is one tracker issue, and its sub-issues are its plan.** The tracker is
+  the single record of what is planned and what is next. People and agents read the
+  same one, and it is short enough to take in at a glance.
+- **A repository keeps no second record beside the tracker:** no plan files, decision
+  registers or session logs.
+- **The only notes a working session leaves behind are one handover file,** which lives
+  on the work branch and never reaches the default branch.
 
 ## Motivation
 
@@ -59,14 +63,15 @@ platform or the code already holds.
 ### One home for each fact
 
 Every fact about a project lives in exactly one place. Where the platform, the code or
-git history already holds a fact, nothing restates it, because a restatement is
-verified on a different day from its source and one of the two is then wrong.
+git history already holds a fact, nothing restates it. A copy and its original are
+updated at different times, so sooner or later they disagree, and a reader cannot tell
+which is right.
 
 ### Issue types
 
-Three issue types carry an issue's **role** in tracking. They are independent of
-[QEP-2](qep-0002-standard-github-labels.md)'s labels, which classify its **content**: a
-work item that fixes a defect is a `Task` with the `bug` label.
+An issue's **type** says what role it plays in tracking. There are three. Types are
+separate from [QEP-2](qep-0002-standard-github-labels.md)'s labels, which say what an
+issue is about: a work item that fixes a defect is a `Task` with the `bug` label.
 
 | Type | Role | Closed when |
 |---|---|---|
@@ -74,9 +79,12 @@ work item that fixes a defect is a `Task` with the `bug` label.
 | `Task` | a unit of work | the work has shipped |
 | `Decision` | a choice the plan waits on | the choice is recorded, or the question is moot |
 
-Only a `Task` with no sub-issues is closed by a reference from a pull request or commit.
-A `Project`, a `Decision` and a `Task` that holds sub-issues close by a person's own act,
-because a merge cannot tell whether a goal has been met.
+How an issue closes depends on its type:
+
+- **A `Task` with no sub-issues may close automatically,** when a pull request or
+  commit that references it merges.
+- **A `Project`, a `Decision`, and a `Task` that has sub-issues are closed by a
+  person,** because a merge cannot tell whether a goal has been met.
 
 ### A project is one tracker issue
 
@@ -95,23 +103,27 @@ which may live in any repository.
 
 ### Constraints are dependencies
 
-A sequencing constraint is a native blocked-by dependency, never prose, so that tooling
-and people read the same edge. A dependency exists only where the waiting item cannot
-start without something the other produces: a ruling, a document, a release. Shared
-files and preferred order are not constraints. A relationship that constrains nothing is
-a relates-to link.
+When one item must wait for another, that is recorded as a native blocked-by
+dependency, never in prose, so that people and tooling read the same link.
+
+A dependency exists only where the waiting item cannot start without something the
+other produces: a ruling, a document, a release. Touching the same files, or a
+preferred order, is not a constraint. Two items that are merely related get a
+relates-to link.
 
 ### Phases
 
-A project uses phases only when its flat list stops reading as a plan. A **phase is a
-`Task` that has its own sub-issues**: its title names the phase's outcome and its body
-states the check that ends it. No separate type is needed, because tooling can tell a
-phase from a single task by whether it has sub-issues.
+A project uses phases only when its flat list of sub-issues stops reading as a plan.
+
+A **phase is a `Task` that has its own sub-issues.** Its title names the phase's
+outcome, and its body states the check that ends it. No separate type is needed,
+because tooling can tell a phase from a single task by whether it has sub-issues.
 
 ### Decisions
 
-A `Decision` is opened for a choice the plan waits on beyond the session in which it
-arises, or that someone other than the person doing the work must make.
+A `Decision` is opened for a choice the plan has to wait for. That is a choice that
+cannot be settled in the working session where it comes up, or one that someone other
+than the person doing the work must make.
 
 - **Its assignee is the decider.**
 - **Work that cannot start before the choice is blocked by it,** with a native
@@ -142,19 +154,20 @@ dependencies inside one plan are visible in one list.
 - **Stage, priority and dates are declared once, in the organisation's projects
   registry,** and not on the issue, so that each value has one reviewed home and no
   two readers can see different ones.
-- **Health is observed from activity, never declared,** because a hand-set value goes
-  stale silently.
+- **Health, meaning whether a project is on track, is observed from its activity and
+  never declared,** because a value set by hand goes stale without anyone noticing.
 - **The owner of a project is the tracker's assignee.** A project tracker has exactly
   one.
 
 ### The body
 
 An issue body follows the shape for its type in *Appendix: the three shapes*, and
-contains nothing else. A person should be able to read it without scrolling. As
-guidelines, a `Project` body is about 150 words, a `Decision` 200 and a `Task` 300;
-tooling may warn above these and never blocks.
+contains nothing else. A person should be able to read it without scrolling.
 
-Each kind of text that used to accumulate has a home outside the body:
+As guidelines, a `Project` body is about 150 words, a `Decision` about 200 and a `Task`
+about 300. Tooling may warn above these and never blocks.
+
+Tracker bodies used to fill up with other kinds of text. Each has a home elsewhere:
 
 | Never in a tracker body | Where it already lives |
 |---|---|
@@ -166,10 +179,12 @@ Each kind of text that used to accumulate has a home outside the body:
 | Steps, context and acceptance for one task | that `Task` |
 | Related work | relates-to links |
 
-A `Decision` over its guideline moves its analysis to its first comment or to a file
-under `research/`, leaving the question and options in the body. A `Task` over its
-guideline is usually two tasks, or carries background that belongs under `docs/` or
-`research/`.
+When a body runs over its guideline:
+
+- **A `Decision`** keeps the question and options in the body, and moves its analysis
+  to its first comment or to a file under `research/`.
+- **A `Task`** is usually two tasks, or carries background that belongs under `docs/`
+  or `research/`.
 
 ### The status block
 
@@ -186,22 +201,30 @@ Under it are at most two lines:
 - **`Needs:`** what the project waits on from a person, as an issue reference and a few
   words, or "none".
 
-These are the two things that cannot be derived. The date changes only when the owner
-has re-checked the block; a tracker with recent sub-issue activity needs no new date.
+These are the only two facts about a project's state that cannot be worked out from
+its sub-issues.
+
+The date changes only when the owner has re-checked the block. A tracker whose
+sub-issues are moving needs no new date.
 
 ### Comments
 
-Comment when a person needs to read something. One case is required: when `Risk`
-appears or changes, or `Needs` newly names a person, post one short comment that
-mentions whoever must act, because an edit to a body notifies nobody.
+Comment when a person needs to read something.
+
+One comment is required. When `Risk` appears or changes, or `Needs` newly names a
+person, post one short comment that mentions whoever must act. An edit to a body
+notifies nobody.
 
 A thread never carries session reports, revision logs or pasted bodies. The one
 exception is a handover for work that has no branch (see *Handover*).
 
 ### Working records
 
-A repository keeps no records folder on its default branch. Each kind of working
-knowledge has one home:
+Working records are the notes a team and its agents write while working: plans, session
+logs, hand-offs and decision records.
+
+A repository keeps no folder of them on its default branch. Each kind of working
+knowledge has one home instead:
 
 | Content | Home | Rule |
 |---|---|---|
@@ -213,8 +236,8 @@ knowledge has one home:
 | Decisions | the `Decision`, and the commit or code comment that applies it | No decision register. |
 | Handover between sessions | `.qe/HANDOVER.md` on the work branch | See *Handover*. |
 
-Three rules follow from the reason for the table, which is that an agent cannot tell a
-stale note from a rule in force:
+The reason for the table is that an agent cannot tell a stale note from a rule in
+force. Three rules follow:
 
 - **What the code must always do is a test,** not a note. A safety rule that no test,
   check or branch rule enforces stays written in `AGENTS.md`, and gains a check where
@@ -226,12 +249,12 @@ stale note from a rule in force:
 
 ### Handover
 
-A session that stops with work in flight may leave one file, `.qe/HANDOVER.md`, on the
-branch it was working on. It is committed scratch space for the next session on that
-branch, and it travels with the branch so that a session on another machine can resume
-without access to anything else.
+A session that stops with work unfinished may leave one file, `.qe/HANDOVER.md`, on the
+branch it was working on. The file is committed scratch space for the next session on
+that branch. It travels with the branch, so a session on another machine can pick the
+work up without access to anything else.
 
-- **It holds** the task, what is done, what is in flight, what failed and the next
+- **It holds** the task, what is done, what is under way, what failed and the next
   step, in about 200 words. It may also be a work order for another machine, with its
   scripts beside it in `.qe/`.
 - **It is overwritten each session,** never appended, so it describes the present.
@@ -266,17 +289,17 @@ landing pull request.
 ## Alternatives considered
 
 - **A tracker for people and a records folder for agents.** The design this QEP
-  replaces. Rejected: they are two records of one project, the folder was the cheaper
-  write, and it grew without limit while tracker bodies filled with narrative to
-  compensate. Agents now read issues, sub-issue order and dependencies directly, so one
-  record serves both readers.
+  replaces. Rejected: they are two records of one project. The folder was the easier
+  place to write, so it grew without limit, while tracker bodies filled with narrative
+  to compensate. Agents now read issues, sub-issue order and dependencies directly, so
+  one record serves both readers.
 - **Keep a records folder on the default branch,** pruned on a schedule or held small
   and permanent. Rejected: pruning was already the rule, and no repository examined
   had ever done it; a small folder would hold only notes that agents read as rules,
   and would need a check to stay small. A folder that cannot exist on the default
   branch needs no pruning, and the one need it met, handover between sessions and
   machines, is met by a file that lives on the work branch.
-- **Decision records kept in the repository.** Rejected: a record cannot fail when it
+- **Decision records kept in the repository.** Rejected: nothing flags a record when it
   becomes obsolete, and by design it was never deleted, so constraints only
   accumulated. A decision that must hold is enforced by a test or stated in
   `AGENTS.md`; its reasoning stays with the `Decision` and the commit.
@@ -344,3 +367,18 @@ This appendix is normative. A line marked optional appears only when it applies.
 
 Steps, context and how to verify are optional in a `Task` and kept brief. An issue
 adopted from a reporter keeps the reporter's text.
+
+**An example.** A `Project` body in full, for illustration only:
+
+```markdown
+**Goal:** Every lecture series builds on the shared environment.
+
+**Done when**
+- Each lecture repository builds from the shared environment file.
+- No repository pins a package the shared file already pins.
+
+**Not doing:** Upgrading packages beyond the shared baseline.
+
+## Where we stand (verified 2026-11-20)
+**Needs:** #12 choose the baseline Python version
+```
