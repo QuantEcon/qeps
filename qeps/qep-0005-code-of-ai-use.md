@@ -29,8 +29,8 @@ must be in the loop, choosing the task, reading the result, submitting it and an
 review; and every pull request states its AI involvement in one machine-readable line.
 The Code is policy, not infrastructure: it binds every contributor from acceptance, and
 volume is handled with GitHub's native controls. The problem it answers is **cost**, not
-safety. A contributor registry and a
-pull-request gate are deliberately not part of this decision.
+safety. A contributor registry and a pull-request gate are deliberately not part of this
+decision.
 
 ## Motivation
 
@@ -47,7 +47,9 @@ agent-written fixes for the same issue filed on the same day by different first-
 authors, and one whose description presents a test run that stopped at 47% when the
 agent's session ended as if it were validation.
 
-The pattern read as issue-crawling automation, and a contributor has since confirmed
+The pattern read as issue-crawling automation, not individual experimentation:
+first-time authors converging on freshly filed issues within days, echoing our issue
+text verbatim, and twice colliding on the same one. A contributor has since confirmed
 it. Asked whether AI was involved, the author of a lint cleanup merged on 2026-09-09
 ([QuantEcon.py#923](https://github.com/QuantEcon/QuantEcon.py/pull/923)) disclosed
 within the hour that an autonomous agent on a cron schedule had read the issue, written
@@ -118,43 +120,43 @@ substantive amendment. Where it and the full norms differ, the full norms govern
    whether a human owns the pull request and is present for review, not whether one was
    at the keyboard when it opened.
 2. **Disclose.** Every pull request carries a machine-readable `Assisted-by:` line, in
-   its description or a commit message. Where AI tools meaningfully contributed to the code, tests or
-   text, it names them, harness first and model in parentheses, one line per tool:
-   `Assisted-by: Claude Code (Claude Fable 5.1)`. Where they did not:
+   its description or a commit message. Where AI tools meaningfully contributed to the
+   code, tests or text, it names them, harness first and model in parentheses, one line
+   per tool: `Assisted-by: Claude Code (Claude Fable 5.1)`. Where they did not:
    `Assisted-by: none`. The explicit negative exists because silence is ambiguous —
    forgotten, or unassisted — and a reviewer should not have to guess which. Add the
    line yourself or have your tool add it, but check that it is there: the line is your
    responsibility, not the tool's. A `Co-Authored-By:` trailer that a tool emits on its
    own (Claude Code and Copilot do) also serves as the marker; an in-house or
    third-party pipeline emits nothing, so there the line exists only if its operator
-   writes it or instructs the pipeline to.
-   The disclosure is a marker, not a narrative: it names what was used, not what it did.
+   writes it or instructs the pipeline to. The disclosure is a marker, not a narrative:
+   it names what was used, not what it did.
 3. **Own it.** You are the author: you can explain what the change does, you answer
    review yourself (not by passing a reviewer's comments to an agent), and you carry the
    result. Reading every line is the default. In code, tests can stand in for it,
-   narrowly: where tests would fail if the change were wrong, the tests do the
-   verifying and line-by-line reading of the implementation is not expected. The burden
-   moves rather than disappears: the tests are then what you must have read and be able
-   to explain. That stops where no test can fail: a deletion, a behaviour-preserving
+   narrowly: where tests would fail if the change were wrong, the tests do the verifying
+   and line-by-line reading of the implementation is not expected. The burden moves
+   rather than disappears: the tests are then what you must have read and be able to
+   explain. That stops where no test can fail: a deletion, a behaviour-preserving
    refactor, or a change the issue asked you to judge site by site is verified by
-   reading it, or not at all. Prose, mathematics and exposition have no substitute for reading, because
-   no test tells you an argument is wrong. Submitting output nobody has vouched for
-   shifts your work onto volunteer maintainers.
+   reading it, or not at all. Prose, mathematics and exposition have no substitute for
+   reading, because no test tells you an argument is wrong. Submitting output nobody has
+   vouched for shifts your work onto volunteer maintainers.
 4. **Verify before you claim.** State that tests pass, coverage rose or benchmarks
    improved only if you ran them to completion. A partial run may be submitted,
    described as what it is.
 5. **Don't crawl, duplicate, or farm.** Do not run automation that crawls our issue
    tracker for work. Check for an existing open pull request before starting on an
    issue. Do not mass-submit generated pull requests across repositories to build a
-   contribution record. Issues
-   labelled [`good first issue`](qep-0002-standard-github-labels.md) are reserved for
-   people learning the codebase by hand: do not use AI tools to fix them, newcomer or
-   not. The label is the fence: a maintainer who wants any issue kept for hands-on
-   learning labels it so, and an issue without the label is not reserved.
+   contribution record. Issues labelled
+   [`good first issue`](qep-0002-standard-github-labels.md) are reserved for people
+   learning the codebase by hand: do not use AI tools to fix them, newcomer or not. The
+   label is the fence: a maintainer who wants any issue kept for hands-on learning
+   labels it so.
 6. **Put it right.** We assume good faith and expect the occasional lapse. If something
-   is missed, a maintainer will
-   say so; amend the pull request, or, where it has merged, carry the point into your
-   next one. Repeated or deliberate lapses may lead to *Enforcement*.
+   is missed, a maintainer will say so; amend the pull request, or, where it has merged,
+   carry the point into your next one. Repeated or deliberate lapses may lead to
+   *Enforcement*.
 
 The norms bind **every** contributor, maintainers included, from acceptance: like the
 Code of Conduct, this is project policy, not a contract only signatories are held to.
@@ -165,14 +167,19 @@ has checked costs the same attention as an AI-drafted patch.
 **Organisation-operated automation is not an external contribution.** QuantEcon's own
 scheduled maintenance (dependency bots, link checkers, build sweeps, maintenance agents)
 is QuantEcon acting on its own repositories, not contributing to them, and norm 1 does
-not prohibit it. The accountability rule is applied, not waived, through three
-conditions: it has a **named maintainer** who owns its output and answers for it; it is
-**declared** in a public register of the organisation's automation, not self-asserted in
-a pull-request description; and it carries
-[QEP-2](qep-0002-standard-github-labels.md)'s `automated` label. That label and the bot
-account satisfy disclosure in place of the line. Norms 3 and 4 bind the operating
-maintainer exactly as they would for work submitted by hand. Automation meeting none of those conditions is an unattended agent,
-whoever built it.
+not prohibit it. The accountability rule is applied, not waived, through two
+conditions:
+
+- **It has a named maintainer** who owns its output and answers for it.
+- **It is declared.** Its output carries the `automated` label and the
+  `Automated-by: owner/repo` line that [QEP-2](qep-0002-standard-github-labels.md)
+  requires, naming a repository the organisation operates. The output then stays
+  distinguishable from human triage at a glance, and a reader can find who answers for
+  it.
+
+That label and line satisfy disclosure in place of the `Assisted-by:` line. Norms 3 and
+4 bind the operating maintainer exactly as they would for work submitted by hand.
+Automation that meets neither condition is an unattended agent, whoever built it.
 
 ### Visibility
 
@@ -202,14 +209,15 @@ the Code and asks the contributor to amend the pull request.
 
 A lapse does not decide the merits. Where the work is correct and in scope, a maintainer
 may merge it and still record the lapse in a comment stating what the Code expects next
-time; that comment is the rectification step for a merged pull request and counts toward *repeated* if the lapse recurs. Closing
-correct work on process alone costs the project the work and the contributor's
-goodwill, and is not the default.
+time; that comment is the rectification step for a merged pull request and counts toward
+*repeated* if the lapse recurs. Closing correct work on process alone costs the project
+the work and the contributor's goodwill, and is not the default.
 
 Beyond that, maintainers use judgement. The responses, roughly in order, are closing the
 pull request without further review and, last, GitHub's organisation block, which can be
-set to expire on its own rather than run indefinitely. Blocking is blunt by design: it also stops the person filing issues and
-commenting, so it is the step to be slowest to take.
+set to expire on its own rather than run indefinitely. Blocking is blunt by design: it
+also stops the person filing issues and commenting, so it is the step to be slowest to
+take.
 
 The point is to keep the review queue worth reading, not to punish. Every step short of
 the last is undone by the contributor fixing the problem.
@@ -232,9 +240,6 @@ the last is undone by the contributor fixing the problem.
 
 ## Alternatives considered
 
-- **Do nothing.** Rejected: volume rises with agent capability, and review attention is
-  precisely what this project is short of. The audit is a snapshot of a trend, not a
-  one-off.
 - **Adopt LLVM's [AI Tool Use Policy][llvm] as written.** The closest prior art, and
   this Code borrows from it: the binding test (a human in the loop, not a human at the
   keyboard), the hand-added `Assisted-by:` trailer (extended here with the model and an
@@ -269,14 +274,13 @@ the last is undone by the contributor fixing the problem.
   contribution rules on their own, and do disclose once the rule is put in front of
   them, which is why *Visibility* puts the Code in the file agents read, not only where
   people look.
-- **Restricting pull requests to collaborators,** or turning them off entirely
-  ([available since February 2026][pr-access]). Native and free, but binary: there is
+- **Relying on GitHub's native controls alone:** restricting pull requests to
+  collaborators ([available since February 2026][pr-access]), or interaction limits.
+  Both are native and free, and both are all-or-nothing. Restricting pull requests has
   no tier between "anyone" and "write access", so it closes the community pipeline —
   GSoC participants, students, one-off domain experts — that produces some of our best
-  contributions.
-- **Interaction limits.** Native, but temporary (at most six months), manually renewed,
-  and all-or-nothing: they silence the bug reports and questions we want from the same
-  people.
+  contributions. Interaction limits are temporary (at most six months), manually
+  renewed, and silence the bug reports and questions we want from the same people.
 - **A structured `AI-Usage:` narrative on every pull request** — a free-text line
   describing what the tool did and what the human verified. Rejected as cost without
   signal: a reviewer cannot verify the claim, norms 3 and 4 already bind the
