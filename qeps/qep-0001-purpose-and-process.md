@@ -28,8 +28,8 @@ A **QuantEcon Enhancement Proposal (QEP)** is a short, durable document that rec
 decision affecting **more than one QuantEcon repository**, or that **changes how the
 team works**. This QEP defines what a QEP is, when one is needed, where QEPs live, how a
 proposal moves from draft to decision, and how an accepted QEP is **maintained over
-time**. It is deliberately lightweight: the aim is a ten-minute read and a clean
-close — not governance for its own sake.
+time**. It is deliberately lightweight: the aim is a clean close, not governance
+for its own sake.
 
 ## Motivation
 
@@ -221,18 +221,23 @@ The author-side judgement — substantive vs editorial, bumping `version`, the c
 subject — is documented in `AGENTS.md`; CI enforces the mechanical steps that a
 maintainer merging through the GitHub UI would otherwise have to remember.
 
-### Adoption and rollout
+### Rollout
 
-A QEP's **Adoption** section states what adopting the decision requires — the
-mechanism, the tooling, and the guarantees any implementation must honour — as
-obligations, not a plan, so that nothing in it can be falsified by work not happening.
+A QEP states a standard, not how it is rolled out, so it has no adoption or rollout
+section. Everything that binds — including what conforming requires, and any rule for
+how existing things migrate — is stated in the **Proposal**, where a reader looking for
+the rule will find it.
 
-Sequenced execution — who does what, and when — lives in a **tracker issue** opened at
-acceptance, never in the QEP, so that completing, reordering or dropping a step never
-requires amending the standard. Whoever merges the pull request that records the
-acceptance opens it, so that the step has an owner; where the tracker lives is its
-owner's choice. A QEP whose adoption leaves nothing to sequence — it carries no
-obligations, or each is a single edit — needs no tracker.
+The work of rolling a QEP out — who does what, and when — lives in a **tracker issue**
+with its work items as sub-issues, never in the QEP, so that completing, reordering or
+dropping a step never requires amending the standard. Whoever merges the pull request
+that records the acceptance opens it, so that the step has an owner. Where it lives is
+its owner's choice, and may be a repository of its own. A QEP whose acceptance leaves
+nothing to sequence needs no tracker.
+
+The test for any sentence: if it would still bind once the rollout had finished, it is
+a rule and belongs in the Proposal; if it says only who does what and when, it belongs
+in the tracker.
 
 ### Writing a QEP
 
@@ -246,33 +251,13 @@ read. There is no length limit: length is an outcome of these principles, not a 
   commit message.
 - **Each thing is said once.** A QEP does not restate itself between sections, and
   `AGENTS.md` links to a rule instead of repeating it.
-- **Adoption states obligations,** never a history of versions. Git is the change
-  record.
+- **A QEP records the standard as it is,** not how it came to be: it carries no history
+  of versions. Git is the change record.
 - **Alternatives keep the deciding reason** for each option not chosen, and link to the
   discussion for the rest.
-- **A QEP does not describe what a tool or another repository does.** It states the
-  rule and its reason; a description of an implementation goes stale silently.
-
-### Simplifying an accepted QEP
-
-An accepted QEP may be simplified at any time. Because a shorter text can lose a rule
-without anyone noticing, a simplification is checked by a **fidelity test** before
-review:
-
-1. A reader who has seen only the **original** writes a set of questions that covers
-   every rule, condition, exception and reason in it, with an answer key.
-2. A second reader who has seen only the **revision** answers the questions from it.
-3. The answers are compared with the key.
-
-The simplification passes when no rule and no reason is lost or weakened. Where the
-second reader had to infer something the original stated outright, the revision has
-become harder to read at that point and is corrected. The readers may be people or
-agents, provided neither has seen the other version.
-
-Anything removed on purpose is listed in the pull request, so that a deliberate cut is
-a visible decision and not a side effect. A simplification that passes with no
-normative content removed is **editorial**; one that removes or changes a rule is
-**substantive** (see *Versioning*).
+- **A QEP states the rule, not how to implement it.** How a repository or a tool meets
+  a rule is theirs to decide, and a description of an implementation goes stale
+  silently.
 
 ### Numbering
 
@@ -302,7 +287,7 @@ Each QEP is a Markdown file with YAML frontmatter (`qep`, `title`, `author`, `st
 `type`, `created`, `discussion` — plus the CI-stamped `version` and `version-hash`, which
 sit just after `type` from the merge that records the QEP's outcome) followed by the
 sections in [`qeps/template.md`](../qeps/template.md): **Summary, Motivation, Proposal,
-Alternatives considered, Adoption**. The `type` field describes the **kind of content**
+Alternatives considered**. The `type` field describes the **kind of content**
 the QEP carries:
 
 - **`standard`** — a normative spec or rule you conform to (a label schema, a style
@@ -340,14 +325,18 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
   QEP would duplicate git, drift from it, and clutter the document; we point at git
   instead, surfaced on the site by the theme's history feature and on GitHub by
   history/blame.
-- **A length limit for QEPs.** Considered with v4 and rejected. Trial simplifications
-  written to a word target contradicted no rule but lost the reason behind most of
-  them, and a second target fared no better; the number measured the wrong thing. The
-  fidelity test checks what matters directly.
-- **A dedicated repository for each QEP's rollout.** Considered with v4 and rejected as
-  a rule. A rollout's tracker is an issue, and its evidence and decisions have homes of
-  their own, so most rollouts need no repository; mandating one invited an accumulation
-  of working records. An owner may still choose one where a rollout is large.
+- **A length limit for QEPs.** Rejected: text cut to a word target keeps its rules and
+  loses the reasons behind them. Length is an outcome of the writing principles, not a
+  target.
+- **An Adoption section in each QEP.** Rejected: even written as obligations it mixed
+  three things — what conforming requires, how existing things migrate, and who does
+  what and when — and it attracted plans, lists of instances and version histories.
+  The first two are rules and are found more easily in the Proposal; the third is a
+  tracker's.
+- **A dedicated repository for each QEP's rollout.** Rejected as a rule: a rollout's
+  tracker is an issue, and its evidence and decisions have homes of their own, so most
+  rollouts need no repository, and mandating one invited an accumulation of working
+  records. An owner may still choose one where a rollout is large.
 - **An implicit v0 (absent `version`), anchored only from v1.** The v1–v2 design:
   absence itself said "never substantively changed", and one-off QEPs carried no stamp.
   Dropped in v3 because the asymmetry pushed a special case into every consumer
@@ -367,16 +356,3 @@ type; a one-off *decision* is a `standard` if it sets an ongoing rule, or
   of time; a QEP nobody looks at stays open until someone looks. The check the deadline
   never supplied is the second reader in step 3.
 
-## Adoption
-
-Adopting this process requires the following, each of which is in place.
-
-- **The team manual** points to `QuantEcon/qeps` as where cross-repository decisions are
-  made, and Core Maintainers watch the repository so that proposals are seen.
-- **The repository is set to squash-merge only.**
-- **Two CI workflows** carry out the mechanical steps in *Automation*: the post-merge
-  stamp and index generation, and the pull-request check.
-- **`qeps/template.md` and `AGENTS.md` follow this QEP.** The template carries the
-  section shape and the *Writing a QEP* principles; `AGENTS.md` carries the author-side
-  steps, including how to run the fidelity test.
-- **Every merged QEP past Draft carries `version` and `version-hash`.**
