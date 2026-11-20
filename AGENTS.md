@@ -53,9 +53,9 @@ not edit it. This applies to every terminal outcome — **Accepted**, **Rejected
 Then **merge** the PR; do not close it. Accepted, Rejected, and Withdrawn QEPs are all
 merged so the record stays durable — only abandoned or spam drafts are closed.
 
-**If the accepted QEP's adoption involves sequenced work**, whoever merges opens the
+**If rolling the accepted QEP out involves sequenced work**, whoever merges opens the
 tracker issue in the same sitting and links it from the acceptance PR (QEP-1 §
-Adoption and rollout). A QEP with nothing to sequence needs no tracker.
+Rollout). A QEP with nothing to sequence needs no tracker.
 
 Before merging, confirm the QEP number is final and not colliding with another open PR,
 and that the filename is zero-padded to four digits.
@@ -118,11 +118,12 @@ hash; never hand-write it (a commit cannot contain its own hash).
 - Substantive → `QEP-N vM: <summary>` (e.g. `QEP-2 v1: add release-blocker label`).
 - Editorial → `QEP-N: <summary>`.
 
-## Simplifying a QEP: run the fidelity test
+## Checking a large editorial rewrite: the fidelity test
 
-A QEP has no length limit; it should be the simplest text that loses nothing
-(QEP-1 § Writing a QEP). Before a simplification goes to review, run the fidelity test
-(QEP-1 § Simplifying an accepted QEP) with three readers who each start fresh:
+An editorial change may not alter normative content (QEP-1 § Versioning). For a typo
+that is plain from the diff. For a rewrite of a section or more it is not, because a
+shorter text can drop a rule or its reason without anyone noticing. One way to check,
+with three readers who each start fresh:
 
 1. **Question writer** — sees only the original. Writes about thirty questions covering
    every rule, condition, exception and reason, plus a few the document does not
@@ -132,9 +133,9 @@ A QEP has no length limit; it should be the simplest text that loses nothing
 3. **Grader** — sees only the key and the answers. Marks each as a match, partial, lost
    or wrong.
 
-Fix every partial or lost answer by restoring what was cut, then run the test again
-with fresh readers. List anything removed on purpose in the pull request. Agents may
-play all three parts, provided each starts without the others' context.
+Restore what a partial or lost answer shows was cut, and list anything removed on
+purpose in the pull request. Agents may play all three parts, provided each starts
+without the others' context.
 
 ## Squash-merge only
 
