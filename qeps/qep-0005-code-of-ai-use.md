@@ -4,8 +4,7 @@ title: Code of AI Use
 author: "@mmcky"
 status: Accepted
 type: standard
-version: 0
-version-hash: 8cdca64  # stamped by CI; do not edit
+version: 1
 created: 2026-08-14
 discussion: https://github.com/QuantEcon/qeps/issues/12
 ---
@@ -19,6 +18,7 @@ discussion: https://github.com/QuantEcon/qeps/issues/12
 | **Author**     | @mmcky                                                           |
 | **Status**     | Accepted                                                         |
 | **Type**       | standard                                                         |
+| **Version**    | 1                                                                |
 | **Created**    | 2026-08-14                                                       |
 | **Discussion** | [QuantEcon/qeps#12](https://github.com/QuantEcon/qeps/issues/12) |
 
@@ -174,6 +174,27 @@ account satisfy disclosure in place of the line. Norms 3 and 4 bind the operatin
 maintainer exactly as they would for work submitted by hand. Automation meeting none of those conditions is an unattended agent,
 whoever built it.
 
+### Visibility
+
+A norm nobody encounters is not a norm. Each repository puts the Code where
+contributions are made, for contributors and for the tools they run. No single place
+reaches everyone: a pull-request template reaches a person using the web interface, an
+agent working from a checkout reads only the repository's agent-instruction file, and a
+pipeline that opens pull requests through the API sees neither. A repository therefore
+provides three things:
+
+- **The disclosure line in its pull-request template:** an empty `Assisted-by:` line
+  for the author to complete.
+- **The Code in brief in its agent-instruction file,** verbatim, so that the tool adds
+  the line instead of the contributor having to remember.
+- **A comment that asks,** on a pull request from outside the organisation that arrives
+  without the line: for the line, and for confirmation that a human chose the task,
+  read the result and will answer review.
+
+That comment is the only automation the Code calls for. It asks and never decides: it
+holds nothing, and it never checks out or executes the pull request's code. Enforcement
+stays human.
+
 ### Enforcement
 
 The first response to any lapse is a **rectification comment**: a maintainer points at
@@ -201,7 +222,7 @@ the last is undone by the contributor fixing the problem.
   licence grant or Developer Certificate of Origin line.
 - **Not a contributor registry or a pull-request gate.** Both were drafted and set
   aside (see *Alternatives considered*). A comment that asks and holds nothing is a
-  different thing, and *Adoption* calls for one. If a gate proves necessary it is an
+  different thing, and *Visibility* calls for one. If a gate proves necessary it is an
   amendment to this QEP or a new one, covering the maintenance and procedures a registry
   needs, and two constraints carry over: whatever records a contributor's standing must
   be **public and auditable**, so that removing someone is a reviewable act and not a
@@ -246,7 +267,7 @@ the last is undone by the contributor fixing the problem.
   pull requests and asking, and on a disclosure path the contributor can see. The same
   [study][agents-study] found that agents almost never fetch a repository's
   contribution rules on their own, and do disclose once the rule is put in front of
-  them, which is why *Adoption* puts the Code in the file agents read, not only where
+  them, which is why *Visibility* puts the Code in the file agents read, not only where
   people look.
 - **Restricting pull requests to collaborators,** or turning them off entirely
   ([available since February 2026][pr-access]). Native and free, but binary: there is
@@ -269,60 +290,6 @@ Full discussion: [QuantEcon/qeps#12](https://github.com/QuantEcon/qeps/issues/12
 [agents-study]: https://arxiv.org/abs/2607.26819
 [llvm]: https://llvm.org/docs/AIToolPolicy.html
 [qemu]: https://www.qemu.org/docs/master/devel/code-provenance.html
-
-## Adoption
-
-The Code binds from acceptance, without anyone signing anything. A repository adopting
-it has two obligations.
-
-**The disclosure path is visible where contributions are made,** to contributors and to
-the tools they run. No single place reaches everyone: a pull-request template reaches a
-person using the web interface, an agent working from a checkout reads only the
-repository's agent-instruction file, and a pipeline that opens pull requests through
-the API sees neither. A repository therefore provides three things:
-
-- **The disclosure line in the pull-request template:** an empty `Assisted-by:` line
-  for the author to complete, with the two forms and one fixed sentence of attestation
-  beside it.
-
-  ```markdown
-  <!-- Code of AI Use (QEP-5): complete the line below.
-       Assisted-by: <tool> (<model>)   e.g. Assisted-by: Claude Code (Claude Fable 5.1)
-       Assisted-by: none               if no generative AI tools were used
-       Opening this pull request confirms a human chose the task, read the
-       result, and will answer review on it. -->
-  Assisted-by:
-  ```
-
-  The attestation is a fixed sentence, not a box to tick, because norm 3 binds whether
-  or not anyone ticks anything; the template's job is to make sure the author has seen
-  it. `CONTRIBUTING.md` documents the line and the tool-emitted `Co-Authored-By:` form,
-  and the structured issue templates link to this policy.
-- **The Code in brief in the file agents read from a checkout** (`AGENTS.md`, by
-  current convention), verbatim, so that the tool adds the line instead of the
-  contributor having to remember.
-- **A neutral ask on pull requests the template did not reach:** one comment, posted
-  once, on each pull request from outside the organisation whose description carries no
-  `Assisted-by:` line. It links to this Code and asks the author to add the line and to
-  confirm in a reply that a human chose the task, read the result and will answer
-  review. Where the template did its job the comment never fires, and it reaches a
-  pull request however it was opened. It holds
-  nothing, decides nothing, skips the organisation's own automation, and never checks
-  out or executes the pull request's code.
-
-A norm nobody encounters is not a norm.
-
-**The `good first issue` label is applied deliberately.** It now reserves an issue for
-hands-on work as well as advertising it, so it goes only on issues that meet
-[QEP-2](qep-0002-standard-github-labels.md)'s criteria, and a maintainer who wants an
-audit or tech-debt issue kept for learning labels it and does not assume the
-reservation.
-
-The Code is applied by maintainers reading pull requests. The only automation it calls
-for is that comment, which asks and never decides; enforcement stays human. It assumes
-GitHub's native volume controls, organisation-level [pull-request limits][pr-limits] in
-particular, are already in use. Those need no QEP to enable, tune or turn off, and the
-Code stands whether or not they are.
 
 ## Disclosure
 
