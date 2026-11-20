@@ -320,7 +320,7 @@ knowledge has one home instead:
 | Ideas not yet scheduled | an issue with no parent, or nothing | No backlog file. |
 | Decisions | the `Decision`, and the commit or code comment that applies it | No decision register. |
 | Handover between sessions | the pull request's description, or `.qe/HANDOVER.md` on the work branch | See *Handover*. |
-| Configuration a tool reads about the repository | `.qe/<tool>/`, a folder for each tool | Reviewed like any other file. See below. |
+| Configuration a tool reads about the repository | `.qe/{tool}/`, a folder for each tool | Reviewed like any other file. See below. |
 
 The reason for the table is that an agent cannot tell a stale note from a rule in
 force. These rules follow:
@@ -357,7 +357,7 @@ repository, reviewed like any other file. It never holds plans, state, logs, dec
 records or a cache. The test is whether a tool reads the file as input: a note written
 for the next session is a working record, and a file a tool parses is configuration.
 
-Each tool keeps its configuration in a folder of its own, `.qe/<tool>/`, named for the
+Each tool keeps its configuration in a folder of its own, `.qe/{tool}/`, named for the
 tool that reads it. Two tools then never contend for one file name, and a reader can
 tell which tool a file belongs to and where to look for what it means. The top level of
 `.qe/` is kept for what this QEP defines, which is the handover file.
