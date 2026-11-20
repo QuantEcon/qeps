@@ -4,8 +4,8 @@ title: Repository Naming and Types
 author: "@mmcky"
 status: Accepted
 type: standard
-version: 0
-version-hash: d7b1f24  # stamped by CI; do not edit
+version: 1
+version-hash: 78750de  # stamped by CI; do not edit
 created: 2026-07-10
 discussion: https://github.com/QuantEcon/qeps/pull/7
 ---
@@ -19,6 +19,7 @@ discussion: https://github.com/QuantEcon/qeps/pull/7
 | **Author**   | @mmcky                               |
 | **Status**   | Accepted                             |
 | **Type**     | standard                             |
+| **Version**  | 1                                    |
 | **Created**  | 2026-07-10                           |
 | **Discussion** | [QuantEcon/qeps#7](https://github.com/QuantEcon/qeps/pull/7) |
 
@@ -62,19 +63,29 @@ renames routine, and the conventions that tooling already depends on citable.
 
 1. Repository names are lowercase and use only characters that need no shift key:
    dashes, not underscores; no capitals. (Names that are load-bearing elsewhere are
-   exempt — see §3.)
+   exempt — see *Exemptions*.)
 2. **A dash prefix encodes the repository's type**: `{type}-{name}` (e.g.
    `lecture-dp`, `status-translations`, `workspace-lectures`). Types are drawn from
-   the [registry in §2](#type-registry).
+   the [type registry](#type-registry).
 3. **A dot suffix encodes a variant or companion of the same content**:
    `{repo}.{variant}`. Established variants:
 
    | Suffix | Meaning | Example |
    |---|---|---|
    | `.notebooks` | notebook companion of a lecture series | `lecture-dp.notebooks` |
+   | `.myst` | the MyST edition of a work whose primary repository is in another format: its content as MyST Markdown, built into a web edition | `book-econometric-theory.myst` (for `book-econometric-theory`) |
    | `.companion` | public companion site of a book; the base names the work, which may span several volume repositories | `book-networks.companion`, `book-dp.companion` (for `book-dp1`, `book-dp2`) |
    | `.{lang}` | translated edition (lowercase IETF tag) | `lecture-python-programming.zh-cn`, `lecture-python-programming.fa` |
-   | `.{ecosystem}` | edition or package built for a named ecosystem; a published package keeps the ecosystem's own suffix and casing (§3) | `QuantEcon.py`, `QuantEcon.jl`, `quantecon-theme.mystmd`, `myst-markdown.nvim` |
+   | `.{ecosystem}` | edition or package built for a named ecosystem; a published package keeps the ecosystem's own suffix and casing (*Exemptions*) | `QuantEcon.py`, `QuantEcon.jl`, `quantecon-theme.mystmd`, `myst-markdown.nvim` |
+
+   `.myst` marks a second format, not MyST content as such. A work whose primary
+   repository is already MyST takes the bare name — a lecture series is
+   `lecture-dp`, not `lecture-dp.myst` — because that repository is the work, not a
+   variant of it, and the suffix then tells a reader that another source exists.
+
+   `.myst` and `.mystmd` are different suffixes. `.myst` names a work's content
+   written in MyST; `.mystmd` names software built for the `mystmd` tool, such as a
+   theme (`quantecon-theme.mystmd`), under `.{ecosystem}`.
 
    The `.{lang}` suffix is machine-consumed: `action-translation` locates translated
    editions by this pattern, so any change to it must be coordinated with that
@@ -83,7 +94,8 @@ renames routine, and the conventions that tooling already depends on citable.
 4. Dots are **reserved** for variant suffixes; a type prefix always takes a dash. The
    dotted type forms that predate this QEP (`project.{name}`,
    `audit.{yyyy}-{mm}.{topic}`, `benchmark.{topic}`) are non-compliant and are renamed
-   under §5, with any genuine variant moving to the dot:
+   under the *Migration and archival policy*, with any genuine variant moving to the
+   dot:
    `benchmark.translate-zh-cn` → `benchmark-translate.zh-cn`.
 5. **Name tokens pass the reversal test**: choose tokens so the name reads as natural
    English when expanded — singular inside compounds (`compliance-lecture-style` →
@@ -99,7 +111,7 @@ renames routine, and the conventions that tooling already depends on citable.
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
 | `lecture-{topic}` | official lecture series (+ `.notebooks`, `.{lang}` variants) | public | living |
-| `book-{name}` | textbook project (+ `.companion` site) | private | living |
+| `book-{name}` | textbook project (+ `.myst` web edition, `.companion` site) | private | living |
 | `quantecon-book-{name}` | companion software package for a book | public | living |
 
 **Teaching**
@@ -120,7 +132,7 @@ own work. Six types, each named for what the repository *does*: `project-*`
 **narrates**, `task-*` **executes**, `compliance-*` **assesses** — never for how it
 runs or what starts it (`task-backups`, not `workflow-backups` or `cron-backups`).
 `action-*` joins this table as the shared automation building block; its name follows
-§3.
+*Exemptions*.
 
 | Prefix | Meaning | Visibility | Lifecycle |
 |---|---|---|---|
@@ -162,7 +174,7 @@ Boundary rules:
 |---|---|---|---|
 | `test-{name}` | test double or CI target for tooling, pilot-scoped or standing (`test-cli` is a standing target for `cli`) | either | pilot-scoped doubles are archived when the pilot ends; a standing target lives as long as the tooling it tests |
 | `template-{name}` | template repository | public | living |
-| `tool-{name}` | internal, unpublished tooling — scripts and benches that are not installable and not meant to be; a tool published to an ecosystem takes its package name instead (§3) | either | living |
+| `tool-{name}` | internal, unpublished tooling — scripts and benches that are not installable and not meant to be; a tool published to an ecosystem takes its package name instead (*Exemptions*) | either | living |
 | `contractor-{name}` | payment artifacts for an individual RA/contractor | private | per engagement |
 | `audit-{yyyy}-{mm}-{topic}` | dated point-in-time audit | public (typically) | frozen once published; archived once absorbed into a `compliance-*` ledger (see boundary rules) |
 | `benchmark-{topic}` | benchmark dataset / evaluation harness | public | living |
@@ -175,7 +187,7 @@ Boundary rules:
   rule for new packages, not merely grandfathering: install commands, badges and
   citations depend on the repo and registry names agreeing. (`action-*` is the same
   principle for the Actions marketplace; internal unpublished tooling is `tool-*`,
-  §2.)
+  see the *Type registry*.)
 - **Forks** keep the upstream name (`mystmd`, `gametracer`).
 - **Deployed web properties** are named by their domain
   (`atlas.quantecon.org`; the dots here are the domain's, not variant suffixes).
@@ -195,11 +207,7 @@ would.
 - **No bulk renames.** Existing repositories are renamed opportunistically — when a
   repo is actively maintained and a rename is proposed in its own issue tracker.
   Redirects make renames cheap, but CI, submodules and hard-coded paths still need
-  checking, so renames ride on active maintenance rather than a campaign. The open
-  lecture-rename proposals
-  ([meta#333](https://github.com/QuantEcon/meta/issues/333),
-  [meta#334](https://github.com/QuantEcon/meta/issues/334)) proceed as the first
-  instances of this policy.
+  checking, so renames ride on active maintenance rather than a campaign.
 - **Renames fix names; they never transmute types.** A repository that has outgrown
   its type is *succeeded* by a new repository of the right type and archived, never
   renamed into the new type.
@@ -227,7 +235,7 @@ would.
 - **Folding fleet benches into `project-*` (no `workspace-*` type).** Rejected:
   `workspace-lectures` — the manifest, runner and clone root for the lecture family —
   serves several concurrent initiatives at once and outlives each of them, which is
-  precisely the fleet condition; and §5 forbids renaming a live repo into a
+  precisely the fleet condition; and the *Migration and archival policy* forbids renaming a live repo into a
   different type.
 - **Renaming the `workspace-*` prefix**, since it names the *place* while the other
   operational types name what the repository does. Rejected: the asymmetry is
@@ -245,7 +253,7 @@ would.
 - **Keeping the dotted type forms** (`audit.{yyyy}-{mm}.{topic}`, `benchmark.{topic}`)
   **for new repos.** Rejected: dots are the variant-suffix marker, and reserving them
   keeps names machine-parseable. Existing dotted names are renamed opportunistically
-  under §5; the families are small and rarely minted, so the switch costs little.
+  under the *Migration and archival policy*; the families are small and rarely minted, so the switch costs little.
 
 ## Adoption
 
@@ -258,17 +266,17 @@ QuantEcon standard. On acceptance:
 - The open lecture-rename proposals
   ([meta#333](https://github.com/QuantEcon/meta/issues/333),
   [meta#334](https://github.com/QuantEcon/meta/issues/334)) proceed as the first
-  opportunistic renames under §5, with `continuous_time_mcs` joining the batch
+  opportunistic renames under the *Migration and archival policy*, with `continuous_time_mcs` joining the batch
   ([meta#382](https://github.com/QuantEcon/meta/issues/382)).
 - Concluded teaching-event repositories are archived in one pass — the trigger under
   this QEP is *the event concluded*, widening the *inactive-two-years* inventory in
   [meta#267](https://github.com/QuantEcon/meta/issues/267) — and thereafter by an
   annual sweep, itself a `task-*` candidate.
 - The automation renames `reports-activity` → `reporter-activity` and
-  `workflow-backups` → `task-backups` ride on active maintenance per §5
+  `workflow-backups` → `task-backups` ride on active maintenance, as the *Migration and archival policy* requires
   ([meta#383](https://github.com/QuantEcon/meta/issues/383)).
 - `compliance-lecture-style` is assembled from `audit.2026-05.style-guide`, which is
-  then archived — the first instance of §5's "renames never transmute types".
+  then archived — the first instance of "renames never transmute types".
 - Future families (`research-*`, `paper-*` are visible in the long tail) are added to
   the registry by amending this QEP in place (version bump per QEP-1), not by new
   QEPs.
